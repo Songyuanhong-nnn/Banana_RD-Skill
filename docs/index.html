@@ -176,7 +176,7 @@ h1 em::after{
 .fit.s2 .fit-lv{color:var(--gold)}
 .fit.s3 .fit-lv{color:var(--ochre)}
 .fit.s4 .fit-lv{color:#6B7080}
-.fit-lv i{font-style:normal;font-size:11.5px;font-weight:500;color:var(--ink-2);opacity:.75;letter-spacing:0}
+.fit-lv i{font-style:normal;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0}
 .fit ul{list-style:none;font-size:13.5px;color:var(--ink-2);line-height:1.7}
 .fit li{padding-left:13px;position:relative;margin-bottom:4px}
 .fit li::before{content:'';position:absolute;left:0;top:.62em;width:4px;height:4px;border-radius:50%;background:var(--line-2)}
@@ -271,7 +271,6 @@ h1 em::after{
   margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:12px;
   padding:26px 28px;overflow-x:auto;
   font-family:var(--mono);font-size:12.6px;line-height:2;color:var(--ink-2);
-  white-space:pre;
 }
 .tree .d{color:var(--accent);font-weight:600}
 .tree .m{color:var(--faint)}
@@ -287,57 +286,6 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
 .foot-col a{display:block;font-size:13.5px;color:var(--ink-2);text-decoration:none;margin-bottom:8px;transition:color .2s}
 .foot-col a:hover{color:var(--accent)}
 .copy{margin-top:44px;padding-top:22px;border-top:1px solid var(--line-2);font-size:12.5px;color:var(--faint);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
-
-/* ---------- 图示 ---------- */
-.figure{
-  margin-top:44px;border:1px solid var(--line);border-radius:var(--radius);
-  background:linear-gradient(180deg,#fff,#FDFDFB);padding:30px 26px 22px;
-  box-shadow:0 1px 0 rgba(18,22,31,.03),0 20px 50px -40px rgba(18,22,31,.3);
-}
-.figure svg{display:block;width:100%;height:auto}
-.figcap{
-  margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
-  font-size:12.5px;color:var(--faint);text-align:center;line-height:1.7;
-}
-.figcap b{color:var(--ink-2);font-weight:600}
-
-/* 阶梯 */
-.stairs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:end;margin-top:44px}
-.stair{
-  background:#fff;border:1px solid var(--line);border-radius:10px;
-  padding:18px 16px 16px;display:flex;flex-direction:column;justify-content:flex-end;
-  transition:transform .25s,box-shadow .25s,border-color .25s;
-}
-.stair:hover{transform:translateY(-4px);box-shadow:0 18px 40px -30px rgba(18,22,31,.45);border-color:var(--line-2)}
-.stair .bar{width:100%;border-radius:6px 6px 3px 3px;margin-bottom:12px;position:relative;overflow:hidden}
-.stair .bar::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.16) 0 6px,transparent 6px 12px)}
-.stair.l1 .bar{height:40px;background:var(--accent-line)}
-.stair.l2 .bar{height:66px;background:#7FAE9C}
-.stair.l3 .bar{height:92px;background:#3D7F6C}
-.stair.l4 .bar{height:118px;background:var(--accent)}
-.stair .lv{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:2px}
-.stair .nm{font-size:12px;color:var(--muted);margin-bottom:8px}
-.stair .ck{font-size:11.5px;color:var(--faint);line-height:1.6}
-
-/* 轴环 */
-.axis-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
-.axis-item{
-  display:flex;gap:10px;align-items:flex-start;padding:11px 13px;
-  background:#fff;border:1px solid var(--line);border-radius:8px;
-  transition:border-color .2s,background .2s;
-}
-.axis-item:hover{border-color:var(--accent-line);background:var(--accent-soft)}
-.axis-item .ic{
-  flex:none;width:26px;height:26px;border-radius:6px;background:var(--accent-soft);
-  display:flex;align-items:center;justify-content:center;font-size:13px;
-}
-.axis-item .tx{font-size:12.5px;color:var(--ink-2);line-height:1.55}
-.axis-item .tx b{display:block;color:var(--ink);font-size:13px;font-weight:620;margin-bottom:1px}
-.axis-item .tx span{color:var(--faint);font-size:11.5px}
-
-.em2{margin-right:7px;font-size:16px;line-height:1;vertical-align:-1px}
-/* eyebrow emoji */
-.eyebrow .em{font-size:15px;line-height:1;margin-right:2px}
 
 /* ---------- 动画 ---------- */
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
@@ -356,12 +304,6 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
   section{padding:66px 0}
   .hero{padding:118px 0 70px}
   .fit-grid,.mech-grid{grid-template-columns:1fr}
-  .stairs{grid-template-columns:repeat(2,1fr);gap:10px}
-  .axis-list{grid-template-columns:1fr}
-  .figure{padding:20px 14px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .figure svg{min-width:880px}
-  .figcap{font-size:11.5px}
-  .figcap::before{content:'← 左右滑动查看完整图 →';display:block;margin-bottom:7px;color:var(--accent);font-size:11px;letter-spacing:.02em}
   .kernel{flex-direction:column;gap:10px;padding:20px}
   .kernel .lab{border-right:0;border-bottom:1px solid var(--line);padding:0 0 10px 0;width:100%}
   .rung{grid-template-columns:1fr;gap:8px}
@@ -441,63 +383,13 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
       <div class="lab">一句话内核</div>
       <p>求根问底 = <b>问题树</b> × <b>证据链</b> × <b>缺口递归</b> × <b>因素空间</b> × <b>范围与反例</b> × <b>层级校验</b> × <b>覆盖饱和</b> × <b>停止控制</b> × <b>结构化报告</b>。</p>
     </div>
-
-    <div class="figure reveal">
-      <svg viewBox="0 0 1000 300" role="img" aria-label="三套覆盖机制汇合到覆盖饱和验收，再产出结构化报告">
-        <defs>
-          <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M2 1L8 5L2 9" fill="none" stroke="#9DB8AC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </marker>
-        </defs>
-
-        <rect x="16" y="120" width="140" height="60" rx="10" fill="#12161F"/>
-        <text x="86" y="145" text-anchor="middle" font-family="var(--sans)" font-size="14" font-weight="600" fill="#FCFCFA">调研对象</text>
-        <text x="86" y="164" text-anchor="middle" font-family="var(--sans)" font-size="11" fill="#9AA1B0">一次运行</text>
-
-        <path d="M156 150 C182 150 182 56 210 56" fill="none" stroke="#9DB8AC" stroke-width="1.4"/>
-        <path d="M156 150 L210 150" fill="none" stroke="#9DB8AC" stroke-width="1.4"/>
-        <path d="M156 150 C182 150 182 244 210 244" fill="none" stroke="#9DB8AC" stroke-width="1.4"/>
-
-        <rect x="210" y="30" width="210" height="52" rx="9" fill="#FFFFFF" stroke="#BCD5CB" stroke-width="1"/>
-        <text x="228" y="51" font-family="var(--sans)" font-size="13" font-weight="600" fill="#1F5E4E">纵切 · 九层追问链</text>
-        <text x="228" y="68" font-family="var(--sans)" font-size="11" fill="#6B7385">深：一条线挖到底</text>
-
-        <rect x="210" y="124" width="210" height="52" rx="9" fill="#FFFFFF" stroke="#BCD5CB" stroke-width="1"/>
-        <text x="228" y="145" font-family="var(--sans)" font-size="13" font-weight="600" fill="#1F5E4E">面覆盖 · 14 维总纲</text>
-        <text x="228" y="162" font-family="var(--sans)" font-size="11" fill="#6B7385">全：决策者会问的问题面</text>
-
-        <rect x="210" y="218" width="210" height="52" rx="9" fill="#FFFFFF" stroke="#BCD5CB" stroke-width="1"/>
-        <text x="228" y="239" font-family="var(--sans)" font-size="13" font-weight="600" fill="#1F5E4E">横切 · 因素空间</text>
-        <text x="228" y="256" font-family="var(--sans)" font-size="11" fill="#6B7385">细：9 轴枚举 + 强制量级</text>
-
-        <path d="M420 56 C448 56 448 150 468 150" fill="none" stroke="#9DB8AC" stroke-width="1.4"/>
-        <path d="M420 150 L468 150" fill="none" stroke="#9DB8AC" stroke-width="1.4"/>
-        <path d="M420 244 C448 244 448 150 468 150" fill="none" stroke="#9DB8AC" stroke-width="1.4"/>
-        <path d="M468 150 L504 150" fill="none" stroke="#9DB8AC" stroke-width="1.4" marker-end="url(#ar)"/>
-
-        <circle cx="468" cy="150" r="3.5" fill="#1F5E4E"/>
-
-        <rect x="510" y="106" width="192" height="88" rx="10" fill="#FBEFE7" stroke="#E8D5C8" stroke-width="1"/>
-        <text x="606" y="133" text-anchor="middle" font-family="var(--sans)" font-size="13" font-weight="600" fill="#B4541F">覆盖饱和</text>
-        <text x="606" y="153" text-anchor="middle" font-family="var(--sans)" font-size="11" fill="#8A5A3E">六条判据，逐条过</text>
-        <text x="606" y="173" text-anchor="middle" font-family="var(--sans)" font-size="10.5" fill="#A8724F">缺一条就说「覆盖不完整」</text>
-
-        <path d="M702 150 L736 150" fill="none" stroke="#9DB8AC" stroke-width="1.4" marker-end="url(#ar)"/>
-
-        <rect x="742" y="106" width="196" height="88" rx="10" fill="#12161F"/>
-        <text x="840" y="133" text-anchor="middle" font-family="var(--sans)" font-size="13" font-weight="600" fill="#FCFCFA">结构化报告</text>
-        <text x="840" y="153" text-anchor="middle" font-family="var(--sans)" font-size="11" fill="#9AA1B0">§0 目的 + 十四节</text>
-        <text x="840" y="173" text-anchor="middle" font-family="var(--sans)" font-size="10.5" fill="#7C8698">每条结论回溯到句</text>
-      </svg>
-      <div class="figcap">三路并行，缺一不可：<b>纵切</b>保证问得深，<b>面覆盖</b>保证该问的都问到，<b>横切</b>保证整类因素不漏。三条线在「覆盖饱和」处收口，才允许出报告。</div>
-    </div>
   </div>
 </header>
 
 <!-- ================= 适配边界 ================= -->
 <section id="what">
   <div class="wrap">
-    <div class="eyebrow reveal"><span class="em">⚖️</span>先说清楚：它不是什么</div>
+    <div class="eyebrow reveal">先说清楚：它不是什么</div>
     <h2 class="sec reveal">v2.0 曾说「适用于所有领域」<br>那句话违反了它自己的第 5 条原则</h2>
     <p class="lede reveal">
       出现「所有」就必须查反例。反例是现成的，所以 v2.1 把它撤了，换成一张诚实的账。
@@ -549,7 +441,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
 <!-- ================= 核心机制 ================= -->
 <section id="core" style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
-    <div class="eyebrow reveal"><span class="em">🧩</span>为什么需要三套覆盖机制</div>
+    <div class="eyebrow reveal">为什么需要三套覆盖机制</div>
     <h2 class="sec reveal">层数深 ≠ 覆盖面全</h2>
     <p class="lede reveal">
       只有九层追问链是<strong>纵切</strong>——把一个对象顺着一串问题挖到底。但真实问题通常是「很多因素共同作用」，
@@ -560,43 +452,43 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
     <div class="mech-grid">
       <div class="mech reveal">
         <div class="no">01 / VERTICAL</div>
-        <h3><span class="em2">⬇️</span>纵切 · 九层追问链</h3>
+        <h3>纵切 · 九层追问链</h3>
         <p>把一个对象顺着一串问题挖到底，保证深度。</p>
         <span class="tag">深</span>
       </div>
       <div class="mech reveal">
         <div class="no">02 / DIMENSION</div>
-        <h3><span class="em2">🧭</span>面覆盖 · 14 维总纲</h3>
+        <h3>面覆盖 · 14 维总纲</h3>
         <p>D1–D14 覆盖决策者会问的问题面：目标、口径、性能、TCO、市场、竞争、供应链、政策、主体、时间、风险、证据、决策含义、未解。</p>
         <span class="tag">全</span>
       </div>
       <div class="mech reveal">
         <div class="no">03 / FACTOR SPACE</div>
-        <h3><span class="em2">🧮</span>横切 · 因素空间</h3>
+        <h3>横切 · 因素空间</h3>
         <p>9 轴机械过一遍 + 强制量级。每轴要么有因素，要么写「空，理由」。</p>
         <span class="tag">细</span>
       </div>
       <div class="mech reveal">
         <div class="no">04 / STRATA</div>
-        <h3><span class="em2">✂️</span>切面 · 分层矩阵</h3>
+        <h3>切面 · 分层矩阵</h3>
         <p>同一因素在不同情境可能反向。平均效应会掩盖反向亚组。</p>
         <span class="tag">准</span>
       </div>
       <div class="mech reveal">
         <div class="no">05 / INTERACTION</div>
-        <h3><span class="em2">🔗</span>接入 · 交互与混杂</h3>
+        <h3>接入 · 交互与混杂</h3>
         <p>15 个必须主动比对的模式：混杂、中介、对撞、Simpson、阈值、时滞、反馈……因素不独立。</p>
         <span class="tag">真</span>
       </div>
       <div class="mech reveal">
         <div class="no">06 / SATURATION</div>
-        <h3><span class="em2">✅</span>验收 · 覆盖饱和</h3>
+        <h3>验收 · 覆盖饱和</h3>
         <p>六条判据，缺一条就不许说「已系统覆盖」。含负空间：按常识该有、但没找到的因素。</p>
         <span class="tag">可核</span>
       </div>
       <div class="mech reveal">
         <div class="no">07 / CITATION</div>
-        <h3><span class="em2">🔍</span>引用 · 引用到句</h3>
+        <h3>引用 · 引用到句</h3>
         <p>定位 + 逐字原句 + 上下文。一段编造的引文读起来和真的一模一样，唯一区别是它定位不到。</p>
         <span class="tag">可查</span>
       </div>
@@ -606,31 +498,13 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
         <p>未做分层 / 交互检验，就没有资格定 L1 / L2。</p>
       </div>
     </div>
-
-    <div class="reveal" style="margin-top:52px">
-      <h3 style="font-size:17px;font-weight:660;letter-spacing:-.015em;margin-bottom:6px">九轴机械过一遍，每轴都要有交代</h3>
-      <p style="font-size:13.8px;color:var(--muted);line-height:1.75;max-width:64ch">
-        留白与「确认没有」是两件事。每轴要么有因素，要么写「空，理由」——下面标的是该轴最容易被漏掉的东西。
-      </p>
-      <div class="axis-list">
-        <div class="axis-item"><div class="ic">⏱</div><div class="tx"><b>时间</b><span>横断面当因果，看不见时滞</span></div></div>
-        <div class="axis-item"><div class="ic">🗺</div><div class="tx"><b>空间 / 层级</b><span>生态谬误：群体结论套个体</span></div></div>
-        <div class="axis-item"><div class="ic">👤</div><div class="tx"><b>主体</b><span>只算客观因素，漏掉「谁在决策」</span></div></div>
-        <div class="axis-item"><div class="ic">📦</div><div class="tx"><b>物质 / 资源</b><span>把资源约束当「其他条件不变」</span></div></div>
-        <div class="axis-item"><div class="ic">📜</div><div class="tx"><b>规则 / 制度</b><span>忽略制度变化导致效应反转</span></div></div>
-        <div class="axis-item"><div class="ic">🧠</div><div class="tx"><b>信息 / 认知</b><span>假设主体全知理性</span></div></div>
-        <div class="axis-item"><div class="ic">🔧</div><div class="tx"><b>技术 / 工具</b><span>忽略技术代际差异</span></div></div>
-        <div class="axis-item"><div class="ic">🌊</div><div class="tx"><b>环境 / 外部冲击</b><span>把一次性冲击写成结构性原因</span></div></div>
-        <div class="axis-item"><div class="ic">🔄</div><div class="tx"><b>反馈 / 动态</b><span>静态框架看不见动态</span></div></div>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- ================= 复杂度 ================= -->
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal"><span class="em">📐</span>先定档，再决定展开多少</div>
+    <div class="eyebrow reveal">先定档，再决定展开多少</div>
     <h2 class="sec reveal">复杂度分级 L1–L4</h2>
     <p class="lede reveal">
       防止两种失败同时发生：<strong>简单问题被过度展开成八股</strong>，
@@ -638,37 +512,40 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
       预算不足<strong>不降档</strong>，把未完成项标 <code style="font-family:var(--mono);font-size:.9em;background:var(--paper-2);padding:1px 5px;border-radius:4px">unchecked</code>。
     </p>
 
-    <div class="stairs">
-      <div class="stair l1 reveal">
-        <div class="bar"></div>
-        <div class="lv">L1</div>
-        <div class="nm">单链</div>
-        <div class="ck">九层链 + 反例<br>不建因素空间</div>
+    <div class="ladder">
+      <div class="rung reveal">
+        <div class="lv">L1<span>单链</span></div>
+        <div class="body">
+          <b>单一主因 → 主果</b>，且已做分层 / 交互检查未发现反号。
+          <span class="must">必做：九层链 + 反例，<code>不建因素空间</code></span>
+        </div>
       </div>
-      <div class="stair l2 reveal">
-        <div class="bar"></div>
-        <div class="lv">L2</div>
-        <div class="nm">多因素</div>
-        <div class="ck">+ 因素空间 + 量级<br>共线 / 混杂初查</div>
+      <div class="rung reveal">
+        <div class="lv">L2<span>多因素</span></div>
+        <div class="body">
+          <b>≥3 个相对独立因素</b>，且检验未发现反号。
+          <span class="must">必做：因素空间 + 量级 + 共线 / 混杂初查</span>
+        </div>
       </div>
-      <div class="stair l3 reveal">
-        <div class="bar"></div>
-        <div class="lv">L3</div>
-        <div class="nm">交互 / 异质</div>
-        <div class="ck">+ 交互矩阵<br>+ 分层矩阵</div>
+      <div class="rung reveal">
+        <div class="lv">L3<span>交互 / 异质</span></div>
+        <div class="body">
+          <b>分层后反号、联合效应非可加、阈值 / 非线性、案例间机制不同。</b>
+          <span class="must">必做：L2 + 交互矩阵 + 分层矩阵</span>
+        </div>
       </div>
-      <div class="stair l4 reveal">
-        <div class="bar"></div>
-        <div class="lv">L4</div>
-        <div class="nm">动态系统</div>
-        <div class="ck">+ 因果图 + 时滞<br>+ 情景 + 模型局限</div>
+      <div class="rung reveal">
+        <div class="lv">L4<span>动态系统</span></div>
+        <div class="body">
+          <b>因果图有双向边、双向时间证据、已知时滞、regime shift。</b>
+          <span class="must">必做：L3 + 因果图 + 时滞 + 情景分析 + 模型局限三字段</span>
+        </div>
       </div>
     </div>
 
-    <p class="lede reveal" style="margin-top:30px;font-size:14.5px;color:var(--muted)">
-      <b style="color:var(--ink-2)">档位与因素数量正交</b>：因素多但全线性 = L2；因素少但有强反馈 = L4。
-      <b style="color:var(--ink-2)">档位 ≠ 完成度</b>：预算不足不降档，把未完成项标 <code style="font-family:var(--mono);font-size:.9em;background:var(--paper-2);padding:1px 5px;border-radius:4px">unchecked</code>——
-      降档会让「没查」悄悄变成「不需要查」。
+    <p class="lede reveal" style="margin-top:26px;font-size:14.5px;color:var(--muted)">
+      两条硬规则：<strong>档位与因素数量正交</strong>（因素多但全线性 = L2；因素少但有强反馈 = L4）；
+      <strong>档位 ≠ 完成度</strong>（降档会让「没查」悄悄变成「不需要查」）。
     </p>
   </div>
 </section>
@@ -676,7 +553,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
 <!-- ================= 引用到句 ================= -->
 <section style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
-    <div class="eyebrow reveal"><span class="em">🔍</span>证据的最小可核验单位</div>
+    <div class="eyebrow reveal">证据的最小可核验单位</div>
     <h2 class="sec reveal">「有来源」不够，要引用到那一句</h2>
     <p class="lede reveal">
       报告里最像证据、最不可靠的就是引用列表。四条硬规则：
@@ -727,70 +604,29 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
 <!-- ================= 流程 ================= -->
 <section id="flow">
   <div class="wrap">
-    <div class="eyebrow reveal"><span class="em">⚙️</span>一次运行</div>
+    <div class="eyebrow reveal">一次运行</div>
     <h2 class="sec reveal">十三步，每一步防一种具体的偷懒</h2>
     <p class="lede reveal">
       流程不是装饰。每一步都对应一个真实发生过的失败模式——
       加粗的是 v2.4 新增的三道闸：<strong>BRIEF</strong>（为谁而答）、<strong>SCOPE</strong>（用户列举是下限不是上限）、<strong>NARRATE</strong>（每节首句必须是判断）。
     </p>
 
-    <div class="figure reveal">
-      <svg viewBox="0 0 1000 250" role="img" aria-label="运行流程分五个阶段：定目的与范围、定档与规划、检索与抽取、挖全与收敛、收口与交付">
-        <defs>
-          <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M2 1L8 5L2 9" fill="none" stroke="#B6BEC9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </marker>
-        </defs>
-
-        <rect x="16" y="40" width="176" height="150" rx="10" fill="#FFFFFF" stroke="#E5E6EA" stroke-width="1"/>
-        <rect x="16" y="40" width="176" height="30" rx="10" fill="#E8F1ED"/>
-        <rect x="16" y="60" width="176" height="10" fill="#E8F1ED"/>
-        <text x="104" y="60" text-anchor="middle" font-family="var(--sans)" font-size="12" font-weight="700" fill="#1F5E4E">定目的与范围</text>
-        <text x="34" y="92" font-family="var(--mono)" font-size="11.5" fill="#39414F">INIT</text>
-        <text x="34" y="114" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#1F5E4E">BRIEF</text>
-        <text x="34" y="136" font-family="var(--mono)" font-size="11.5" fill="#39414F">AMBIGUITY_CHECK</text>
-        <text x="34" y="158" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#1F5E4E">SCOPE</text>
-
-        <path d="M194 115 L203 115" fill="none" stroke="#B6BEC9" stroke-width="1.4" marker-end="url(#ar2)"/>
-
-        <rect x="207" y="40" width="176" height="150" rx="10" fill="#FFFFFF" stroke="#E5E6EA" stroke-width="1"/>
-        <rect x="207" y="40" width="176" height="30" rx="10" fill="#F4F4F0"/>
-        <rect x="207" y="60" width="176" height="10" fill="#F4F4F0"/>
-        <text x="295" y="60" text-anchor="middle" font-family="var(--sans)" font-size="12" font-weight="700" fill="#39414F">定档与规划</text>
-        <text x="225" y="92" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#1F5E4E">COMPLEXITY</text>
-        <text x="225" y="114" font-family="var(--mono)" font-size="11.5" fill="#39414F">PLAN</text>
-
-        <path d="M385 115 L394 115" fill="none" stroke="#B6BEC9" stroke-width="1.4" marker-end="url(#ar2)"/>
-
-        <rect x="398" y="40" width="176" height="150" rx="10" fill="#FFFFFF" stroke="#E5E6EA" stroke-width="1"/>
-        <rect x="398" y="40" width="176" height="30" rx="10" fill="#F4F4F0"/>
-        <rect x="398" y="60" width="176" height="10" fill="#F4F4F0"/>
-        <text x="486" y="60" text-anchor="middle" font-family="var(--sans)" font-size="12" font-weight="700" fill="#39414F">检索与抽取</text>
-        <text x="416" y="92" font-family="var(--mono)" font-size="11.5" fill="#39414F">RETRIEVE</text>
-        <text x="416" y="114" font-family="var(--mono)" font-size="11.5" fill="#39414F">EXTRACT</text>
-        <text x="416" y="136" font-family="var(--mono)" font-size="11.5" fill="#39414F">VERIFY</text>
-
-        <path d="M576 115 L585 115" fill="none" stroke="#B6BEC9" stroke-width="1.4" marker-end="url(#ar2)"/>
-
-        <rect x="589" y="40" width="176" height="150" rx="10" fill="#FFFFFF" stroke="#E5E6EA" stroke-width="1"/>
-        <rect x="589" y="40" width="176" height="30" rx="10" fill="#E8F1ED"/>
-        <rect x="589" y="60" width="176" height="10" fill="#E8F1ED"/>
-        <text x="677" y="60" text-anchor="middle" font-family="var(--sans)" font-size="12" font-weight="700" fill="#1F5E4E">挖全与收敛</text>
-        <text x="607" y="92" font-family="var(--mono)" font-size="11.5" fill="#39414F">ANSWER_NODE</text>
-        <text x="607" y="114" font-family="var(--mono)" font-size="11.5" fill="#39414F">EXPAND_GAPS</text>
-        <text x="607" y="136" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#1F5E4E">FACTOR_SPACE</text>
-
-        <path d="M767 115 L776 115" fill="none" stroke="#B6BEC9" stroke-width="1.4" marker-end="url(#ar2)"/>
-
-        <rect x="780" y="40" width="176" height="150" rx="10" fill="#12161F"/>
-        <text x="868" y="60" text-anchor="middle" font-family="var(--sans)" font-size="12" font-weight="700" fill="#FCFCFA">收口与交付</text>
-        <text x="798" y="92" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#7FD1AE">STOP_CHECK</text>
-        <text x="798" y="114" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#7FD1AE">NARRATE</text>
-        <text x="798" y="136" font-family="var(--mono)" font-size="11.5" fill="#D7DEE9">REPORT</text>
-
-        <text x="16" y="215" font-family="var(--sans)" font-size="11" fill="#9AA1B0">绿色 = 新增或最容易偷懒的检查点；深色块 = 交付环节</text>
-      </svg>
-      <div class="figcap">十五个检查点归为五个阶段。每个节点都对应一个真实发生过的失败模式——<b>不是流程装饰</b>。</div>
+    <div class="flow">
+      <div class="step reveal"><span class="n">01</span><b>INIT</b></div>
+      <div class="step key reveal"><span class="n">02</span><b>BRIEF</b></div>
+      <div class="step reveal"><span class="n">03</span><b>AMBIGUITY_CHECK</b></div>
+      <div class="step key reveal"><span class="n">04</span><b>SCOPE</b></div>
+      <div class="step key reveal"><span class="n">05</span><b>COMPLEXITY</b></div>
+      <div class="step reveal"><span class="n">06</span><b>PLAN</b></div>
+      <div class="step reveal"><span class="n">07</span><b>RETRIEVE</b></div>
+      <div class="step reveal"><span class="n">08</span><b>EXTRACT</b></div>
+      <div class="step reveal"><span class="n">09</span><b>VERIFY</b></div>
+      <div class="step reveal"><span class="n">10</span><b>ANSWER_NODE</b></div>
+      <div class="step reveal"><span class="n">11</span><b>EXPAND_GAPS</b></div>
+      <div class="step key reveal"><span class="n">12</span><b>FACTOR_SPACE</b></div>
+      <div class="step key reveal"><span class="n">13</span><b>STOP_CHECK</b></div>
+      <div class="step key reveal"><span class="n">14</span><b>NARRATE</b></div>
+      <div class="step reveal"><span class="n">15</span><b>REPORT</b></div>
     </div>
 
     <div class="mech-grid" style="margin-top:26px">
@@ -813,7 +649,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
 <!-- ================= 快速开始 ================= -->
 <section id="start" style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
-    <div class="eyebrow reveal"><span class="em">🚀</span>快速开始</div>
+    <div class="eyebrow reveal">快速开始</div>
     <h2 class="sec reveal">三步装上，然后直接说需求</h2>
 
     <div class="start-grid">
@@ -857,8 +693,8 @@ footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--pap
 <!-- ================= 结构 ================= -->
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal"><span class="em">🗂️</span>仓库结构</div>
-    <h2 class="sec reveal">61 个文件，纯文本，无运行时依赖</h2>
+    <div class="eyebrow reveal">仓库结构</div>
+    <h2 class="sec reveal">52 个文件，纯文本，无运行时依赖</h2>
     <p class="lede reveal">除了可选的 Word 渲染需要 <code style="font-family:var(--mono);font-size:.9em;background:var(--paper-2);padding:1px 5px;border-radius:4px">python-docx</code>，内核本身是纯 Markdown + YAML + JSON，任何模型都能读。</p>
 
     <div class="tree reveal">
