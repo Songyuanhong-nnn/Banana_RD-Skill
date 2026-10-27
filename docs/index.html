@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-SQ 通用求根问底 · 把「全面」变成可验收的调研内核</title>
+<meta name="description" content="通用求根问底调研内核：14 维问题面 × 九层追问链 × 因素空间 × 覆盖饱和 × 引用到句。纯文本、无运行时依赖、MIT 开源。">
+<meta property="og:title" content="AI-SQ 通用求根问底">
+<meta property="og:description" content="问题树 × 证据链 × 缺口递归 × 因素空间 × 覆盖饱和 × 引用到句">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌁</text></svg>">
+<style>
+:root{
+  --paper:#FCFCFA;
+  --paper-2:#F4F4F0;
+  --card:#FFFFFF;
+  --ink:#12161F;
+  --ink-2:#39414F;
+  --muted:#6B7385;
+  --faint:#9AA1B0;
+  --line:#E5E6EA;
+  --line-2:#D5D7DE;
+  --accent:#1F5E4E;
+  --accent-soft:#E8F1ED;
+  --accent-line:#BCD5CB;
+  --ochre:#B4541F;
+  --ochre-soft:#FBEFE7;
+  --gold:#9A7B2E;
+  --radius:14px;
+  --mono:'SFMono-Regular',ui-monospace,'JetBrains Mono',Consolas,'Liberation Mono',monospace;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  --serif:'Songti SC','Noto Serif SC',Georgia,'Times New Roman',serif;
+  --maxw:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.75;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:#CFE3DA;color:var(--ink)}
+
+/* ---------- 顶部进度条 ---------- */
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);width:0;z-index:200;transition:width .1s linear}
+
+/* ---------- 导航 ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(252,252,250,.82);
+  backdrop-filter:blur(14px) saturate(1.4);
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s, background .3s;
+}
+nav.scrolled{border-bottom-color:var(--line)}
+.nav-in{
+  max-width:var(--maxw);margin:0 auto;padding:0 28px;height:62px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.01em;font-size:15px;text-decoration:none;color:var(--ink);white-space:nowrap}
+.brand svg{display:block}
+.nav-links{display:flex;align-items:center;gap:26px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--ink);color:#fff;text-decoration:none;
+  padding:8px 16px;border-radius:8px;font-size:13.5px;font-weight:550;
+  transition:transform .18s, box-shadow .18s;white-space:nowrap;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(18,22,31,.18)}
+
+/* ---------- 通用 ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+section{padding:96px 0;position:relative}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:18px;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--accent-line)}
+h2.sec{
+  font-size:clamp(25px,3.1vw,34px);line-height:1.35;letter-spacing:-.02em;
+  font-weight:680;margin-bottom:16px;max-width:30ch;text-wrap:balance;
+}
+.lede{color:var(--ink-2);font-size:16.5px;max-width:64ch;line-height:1.85}
+.lede strong{font-weight:650;color:var(--ink);border-bottom:1px solid var(--accent-line)}
+
+/* ---------- Hero ---------- */
+.hero{
+  padding:150px 0 100px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(900px 420px at 78% -6%, rgba(31,94,78,.075), transparent 62%),
+    radial-gradient(700px 380px at 6% 22%, rgba(180,84,31,.055), transparent 60%),
+    var(--paper);
+}
+.hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(circle at 50% 20%,#000 0%,transparent 72%);
+  -webkit-mask-image:radial-gradient(circle at 50% 20%,#000 0%,transparent 72%);
+}
+.hero-in{position:relative;z-index:2}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.badge{
+  font-size:12px;font-weight:560;letter-spacing:.02em;
+  padding:4px 11px;border-radius:999px;
+  border:1px solid var(--line-2);color:var(--ink-2);background:rgba(255,255,255,.7);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.badge .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.badge.v{border-color:var(--accent-line);color:var(--accent);background:var(--accent-soft)}
+h1{
+  font-size:clamp(38px,6.2vw,68px);line-height:1.12;letter-spacing:-.035em;
+  font-weight:700;margin-bottom:22px;max-width:17ch;
+}
+h1 .thin{font-weight:330;color:var(--ink-2)}
+h1 em{font-style:normal;position:relative;white-space:nowrap}
+h1 em::after{
+  content:'';position:absolute;left:-.04em;right:-.04em;bottom:.02em;height:.26em;
+  background:linear-gradient(90deg,rgba(31,94,78,.18),rgba(31,94,78,.07));
+  z-index:-1;border-radius:3px;
+}
+.hero-sub{
+  font-size:clamp(16px,1.9vw,19px);color:var(--ink-2);max-width:60ch;line-height:1.8;
+  margin-bottom:34px;
+}
+.hero-sub .k{color:var(--accent);font-weight:600}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:56px}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  padding:13px 24px;border-radius:10px;font-size:15px;font-weight:560;
+  transition:transform .18s, box-shadow .2s, background .2s, border-color .2s;
+}
+.btn-primary{background:var(--ink);color:#fff;box-shadow:0 1px 2px rgba(18,22,31,.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(18,22,31,.2)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-2)}
+.btn-ghost:hover{border-color:var(--ink-2);background:#fff;transform:translateY(-2px)}
+.btn svg{flex:none}
+
+/* 一句话内核 */
+.kernel{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,#fff,#FBFAF6);
+  padding:22px 26px;display:flex;gap:18px;align-items:flex-start;
+  box-shadow:0 1px 0 rgba(18,22,31,.03), 0 14px 40px -28px rgba(18,22,31,.25);
+  max-width:820px;
+}
+.kernel .lab{
+  font-size:11px;font-weight:650;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ochre);padding-top:6px;flex:none;border-right:1px solid var(--line);padding-right:18px;
+}
+.kernel p{font-family:var(--serif);font-size:17.5px;line-height:1.85;color:var(--ink);letter-spacing:.005em}
+.kernel b{color:var(--accent);font-weight:700}
+
+/* ---------- 适配度矩阵 ---------- */
+.fit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:44px}
+.fit{
+  border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+  padding:22px 20px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.fit:hover{transform:translateY(-3px);box-shadow:0 16px 40px -26px rgba(18,22,31,.35)}
+.fit::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.fit.s1::before{background:var(--accent)}
+.fit.s2::before{background:var(--gold)}
+.fit.s3::before{background:var(--ochre)}
+.fit.s4::before{background:#8B8F9B}
+.fit-lv{font-size:13px;font-weight:700;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.fit.s1 .fit-lv{color:var(--accent)}
+.fit.s2 .fit-lv{color:var(--gold)}
+.fit.s3 .fit-lv{color:var(--ochre)}
+.fit.s4 .fit-lv{color:#6B7080}
+.fit-lv i{font-style:normal;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0}
+.fit ul{list-style:none;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+.fit li{padding-left:13px;position:relative;margin-bottom:4px}
+.fit li::before{content:'';position:absolute;left:0;top:.62em;width:4px;height:4px;border-radius:50%;background:var(--line-2)}
+.fit .why{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted);line-height:1.65}
+
+/* ---------- 机制卡 ---------- */
+.mech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:48px}
+.mech{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;
+}
+.mech:hover{border-color:var(--line-2);transform:translateY(-3px);box-shadow:0 18px 44px -30px rgba(18,22,31,.4)}
+.mech .no{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.08em;margin-bottom:12px}
+.mech h3{font-size:16.5px;font-weight:660;letter-spacing:-.012em;margin-bottom:8px}
+.mech p{font-size:13.8px;color:var(--muted);line-height:1.75}
+.mech .tag{
+  display:inline-block;margin-top:14px;font-size:11.5px;font-weight:600;
+  color:var(--accent);background:var(--accent-soft);padding:2px 9px;border-radius:5px;
+}
+
+/* ---------- 流程 ---------- */
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin-top:44px}
+.step{
+  display:flex;align-items:center;gap:8px;
+  border:1px solid var(--line);background:#fff;border-radius:8px;
+  padding:9px 14px;font-size:13px;font-family:var(--mono);letter-spacing:-.01em;
+  color:var(--ink-2);transition:all .22s;position:relative;
+}
+.step:hover{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent);transform:translateY(-2px)}
+.step b{font-weight:700}
+.step .n{font-size:10px;color:var(--faint);font-family:var(--mono)}
+.step.key{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent);font-weight:700}
+.step.key .n{color:var(--accent);opacity:.6}
+
+/* ---------- 复杂度阶梯 ---------- */
+.ladder{margin-top:44px;display:grid;gap:10px}
+.rung{
+  display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:start;
+  border:1px solid var(--line);border-left:3px solid var(--line-2);
+  background:#fff;border-radius:10px;padding:18px 22px;transition:all .25s;
+}
+.rung:hover{border-left-color:var(--accent);transform:translateX(4px);box-shadow:0 12px 30px -24px rgba(18,22,31,.4)}
+.rung .lv{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink)}
+.rung .lv span{display:block;font-family:var(--sans);font-size:11.5px;font-weight:500;color:var(--faint);margin-top:3px}
+.rung .body{font-size:13.8px;color:var(--ink-2);line-height:1.7}
+.rung .body b{color:var(--ink);font-weight:650}
+.rung .must{display:block;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.rung .must code{font-family:var(--mono);font-size:11.5px;background:var(--paper-2);padding:1px 6px;border-radius:4px;color:var(--ink-2)}
+
+/* ---------- 引用到句 ---------- */
+.quote-demo{
+  margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:16px;
+}
+.qcard{border-radius:12px;padding:22px;font-size:14px;line-height:1.75;border:1px solid}
+.qcard.bad{background:#FDF6F3;border-color:#F0D9CE}
+.qcard.good{background:#F3F9F5;border-color:#CDE3D7}
+.qcard .h{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.qcard.bad .h{color:var(--ochre)}
+.qcard.good .h{color:var(--accent)}
+.qcard .x{color:var(--faint);text-decoration:line-through;text-decoration-thickness:1px}
+.qcard .ok{color:var(--ink)}
+.qcard .meta{margin-top:12px;padding-top:10px;border-top:1px dashed rgba(0,0,0,.08);font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.7}
+
+/* ---------- 快速开始 ---------- */
+.start-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;margin-top:44px;align-items:start}
+.term{
+  background:#14181F;border-radius:12px;overflow:hidden;
+  box-shadow:0 22px 60px -34px rgba(18,22,31,.7);border:1px solid #232A35;
+}
+.term-bar{
+  display:flex;align-items:center;gap:7px;padding:11px 15px;
+  background:#1A1F27;border-bottom:1px solid #232A35;
+}
+.term-bar i{width:9px;height:9px;border-radius:50%;background:#3A4250;display:block}
+.term-bar span{margin-left:8px;font-family:var(--mono);font-size:11.5px;color:#7C8698}
+.term pre{padding:20px 22px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.9;color:#D7DEE9}
+.term .c{color:#6B7A8F}
+.term .g{color:#7FD1AE}
+.term .y{color:#E3C87A}
+.term .w{color:#F0F3F8}
+.start-note{font-size:14px;color:var(--ink-2);line-height:1.85}
+.start-note h3{font-size:15.5px;font-weight:660;margin-bottom:10px;color:var(--ink)}
+.start-note p{margin-bottom:14px;color:var(--muted);font-size:13.8px}
+.start-note code{font-family:var(--mono);font-size:12.5px;background:var(--paper-2);padding:2px 6px;border-radius:4px;color:var(--ink);border:1px solid var(--line)}
+.prompt-box{
+  border-left:2px solid var(--accent-line);padding:2px 0 2px 16px;margin-bottom:14px;
+  font-family:var(--serif);font-size:14.5px;color:var(--ink-2);line-height:1.8;
+}
+
+/* ---------- 结构表 ---------- */
+.tree{
+  margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:26px 28px;overflow-x:auto;
+  font-family:var(--mono);font-size:12.6px;line-height:2;color:var(--ink-2);
+}
+.tree .d{color:var(--accent);font-weight:600}
+.tree .m{color:var(--faint)}
+.tree .s{color:var(--ochre)}
+
+/* ---------- Footer ---------- */
+footer{border-top:1px solid var(--line);padding:56px 0 44px;background:var(--paper-2)}
+.foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;align-items:flex-start}
+.foot-brand{font-weight:650;font-size:15px;margin-bottom:8px}
+.foot-desc{font-size:13.5px;color:var(--muted);max-width:42ch;line-height:1.75}
+.foot-links{display:flex;gap:44px;flex-wrap:wrap}
+.foot-col h4{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+.foot-col a{display:block;font-size:13.5px;color:var(--ink-2);text-decoration:none;margin-bottom:8px;transition:color .2s}
+.foot-col a:hover{color:var(--accent)}
+.copy{margin-top:44px;padding-top:22px;border-top:1px solid var(--line-2);font-size:12.5px;color:var(--faint);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+
+/* ---------- 动画 ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .fit-grid{grid-template-columns:repeat(2,1fr)}
+  .mech-grid{grid-template-columns:repeat(2,1fr)}
+  .start-grid{grid-template-columns:1fr}
+  .quote-demo{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  section{padding:66px 0}
+  .hero{padding:118px 0 70px}
+  .fit-grid,.mech-grid{grid-template-columns:1fr}
+  .kernel{flex-direction:column;gap:10px;padding:20px}
+  .kernel .lab{border-right:0;border-bottom:1px solid var(--line);padding:0 0 10px 0;width:100%}
+  .rung{grid-template-columns:1fr;gap:8px}
+  .foot-links{gap:32px}
+  h1{font-size:clamp(28px,8.6vw,38px);max-width:100%;letter-spacing:-.025em}
+  h1 em{white-space:normal}
+  h2.sec{max-width:100%;font-size:clamp(22px,6.2vw,28px)}
+  .hero-sub,.lede,.kernel p{max-width:100%}
+  .cta-row .btn{flex:1 1 100%;justify-content:center}
+  .tree{font-size:11.5px;padding:18px}
+  .quote-demo{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 18V9" stroke="#1F5E4E" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M10 9 4.5 4.5M10 9l5.5-4.5M10 13l-4 3M10 13l4 3" stroke="#1F5E4E" stroke-width="1.3" stroke-linecap="round" opacity=".55"/>
+        <circle cx="10" cy="9" r="1.7" fill="#1F5E4E"/>
+        <circle cx="4.5" cy="4.5" r="1.2" fill="#B4541F" opacity=".8"/>
+        <circle cx="15.5" cy="4.5" r="1.2" fill="#B4541F" opacity=".8"/>
+      </svg>
+      AI-SQ
+    </a>
+    <div class="nav-links">
+      <a href="#what">适配边界</a>
+      <a href="#core">核心机制</a>
+      <a href="#flow">运行流程</a>
+      <a href="#start">快速开始</a>
+    </div>
+    <a class="nav-cta" id="repoBtn" href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="wrap hero-in">
+    <div class="badge-row reveal">
+      <span class="badge v"><span class="dot"></span>v2.4.0</span>
+      <span class="badge">MIT</span>
+      <span class="badge">纯文本 · 无运行时依赖</span>
+      <span class="badge">zh-CN</span>
+    </div>
+
+    <h1 class="reveal">求根问底，<br><span class="thin">而不是</span><em>看起来查过了</em></h1>
+
+    <p class="hero-sub reveal">
+      一个把「全面」变成可验收的调研内核。<span class="k">14 维问题面</span>保证该问的都问到，
+      <span class="k">九层追问链</span>保证每条都挖到底，<span class="k">因素空间</span>保证整类因素不被漏掉，
+      <span class="k">引用到句</span>保证每条结论 30 秒可复核。
+    </p>
+
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="#start">
+        快速开始
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/blob/main/ai-sq-universal/SKILL.md" target="_blank" rel="noopener">
+        读主规范 SKILL.md
+      </a>
+    </div>
+
+    <div class="kernel reveal">
+      <div class="lab">一句话内核</div>
+      <p>求根问底 = <b>问题树</b> × <b>证据链</b> × <b>缺口递归</b> × <b>因素空间</b> × <b>范围与反例</b> × <b>层级校验</b> × <b>覆盖饱和</b> × <b>停止控制</b> × <b>结构化报告</b>。</p>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 适配边界 ================= -->
+<section id="what">
+  <div class="wrap">
+    <div class="eyebrow reveal">先说清楚：它不是什么</div>
+    <h2 class="sec reveal">v2.0 曾说「适用于所有领域」<br>那句话违反了它自己的第 5 条原则</h2>
+    <p class="lede reveal">
+      出现「所有」就必须查反例。反例是现成的，所以 v2.1 把它撤了，换成一张诚实的账。
+      这张表本身就是这个 Skill 的示范：<strong>能证伪，才敢下结论</strong>。
+    </p>
+
+    <div class="fit-grid">
+      <div class="fit s1 reveal">
+        <div class="fit-lv">强 <i>结论落在一手层</i></div>
+        <ul>
+          <li>科学机制</li>
+          <li>技术选型</li>
+          <li>历史史料</li>
+        </ul>
+        <div class="why">证伪路径也公开：重复实验、源码 + 实测、史料批判。</div>
+      </div>
+      <div class="fit s2 reveal">
+        <div class="fit-lv">中 <i>强在检索，弱在个案</i></div>
+        <ul>
+          <li>法律</li>
+          <li>金融 / 商业</li>
+          <li>政策</li>
+        </ul>
+        <div class="why">强在条文 / 披露 / 文件检索；弱在个案事实、内部数据、反事实。</div>
+      </div>
+      <div class="fit s3 reveal">
+        <div class="fit-lv">弱 <i>变量在私有数据里</i></div>
+        <ul>
+          <li>医学临床决策</li>
+          <li>私有系统故障</li>
+          <li>多主体博弈</li>
+        </ul>
+        <div class="why">决策变量是本次个体 / 当前局面的私有数据，检索拿不到。</div>
+      </div>
+      <div class="fit s4 reveal">
+        <div class="fit-lv">不适用 <i>别硬套</i></div>
+        <ul>
+          <li>数学证明</li>
+          <li>审美判断</li>
+          <li>实时决策</li>
+          <li>未公开数据</li>
+        </ul>
+        <div class="why">演绎问题、无可证伪 claim、时间预算不允许、证据不在公开域。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 核心机制 ================= -->
+<section id="core" style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow reveal">为什么需要三套覆盖机制</div>
+    <h2 class="sec reveal">层数深 ≠ 覆盖面全</h2>
+    <p class="lede reveal">
+      只有九层追问链是<strong>纵切</strong>——把一个对象顺着一串问题挖到底。但真实问题通常是「很多因素共同作用」，
+      纵切跑完可能只挖了三条链，另外六类因素根本没被想到过。而且纵切还有个更隐蔽的盲区：
+      <strong>它不知道「客户会问什么」</strong>。所以七套机制各管一层。
+    </p>
+
+    <div class="mech-grid">
+      <div class="mech reveal">
+        <div class="no">01 / VERTICAL</div>
+        <h3>纵切 · 九层追问链</h3>
+        <p>把一个对象顺着一串问题挖到底，保证深度。</p>
+        <span class="tag">深</span>
+      </div>
+      <div class="mech reveal">
+        <div class="no">02 / DIMENSION</div>
+        <h3>面覆盖 · 14 维总纲</h3>
+        <p>D1–D14 覆盖决策者会问的问题面：目标、口径、性能、TCO、市场、竞争、供应链、政策、主体、时间、风险、证据、决策含义、未解。</p>
+        <span class="tag">全</span>
+      </div>
+      <div class="mech reveal">
+        <div class="no">03 / FACTOR SPACE</div>
+        <h3>横切 · 因素空间</h3>
+        <p>9 轴机械过一遍 + 强制量级。每轴要么有因素，要么写「空，理由」。</p>
+        <span class="tag">细</span>
+      </div>
+      <div class="mech reveal">
+        <div class="no">04 / STRATA</div>
+        <h3>切面 · 分层矩阵</h3>
+        <p>同一因素在不同情境可能反向。平均效应会掩盖反向亚组。</p>
+        <span class="tag">准</span>
+      </div>
+      <div class="mech reveal">
+        <div class="no">05 / INTERACTION</div>
+        <h3>接入 · 交互与混杂</h3>
+        <p>15 个必须主动比对的模式：混杂、中介、对撞、Simpson、阈值、时滞、反馈……因素不独立。</p>
+        <span class="tag">真</span>
+      </div>
+      <div class="mech reveal">
+        <div class="no">06 / SATURATION</div>
+        <h3>验收 · 覆盖饱和</h3>
+        <p>六条判据，缺一条就不许说「已系统覆盖」。含负空间：按常识该有、但没找到的因素。</p>
+        <span class="tag">可核</span>
+      </div>
+      <div class="mech reveal">
+        <div class="no">07 / CITATION</div>
+        <h3>引用 · 引用到句</h3>
+        <p>定位 + 逐字原句 + 上下文。一段编造的引文读起来和真的一模一样，唯一区别是它定位不到。</p>
+        <span class="tag">可查</span>
+      </div>
+      <div class="mech reveal" style="border-style:dashed;background:transparent;display:flex;flex-direction:column;justify-content:center">
+        <div class="no">核心判断</div>
+        <h3 style="font-size:15px;line-height:1.6">「没查到反号」<br>≠「没有反号」</h3>
+        <p>未做分层 / 交互检验，就没有资格定 L1 / L2。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 复杂度 ================= -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow reveal">先定档，再决定展开多少</div>
+    <h2 class="sec reveal">复杂度分级 L1–L4</h2>
+    <p class="lede reveal">
+      防止两种失败同时发生：<strong>简单问题被过度展开成八股</strong>，
+      <strong>复杂问题被草草扫过</strong>。档位决定「必须做哪些检查」，预算决定「这次做完几项」——
+      预算不足<strong>不降档</strong>，把未完成项标 <code style="font-family:var(--mono);font-size:.9em;background:var(--paper-2);padding:1px 5px;border-radius:4px">unchecked</code>。
+    </p>
+
+    <div class="ladder">
+      <div class="rung reveal">
+        <div class="lv">L1<span>单链</span></div>
+        <div class="body">
+          <b>单一主因 → 主果</b>，且已做分层 / 交互检查未发现反号。
+          <span class="must">必做：九层链 + 反例，<code>不建因素空间</code></span>
+        </div>
+      </div>
+      <div class="rung reveal">
+        <div class="lv">L2<span>多因素</span></div>
+        <div class="body">
+          <b>≥3 个相对独立因素</b>，且检验未发现反号。
+          <span class="must">必做：因素空间 + 量级 + 共线 / 混杂初查</span>
+        </div>
+      </div>
+      <div class="rung reveal">
+        <div class="lv">L3<span>交互 / 异质</span></div>
+        <div class="body">
+          <b>分层后反号、联合效应非可加、阈值 / 非线性、案例间机制不同。</b>
+          <span class="must">必做：L2 + 交互矩阵 + 分层矩阵</span>
+        </div>
+      </div>
+      <div class="rung reveal">
+        <div class="lv">L4<span>动态系统</span></div>
+        <div class="body">
+          <b>因果图有双向边、双向时间证据、已知时滞、regime shift。</b>
+          <span class="must">必做：L3 + 因果图 + 时滞 + 情景分析 + 模型局限三字段</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="lede reveal" style="margin-top:26px;font-size:14.5px;color:var(--muted)">
+      两条硬规则：<strong>档位与因素数量正交</strong>（因素多但全线性 = L2；因素少但有强反馈 = L4）；
+      <strong>档位 ≠ 完成度</strong>（降档会让「没查」悄悄变成「不需要查」）。
+    </p>
+  </div>
+</section>
+
+<!-- ================= 引用到句 ================= -->
+<section style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow reveal">证据的最小可核验单位</div>
+    <h2 class="sec reveal">「有来源」不够，要引用到那一句</h2>
+    <p class="lede reveal">
+      报告里最像证据、最不可靠的就是引用列表。四条硬规则：
+      <strong>必须到句</strong>、<strong>二手按最弱一环定级</strong>、
+      <strong>公众号只作线索</strong>、<strong>上下文防断章</strong>。
+    </p>
+
+    <div class="quote-demo">
+      <div class="qcard bad reveal">
+        <div class="h">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          不合格
+        </div>
+        <p class="x">据某公众号报道，该菌株致病率约为 30%。</p>
+        <div class="meta">无定位 · 无原句 · 无发布日 · 二手转述未回溯</div>
+      </div>
+      <div class="qcard good reveal">
+        <div class="h">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          合格
+        </div>
+        <p class="ok">「在 47 株分离株中，14 株（29.8%）检出 stx2 基因。」</p>
+        <div class="meta">E-0142 · 第 3 页 · 表 2 第 4 行<br>来源：J. Clin. Microbiol. 2019;57(4) · 2019-04-01</div>
+      </div>
+    </div>
+
+    <div class="fit-grid" style="grid-template-columns:repeat(4,1fr);margin-top:22px">
+      <div class="fit s1 reveal" style="padding:18px 20px">
+        <div class="fit-lv" style="margin-bottom:6px">A</div>
+        <div style="font-size:12.8px;color:var(--muted);line-height:1.65">权威库 / 标准 / 法规 / 官方统计 + 高质量系统综述，多源一致</div>
+      </div>
+      <div class="fit s2 reveal" style="padding:18px 20px">
+        <div class="fit-lv" style="margin-bottom:6px">B</div>
+        <div style="font-size:12.8px;color:var(--muted);line-height:1.65">同行评议原始研究、权威机构报告</div>
+      </div>
+      <div class="fit s3 reveal" style="padding:18px 20px">
+        <div class="fit-lv" style="margin-bottom:6px">C</div>
+        <div style="font-size:12.8px;color:var(--muted);line-height:1.65">预印本、行业报告、单一研究、自动注释 — 仅作线索</div>
+      </div>
+      <div class="fit s4 reveal" style="padding:18px 20px">
+        <div class="fit-lv" style="margin-bottom:6px">D</div>
+        <div style="font-size:12.8px;color:var(--muted);line-height:1.65">百科、新闻、未验证网页 — 不作关键结论</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 流程 ================= -->
+<section id="flow">
+  <div class="wrap">
+    <div class="eyebrow reveal">一次运行</div>
+    <h2 class="sec reveal">十三步，每一步防一种具体的偷懒</h2>
+    <p class="lede reveal">
+      流程不是装饰。每一步都对应一个真实发生过的失败模式——
+      加粗的是 v2.4 新增的三道闸：<strong>BRIEF</strong>（为谁而答）、<strong>SCOPE</strong>（用户列举是下限不是上限）、<strong>NARRATE</strong>（每节首句必须是判断）。
+    </p>
+
+    <div class="flow">
+      <div class="step reveal"><span class="n">01</span><b>INIT</b></div>
+      <div class="step key reveal"><span class="n">02</span><b>BRIEF</b></div>
+      <div class="step reveal"><span class="n">03</span><b>AMBIGUITY_CHECK</b></div>
+      <div class="step key reveal"><span class="n">04</span><b>SCOPE</b></div>
+      <div class="step key reveal"><span class="n">05</span><b>COMPLEXITY</b></div>
+      <div class="step reveal"><span class="n">06</span><b>PLAN</b></div>
+      <div class="step reveal"><span class="n">07</span><b>RETRIEVE</b></div>
+      <div class="step reveal"><span class="n">08</span><b>EXTRACT</b></div>
+      <div class="step reveal"><span class="n">09</span><b>VERIFY</b></div>
+      <div class="step reveal"><span class="n">10</span><b>ANSWER_NODE</b></div>
+      <div class="step reveal"><span class="n">11</span><b>EXPAND_GAPS</b></div>
+      <div class="step key reveal"><span class="n">12</span><b>FACTOR_SPACE</b></div>
+      <div class="step key reveal"><span class="n">13</span><b>STOP_CHECK</b></div>
+      <div class="step key reveal"><span class="n">14</span><b>NARRATE</b></div>
+      <div class="step reveal"><span class="n">15</span><b>REPORT</b></div>
+    </div>
+
+    <div class="mech-grid" style="margin-top:26px">
+      <div class="mech reveal" style="padding:20px">
+        <h3 style="font-size:14.5px">BRIEF · 目的五问</h3>
+        <p style="font-size:13px">决定 / 时点 / 答错代价 / 成功标准 / 明确不做什么 + 五类相关方（决策者 / 付费者 / 使用者 / 被影响者 / 守门人）。缺哪类必须写「为何不适用」。</p>
+      </div>
+      <div class="mech reveal" style="padding:20px">
+        <h3 style="font-size:14.5px">SCOPE · 外扩审计</h3>
+        <p style="font-size:13px">必要遗漏 / 目的错位（问的是手段、真实要的是结果）/ 成败变量（预算、人员、合规、场地、时间）。写不出「为什么必须补」的即为加戏，删掉。</p>
+      </div>
+      <div class="mech reveal" style="padding:20px">
+        <h3 style="font-size:14.5px">NARRATE · 叙事装配</h3>
+        <p style="font-size:13px">按 SCQA 组织，每节首句必须是判断，判断后紧跟证据标记；上一节结论即下一节问题。禁止「下表展示了……」开头。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 快速开始 ================= -->
+<section id="start" style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow reveal">快速开始</div>
+    <h2 class="sec reveal">三步装上，然后直接说需求</h2>
+
+    <div class="start-grid">
+      <div class="term reveal">
+        <div class="term-bar"><i></i><i></i><i></i><span>bash / powershell</span></div>
+        <pre><span class="c"># 1. 克隆仓库</span>
+<span class="g">git</span> clone https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill.git
+<span class="g">cd</span> ai-sq-universal-root-inquiry
+
+<span class="c"># 2. 安装（Windows）</span>
+<span class="g">cd</span> plugin
+<span class="y">.\install.ps1</span>
+
+<span class="c"># 2. 安装（macOS / Linux）</span>
+<span class="g">cd</span> plugin && <span class="y">./install.sh</span>
+
+<span class="c"># 3. 自检</span>
+<span class="g">python</span> ai-sq-universal/scripts/validate.py
+
+<span class="c"># 质量门禁（可选，可接 CI）</span>
+<span class="g">python</span> ai-sq-universal/scripts/quality_gate.py report.md \
+  --json report.json --complexity 3 --risk high</pre>
+      </div>
+
+      <div class="start-note reveal">
+        <h3>然后直接说需求</h3>
+        <div class="prompt-box">求根问底调研 O157:H7 的致病性：<strong>有哪些影响因素</strong>、各自多强、是不是所有菌株都致病</div>
+        <div class="prompt-box">同一个环保限产政策，为什么 A 省改善明显、B 省几乎没效果？把因素和交互都拆出来</div>
+        <div class="prompt-box">深挖这个条款冲突：一般法和特别法该适用哪条，有没有例外</div>
+
+        <h3 style="margin-top:24px">它会先做什么</h3>
+        <p>量词问题会先被消歧（「这份合同有几段」），然后定复杂度档位、建问题树，再决定要展开多少——而不是一上来就写。</p>
+
+        <h3 style="margin-top:24px">交付什么</h3>
+        <p>写作在 Markdown（模型好改），<strong style="color:var(--ink)">交付是 Word</strong>（读者要打开）。封面、目录、页眉页脚、斑马纹表格、可点击引用，另出 JSON 供机检。<strong style="color:var(--ochre)">禁止手工另存 Word</strong>——那是文档与结论漂移的根源。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 结构 ================= -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow reveal">仓库结构</div>
+    <h2 class="sec reveal">52 个文件，纯文本，无运行时依赖</h2>
+    <p class="lede reveal">除了可选的 Word 渲染需要 <code style="font-family:var(--mono);font-size:.9em;background:var(--paper-2);padding:1px 5px;border-radius:4px">python-docx</code>，内核本身是纯 Markdown + YAML + JSON，任何模型都能读。</p>
+
+    <div class="tree reveal">
+<span class="d">ai-sq-universal-root-inquiry-skill/</span>
+├── README.md                 本文件
+├── INSTALL.md                安装 / 验证 / 排错 / 卸载
+├── CHANGELOG.md   VERSION   LICENSE
+├── <span class="d">ai-sq-universal/</span>          ← Skill 本体（可直接放进 ~/.dsh/skills/）
+│   ├── <span class="s">SKILL.md</span>              主规范：纵切+横切、复杂度分级、覆盖饱和、质量门禁
+│   ├── prompts/              9 个执行提示词 <span class="m">（briefer / narrator 为 v2.4 新增）</span>
+│   ├── schemas/              6 个契约 <span class="m">（question_node / evidence / factor / citation / report / domain_pack）</span>
+│   ├── references/           5 个参考规范 <span class="m">（14 维总纲 / 15 个多因素模式 / 领域适配度 / 遗漏审计 / 相关方）</span>
+│   ├── domain_packs/         7 个领域包 + 适配器说明 <span class="m">（science 含 bacteriology 子包）</span>
+│   ├── templates/report.md   §0 + 十四节（§1–§14）报告模板
+│   ├── evals/cases.yaml      13 个跨领域案例 <span class="m">（2 个 L3 难例 + 1 个引用难例）</span>
+│   ├── examples/             5 个示例：完整报告 / 歧义 / 无答案 / 产业路径 / 设备路径
+│   └── scripts/              validate.py   quality_gate.py   build_docx.py
+├── <span class="d">docs/</span>                     ← 本页（GitHub Pages）
+├── <span class="d">plugin/</span>                   清单 + Cordis 补丁 + 跨平台安装器
+└── <span class="d">tools/</span>build_release.py     可复现打包
+    </div>
+  </div>
+</section>
+
+<!-- ================= 边界 ================= -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="kernel reveal" style="max-width:none;border-color:var(--line-2);background:#fff">
+      <div class="lab" style="color:var(--muted)">边界</div>
+      <div style="font-size:14.5px;color:var(--ink-2);line-height:1.9">
+        不做实时行情 / 天气 / 比分 ·
+        不替代专业判断（医学 / 法律 / 金融输出是<strong>信息整理</strong>，不是诊疗 / 法律 / 投资意见）·
+        不提供可用于实际危害操作的可执行细节 ·
+        <strong style="color:var(--ochre)">「未检索到」≠「不存在」</strong>，报告会区分二者 ·
+        演绎问题、审美判断、一手实验、内部数据不适合，见 <code style="font-family:var(--mono);font-size:.88em;background:var(--paper-2);padding:1px 5px;border-radius:4px">references/domain_fit.md</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <div>
+        <div class="foot-brand">AI-SQ Universal Root-Inquiry</div>
+        <p class="foot-desc">通用求根问底调研内核。问题树 × 证据链 × 缺口递归 × 因素空间 × 覆盖饱和 × 引用到句。</p>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <h4>文档</h4>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/blob/main/ai-sq-universal/SKILL.md" target="_blank" rel="noopener">主规范 SKILL.md</a>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/blob/main/INSTALL.md" target="_blank" rel="noopener">安装指南</a>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/blob/main/CHANGELOG.md" target="_blank" rel="noopener">更新日志</a>
+        </div>
+        <div class="foot-col">
+          <h4>深入</h4>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/blob/main/ai-sq-universal/references/domain_fit.md" target="_blank" rel="noopener">领域适配度</a>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/blob/main/ai-sq-universal/references/complexity_patterns.md" target="_blank" rel="noopener">多因素模式</a>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/blob/main/ai-sq-universal/examples/01-bacteriology.md" target="_blank" rel="noopener">完整范例</a>
+        </div>
+        <div class="foot-col">
+          <h4>仓库</h4>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="https://github.com/Songyuanhong-nnn/ai-sq-universal-root-inquiry-skill/issues" target="_blank" rel="noopener">Issues</a>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <span>MIT License · © 2026 AI-SQ</span>
+      <span>v2.4.0 · 2026-10-27</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // 滚动进度
+  var bar = document.getElementById('progress');
+  var nav = document.getElementById('nav');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    nav.classList.toggle('scrolled', h.scrollTop > 12);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // 渐入
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          var el = e.target;
+          var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+          el.style.transitionDelay = Math.min(i * 55, 330) + 'ms';
+          el.classList.add('in');
+          io.unobserve(el);
+        }
+      });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0.06});
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-sq.local/schemas/domain_pack.json",
+  "title": "DomainPack",
+  "description": "领域适配包。领域包可细化证据等级与实体层级，但不得绕过通用反例、层级、停止规则，也不得整体降低 A/B/C/D 地板。",
+  "type": "object",
+  "required": [
+    "domain",
+    "display_name",
+    "version",
+    "high_risk",
+    "entity_levels",
+    "relations",
+    "structure_semantics",
+    "authoritative_sources",
+    "evidence_grades",
+    "counterexample_rule",
+    "disambiguation",
+    "answer_patterns",
+    "stop_hints",
+    "frontier_sources"
+  ],
+  "properties": {
+    "domain": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)?$"
+    },
+    "display_name": { "type": "string" },
+    "version": { "type": "string" },
+    "extends": { "type": ["string", "null"] },
+    "high_risk": { "type": "boolean" },
+    "high_risk_note": { "type": "string" },
+    "entity_levels": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 20,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+      "description": "粗 -> 细排序"
+    },
+    "relations": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "enum": [
+          "is_a",
+          "part_of",
+          "has_property",
+          "causes",
+          "contributes_to",
+          "encoded_by",
+          "located_in",
+          "requires",
+          "regulates",
+          "precedes",
+          "conflicts_with",
+          "evidence_for",
+          "counterexample_to",
+          "correlates_with",
+          "measured_by"
+        ]
+      }
+    },
+    "structure_semantics": {
+      "type": "object",
+      "required": ["segment", "copy", "variant"],
+      "properties": {
+        "segment": { "type": "string" },
+        "copy": { "type": "string" },
+        "variant": { "type": "string" },
+        "unit": { "type": "string" },
+        "level": { "type": "string" },
+        "stage": { "type": "string" }
+      }
+    },
+    "authoritative_sources": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["name", "kind", "priority"],
+        "properties": {
+          "name": { "type": "string" },
+          "kind": { "type": "string" },
+          "id_pattern": { "type": "string" },
+          "url_hint": { "type": "string" },
+          "priority": { "type": "integer", "minimum": 1, "maximum": 5 }
+        }
+      }
+    },
+    "evidence_grades": {
+      "type": "object",
+      "required": ["A", "B", "C", "D"],
+      "properties": {
+        "A": { "type": "string" },
+        "B": { "type": "string" },
+        "C": { "type": "string" },
+        "D": { "type": "string" },
+        "rules": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "counterexample_rule": { "type": "string" },
+    "disambiguation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["term", "candidates", "resolve_by"],
+        "properties": {
+          "term": { "type": "string" },
+          "candidates": { "type": "array", "items": { "type": "string" } },
+          "resolve_by": { "type": "string" }
+        }
+      }
+    },
+    "answer_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "shape"],
+        "properties": {
+          "type": { "type": "string" },
+          "shape": { "type": "string" }
+        }
+      }
+    },
+    "stop_hints": { "type": "array", "items": { "type": "string" } },
+    "frontier_sources": { "type": "array", "items": { "type": "string" } },
+    "sub_packs": {
+      "type": "object",
+      "description": "本领域的子包，如 science.sub_packs.bacteriology",
+      "additionalProperties": { "$ref": "#" }
+    }
+  }
+}

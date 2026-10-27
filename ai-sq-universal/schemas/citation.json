@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-sq.local/schemas/citation.json",
+  "title": "Citation",
+  "description": "引用到句。关键结论必须能按 locator 在 30 秒内找到原文那句话；只给链接不给句子 = 不合格。",
+  "type": "object",
+  "required": [
+    "citation_id",
+    "source_type",
+    "source_name",
+    "title",
+    "published_at",
+    "locator",
+    "quote",
+    "grade",
+    "chain_length",
+    "verified_by"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "citation_id": {
+      "type": "string",
+      "pattern": "^C[0-9]+$"
+    },
+    "evidence_track": {
+      "type": "string",
+      "enum": ["sentence", "reproducible_query", "accountable_provenance"],
+      "default": "sentence",
+      "description": "三条轨道：文本源=引用到句；数据源=可复算查询；内部/访谈源=可追责出处。不要用一个 locator 通吃"
+    },
+    "snapshot": {
+      "type": "object",
+      "description": "抓取留存 + 哈希。这是'逐字'唯一可机检的凭证：无快照即无法证明引用存在",
+      "properties": {
+        "file": { "type": "string", "description": "快照文件相对路径" },
+        "sha256": { "type": "string", "description": "快照文件哈希；由脚本写入，模型不得手填" },
+        "captured_at": { "type": "string" }
+      }
+    },
+    "quote_sha256": {
+      "type": "string",
+      "description": "归一化后原句的哈希，供 verify_citations.py 比对"
+    },
+    "query": {
+      "type": "object",
+      "description": "evidence_track=reproducible_query 时，用查询规格代替'句子'",
+      "properties": {
+        "dataset": { "type": "string" },
+        "version": { "type": "string" },
+        "filter": { "type": "string" },
+        "fields": { "type": "array", "items": { "type": "string" } },
+        "period": { "type": "string" },
+        "row_key": { "type": "string" },
+        "unit": { "type": "string" },
+        "tolerance": { "type": "string" }
+      }
+    },
+    "provenance": {
+      "type": "string",
+      "description": "evidence_track=accountable_provenance 时：谁提供、何时、以何形式"
+    },
+    "why_not_public": {
+      "type": "string",
+      "description": "为何不可公开复核：访谈/内部文件/付费墙/已删除"
+    },
+    "if_false_consequence": {
+      "type": "string",
+      "description": "若该条为假，哪个结论会倒；用于给不可复核证据定价"
+    },
+    "retells": {
+      "type": "string",
+      "description": "媒体/公众号转述的是谁（用于强制回溯一手）",
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "primary_official",
+        "primary_data",
+        "primary_document",
+        "peer_reviewed",
+        "preprint",
+        "industry_report",
+        "media",
+        "social_account",
+        "encyclopedia",
+        "unknown"
+      ],
+      "description": "一手：官方/原始数据/原始文件；二手：报告/媒体/公众号；三手：百科/转载"
+    },
+    "source_name": {
+      "type": "string",
+      "minLength": 2,
+      "description": "具体到主体：部门名、期刊名、机构名、公众号全名、作者名"
+    },
+    "author": {
+      "type": "string",
+      "description": "署名作者或发布主体；无名作者写机构"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 2
+    },
+    "published_at": {
+      "type": "string",
+      "description": "发布日期 YYYY-MM-DD；无法确定写 approx:YYYY-MM"
+    },
+    "url": { "type": "string" },
+    "archive_url": {
+      "type": "string",
+      "description": "存档（Web Archive / 本地快照 / DOI），防链接失效"
+    },
+    "locator": {
+      "type": "object",
+      "required": ["kind", "value"],
+      "description": "定位：这句话在这份材料的哪一处",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["page", "section", "paragraph", "table", "timestamp", "clause", "figure", "annotation"]
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "如 p.7 第2段 / 00:13:20 / 第3条第2款 / 表2 第4行 / 3.2节末段"
+        }
+      }
+    },
+    "quote": {
+      "type": "string",
+      "minLength": 8,
+      "description": "逐字原句。不得改写、拼接、翻译后当原文；含限定条件"
+    },
+    "quote_original_language": {
+      "type": "string",
+      "description": "非中文原文语言代码；原文与译文分开存"
+    },
+    "translation": {
+      "type": "string",
+      "description": "译文（单独字段，不得与 quote 混在一起）"
+    },
+    "context": {
+      "type": "string",
+      "description": "前后文各一句，防断章取义；至少说明该句在回答什么问题"
+    },
+    "supports": {
+      "type": "string",
+      "enum": ["yes", "no", "mixed"]
+    },
+    "grade": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D"],
+      "description": "按引用链最弱一环定级：公众号转述论文，按公众号定 C/D，不按论文定 A"
+    },
+    "chain_length": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "1=直接读到原文；2=引用他人转述；3=转述的转述。>=2 必须尝试回溯一手"
+    },
+    "chain": {
+      "type": "array",
+      "description": "转述链，从最远到最近",
+      "items": { "type": "string" }
+    },
+    "primary_source_found": {
+      "type": "boolean",
+      "default": false,
+      "description": "是否已回溯到一手；若否则说明为何失败"
+    },
+    "verified_by": {
+      "type": "string",
+      "enum": ["opened_original", "archive", "cross_check", "unverified"],
+      "description": "如何确认这句话真实存在：打开原文/存档/交叉比对/未核验"
+    },
+    "conflict_of_interest": {
+      "type": "string",
+      "description": "利益冲突：厂商自述、付费软文、利益相关方声明等"
+    },
+    "accessed_at": {
+      "type": "string",
+      "description": "访问日期 YYYY-MM-DD"
+    }
+  }
+}

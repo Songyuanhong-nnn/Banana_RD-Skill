@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-sq.local/schemas/factor.json",
+  "title": "Factor",
+  "description": "因素空间中的一个因素。量级是必填项：列出很多因素而不说哪个是主因，等于没回答问题。",
+  "type": "object",
+  "required": [
+    "factor_id",
+    "name",
+    "axis",
+    "role",
+    "direction",
+    "magnitude",
+    "magnitude_basis"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "factor_id": {
+      "type": "string",
+      "pattern": "^F[0-9]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 2
+    },
+    "axis": {
+      "type": "string",
+      "enum": [
+        "时间",
+        "空间/层级",
+        "主体",
+        "物质/资源",
+        "规则/制度",
+        "信息/认知",
+        "技术/工具",
+        "环境/外部冲击",
+        "反馈/动态"
+      ],
+      "description": "九轴之一；按轴枚举是为了防止整类因素被漏掉"
+    },
+    "entity_level": {
+      "type": "string",
+      "description": "取自领域包 entity_levels"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "necessary",
+        "sufficient",
+        "contributing",
+        "inhibiting",
+        "threshold",
+        "moderator",
+        "mediator",
+        "confounder"
+      ],
+      "description": "必要条件被去掉会改变结论；促进因素只是加速；模型必须区分"
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["+", "-", "±"],
+      "description": "± 表示在不同分层或条件下方向相反"
+    },
+    "magnitude": {
+      "type": "string",
+      "enum": ["dominant", "major", "minor", "unknown"]
+    },
+    "magnitude_basis": {
+      "type": "string",
+      "minLength": 4,
+      "description": "量级依据；unknown 必须写明原因（无量化研究 / 证据冲突 / 不可观测）"
+    },
+    "proxy": {
+      "type": "string",
+      "description": "可观测代理：这个因素在数据里怎么被看见"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "evidence_grade": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D"]
+    },
+    "how_to_test": {
+      "type": "string",
+      "description": "怎样验证它真的起作用；写不出来通常说明还没想清楚"
+    },
+    "strata_dependence": {
+      "type": "string",
+      "description": "L3 起：在哪些分层上效应强度或方向不同"
+    }
+  }
+}

@@ -1,0 +1,315 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-sq.local/schemas/report.json",
+  "title": "RootInquiryReport",
+  "description": "求根问底调研的机器可校验输出。与 report.md 一一对应。",
+  "type": "object",
+  "required": [
+    "target",
+    "goal",
+    "domain",
+    "params",
+    "one_line_conclusion",
+    "conclusions",
+    "evidence",
+    "conflicts",
+    "gaps",
+    "stop_log",
+    "risks",
+    "metrics",
+    "nodes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "target": { "type": "string", "minLength": 1 },
+    "goal": { "type": "string", "minLength": 1 },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "general",
+        "science",
+        "law",
+        "finance",
+        "history",
+        "technology",
+        "policy",
+        "business",
+        "medicine"
+      ]
+    },
+    "brief": {
+      "type": "object",
+      "description": "目的与受益方。没有它，报告精确但无用",
+      "required": ["decision", "success_criteria", "stakeholders"],
+      "properties": {
+        "decision": { "type": "string", "description": "支撑什么决定；无决定则写“仅建立认知基线”" },
+        "deadline": { "type": "string" },
+        "cost_of_error": { "type": "string" },
+        "success_criteria": { "type": "string" },
+        "out_of_scope": { "type": "string" },
+        "stakeholders": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": ["role", "who", "needs"],
+            "properties": {
+              "role": { "type": "string", "enum": ["decision_maker", "payer", "user", "affected", "gatekeeper"] },
+              "who": { "type": "string" },
+              "needs": { "type": "string" },
+              "if_wrong": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "scope_expansion": {
+      "type": "array",
+      "description": "需求外扩审计：用户列举是下限，不是上限",
+      "items": {
+        "type": "object",
+        "required": ["user_asked", "also_needed", "why"],
+        "properties": {
+          "user_asked": { "type": "string" },
+          "also_needed": { "type": "string" },
+          "why": { "type": "string" },
+          "covered": { "type": "string", "enum": ["yes", "partial", "pending"] }
+        }
+      }
+    },
+    "params": {
+      "type": "object",
+      "required": ["depth_budget", "node_budget", "time_budget_sec"],
+      "properties": {
+        "complexity_level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "default": 1,
+          "description": "L1 单链 / L2 多因素 / L3 多因素+交互异质 / L4 动态系统。决定是否需要因素空间、交互与分层"
+        },
+        "depth_budget": { "type": "integer", "minimum": 1, "default": 6 },
+        "node_budget": { "type": "integer", "minimum": 1, "default": 30 },
+        "tool_call_budget_per_node": { "type": "integer", "minimum": 1, "default": 20 },
+        "time_budget_sec": { "type": "integer", "minimum": 30, "default": 600 },
+        "require_ids": { "type": "boolean", "default": true },
+        "include_frontier": { "type": "boolean", "default": true },
+        "include_counterexamples": { "type": "boolean", "default": true },
+        "risk_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "default": "low"
+        },
+        "language": { "type": "string", "default": "zh" }
+      }
+    },
+    "one_line_conclusion": {
+      "type": "string",
+      "minLength": 8,
+      "description": "含范围限定的一句话结论，不得是无条件的绝对断言"
+    },
+    "conclusions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["text", "verdict", "confidence"],
+        "properties": {
+          "id": { "type": "string" },
+          "text": { "type": "string" },
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "confirmed",
+              "partially_confirmed",
+              "contested",
+              "unknown",
+              "needs_human"
+            ]
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "evidence_ids": {
+            "type": "array",
+            "items": { "type": "string" },
+            "default": []
+          },
+          "scope": { "type": "string" },
+          "serves": { "type": "string", "description": "这条结论对谁最有用" },
+          "action": { "type": "string", "description": "他据此做什么动作" },
+          "if_wrong": { "type": "string", "description": "信错了的代价" },
+          "counterexample_checked": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "evidence.json" }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["topic", "side_a", "side_b"],
+        "properties": {
+          "topic": { "type": "string" },
+          "side_a": { "type": "string" },
+          "side_b": { "type": "string" },
+          "resolution": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["resolved_by_condition", "unresolved", "resolved_by_evidence"]
+          }
+        }
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gap", "type"],
+        "properties": {
+          "gap": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["retrievable", "experiment", "expert", "data", "ambiguity"]
+          },
+          "impact": { "type": "string" },
+          "next_action": { "type": "string" }
+        }
+      }
+    },
+    "stop_log": {
+      "type": "array",
+      "minItems": 1,
+      "description": "每个已关闭分支必须有一条；无停止记录的报告不合格",
+      "items": {
+        "type": "object",
+        "required": ["node_id", "stop_reason"],
+        "properties": {
+          "node_id": { "type": "string" },
+          "stop_reason": { "type": "string" },
+          "rule": {
+            "type": "string",
+            "enum": [
+              "evidence_closed",
+              "no_new_info",
+              "low_gain",
+              "budget_exhausted",
+              "low_grade_only",
+              "conflict_unresolved",
+              "needs_human",
+              "out_of_retrieval",
+              "ambiguity_unresolved"
+            ]
+          }
+        }
+      }
+    },
+    "risks": {
+      "type": "object",
+      "required": ["high_risk_domain", "disclaimer_included"],
+      "properties": {
+        "high_risk_domain": { "type": "boolean" },
+        "disclaimer_included": { "type": "boolean" },
+        "human_review_advised": { "type": "boolean", "default": false },
+        "notes": { "type": "string" }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "citation_traceability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "counterexample_checked": { "type": "boolean" },
+        "duplicate_questions": { "type": "integer", "minimum": 0 },
+        "nodes_opened": { "type": "integer", "minimum": 0 },
+        "max_depth_reached": { "type": "integer", "minimum": 0 },
+        "tool_calls_used": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "factor_space": {
+      "type": "array",
+      "description": "L2 起必填：因素空间。九轴枚举 + 每个因素带量级",
+      "items": { "$ref": "factor.json" }
+    },
+    "axis_coverage": {
+      "type": "array",
+      "description": "九轴覆盖表。unchecked 与 empty 必须区分：前者是没查，后者是确认无",
+      "items": {
+        "type": "object",
+        "required": ["axis", "status"],
+        "properties": {
+          "axis": {
+            "type": "string",
+            "enum": ["时间", "空间/层级", "主体", "物质/资源", "规则/制度", "信息/认知", "技术/工具", "环境/外部冲击", "反馈/动态"]
+          },
+          "factors": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["covered", "empty", "unchecked"] },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "interactions": {
+      "type": "array",
+      "description": "L3 起必填：混杂/中介/效应修饰/交互/对撞/反馈。必须含 checked-none 条目",
+      "items": {
+        "type": "object",
+        "required": ["pair", "type", "status"],
+        "properties": {
+          "pair": { "type": "array", "items": { "type": "string" } },
+          "type": {
+            "type": "string",
+            "enum": ["confounding", "mediation", "effect_modification", "synergy", "antagonism", "collider", "feedback", "lag", "none"]
+          },
+          "status": { "type": "string", "enum": ["confirmed", "suspected", "checked-none"] },
+          "note": { "type": "string" },
+          "evidence_ids": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "strata": {
+      "type": "array",
+      "description": "L3 起必填：分层矩阵，标出效应方向是否反转",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "levels"],
+        "properties": {
+          "dimension": { "type": "string" },
+          "levels": { "type": "array", "items": { "type": "string" } },
+          "flips": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "factor": { "type": "string" },
+                "by_level": { "type": "object" },
+                "reversed": { "type": "boolean", "default": false }
+              }
+            }
+          }
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "description": "覆盖度与饱和声明。没有它，'全面'只是一个形容词",
+      "properties": {
+        "axes_probed": { "type": "integer", "minimum": 0, "maximum": 9 },
+        "axes_empty_with_reason": { "type": "integer", "minimum": 0 },
+        "axes_unchecked": { "type": "array", "items": { "type": "string" } },
+        "saturated": { "type": "boolean" },
+        "negative_space": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "按常识应该存在但未找到的因素 —— 最大的漏洞通常在这里"
+        },
+        "interaction_checked_for": { "type": "array", "items": { "type": "string" } },
+        "strata_checked": { "type": "integer", "minimum": 0 },
+        "notes": { "type": "string" }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "question_node.json" }
+    }
+  }
+}

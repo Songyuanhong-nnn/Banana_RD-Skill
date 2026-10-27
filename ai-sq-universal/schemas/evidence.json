@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-sq.local/schemas/evidence.json",
+  "title": "Evidence",
+  "description": "证据单元。quote 必须逐字摘录，不得改写、拼接或翻译后当原文。无 source_id 时必须置 id_missing=true 并降级。",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "claim",
+    "source_type",
+    "source_name",
+    "quote",
+    "entity_level",
+    "scope",
+    "evidence_grade",
+    "supports",
+    "retrieved_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^E[0-9]+$"
+    },
+    "claim": {
+      "type": "string",
+      "minLength": 4,
+      "description": "结论句；可综合但要保守，不得强于 quote 所支持的程度"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "official",
+        "database",
+        "systematic_review",
+        "paper",
+        "preprint",
+        "report",
+        "web"
+      ]
+    },
+    "source_name": {
+      "type": "string",
+      "minLength": 2
+    },
+    "source_id": {
+      "type": "string",
+      "description": "法规号 / PMID / DOI / 数据库ID / URL。宁缺勿造。",
+      "default": ""
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "quote": {
+      "type": "string",
+      "minLength": 4,
+      "description": "原文证据句（逐字），应含限定条件"
+    },
+    "citation_id": {
+      "type": "string",
+      "description": "对应 schemas/citation.json 的 C# 条目；关键结论必须有引用记录"
+    },
+    "locator": {
+      "type": "object",
+      "description": "这句话在来源里的具体位置；缺它则引用无法复核",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["page", "section", "paragraph", "table", "timestamp", "clause", "figure", "query"]
+        },
+        "value": { "type": "string" }
+      }
+    },
+    "entity_level": {
+      "type": "string",
+      "enum": ["category", "instance", "element", "carrier", "claim"]
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["全局", "类别级", "实例级", "条件性", "时间限定", "地域限定"]
+    },
+    "evidence_grade": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D"],
+      "description": "A=权威库/标准/法规+系统综述多源一致；B=同行评议原始研究/权威报告；C=预印本/单一研究/自动注释；D=百科/新闻/未验证网页"
+    },
+    "supports": {
+      "type": "string",
+      "enum": ["yes", "no", "mixed"],
+      "description": "mixed 是重要信号（条件性结论），必须保留"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "id_missing": {
+      "type": "boolean",
+      "default": false,
+      "description": "true 表示无可核验 ID，等级已降级"
+    }
+  }
+}

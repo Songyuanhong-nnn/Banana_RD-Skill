@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ai-sq.local/schemas/question_node.json",
+  "title": "QuestionNode",
+  "description": "问题树节点。去重键 = question_type | entity | relation | scope | qualifier。同一键只保留证据更强者。",
+  "type": "object",
+  "required": [
+    "node_id",
+    "question",
+    "question_type",
+    "entity_level",
+    "relation",
+    "scope",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "pattern": "^Q[0-9]+(\\.[0-9]+)*$",
+      "description": "层级编号，如 Q1、Q1.2"
+    },
+    "parent_id": {
+      "type": ["string", "null"],
+      "default": null
+    },
+    "question": {
+      "type": "string",
+      "minLength": 4,
+      "description": "必须是可检索、可验证的问句；禁止空泛问题"
+    },
+    "question_type": {
+      "type": "string",
+      "enum": [
+        "definition",
+        "taxonomy",
+        "attribute",
+        "scope",
+        "mechanism",
+        "causal_chain",
+        "carrier",
+        "element_inventory",
+        "structure",
+        "parameter",
+        "function",
+        "regulation",
+        "evidence",
+        "controversy",
+        "counterexample",
+        "frontier",
+        "next_step"
+      ]
+    },
+    "entity": {
+      "type": "string",
+      "description": "问题指向的实体名"
+    },
+    "entity_level": {
+      "type": "string",
+      "enum": [
+        "object",
+        "concept",
+        "category",
+        "instance",
+        "component",
+        "attribute",
+        "mechanism",
+        "carrier",
+        "element",
+        "structure",
+        "parameter",
+        "function",
+        "actor",
+        "rule",
+        "event",
+        "evidence",
+        "claim"
+      ],
+      "description": "必须取自领域包 entity_levels；无领域包时用通用层级"
+    },
+    "relation": {
+      "type": "string",
+      "enum": [
+        "is_a",
+        "part_of",
+        "has_property",
+        "causes",
+        "contributes_to",
+        "encoded_by",
+        "located_in",
+        "requires",
+        "regulates",
+        "precedes",
+        "conflicts_with",
+        "evidence_for",
+        "counterexample_to",
+        "correlates_with",
+        "measured_by"
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["全局", "类别级", "实例级", "条件性", "时间限定", "地域限定"]
+    },
+    "qualifier": {
+      "type": "string",
+      "default": "",
+      "description": "菌株/版本/条款/地区/时间等限定；无则空串"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "answered", "partial", "conflict", "closed", "skipped", "needs_human"]
+    },
+    "answer": {
+      "type": "string",
+      "default": ""
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gap", "type"],
+        "properties": {
+          "gap": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["retrievable", "experiment", "expert", "data", "ambiguity"]
+          },
+          "impact": { "type": "string" }
+        }
+      },
+      "default": []
+    },
+    "children": {
+      "type": "array",
+      "items": { "$ref": "#" },
+      "default": []
+    },
+    "depth": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1
+    },
+    "priority": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0
+    },
+    "stop_reason": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

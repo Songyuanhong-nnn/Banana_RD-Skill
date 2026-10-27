@@ -1,0 +1,31 @@
+# ============================================================================
+# AI-SQ Universal Root-Inquiry — Cordis 组合补丁
+# ----------------------------------------------------------------------------
+# 作用：把本包所在目录注册为一个"额外技能根"，让 ai-sq-universal 出现在
+#       DSH 的技能目录里，而技能文件仍留在仓库原地（不复制到 ~/.dsh/skills）。
+#
+# 用法二选一：
+#   A) 自动生成真实路径后手动并入：  .\plugin\install.ps1 -Mode plugin
+#      -> 产出 plugin/cordis.patch.generated.yml（__SKILL_ROOT__ 已替换）
+#      -> 把其中 insert 段并入 ~/.dsh/cordis.patch.yml，重启 DSH
+#   B) 直接改下面的 __SKILL_ROOT__ 为本包根目录（含 ai-sq-universal/SKILL.md），
+#      再把本文件内容并入 ~/.dsh/cordis.patch.yml
+#
+# 注意：
+#   * customSkillDirs 指向的是"技能根"，即包含 <name>/SKILL.md 的那一层，
+#     不是 ai-sq-universal 本身。所以填本包的根目录（ai-sq-universal 的父目录）。
+#   * includeDefaultRoots: false + 独立 providerName：只新增一个只读我们目录的
+#     provider，不改变 DSH 原有的 project/user 技能根，避免与默认发现冲突。
+#   * 若你直接用 copy 模式装到 ~/.dsh/skills/ai-sq-universal，则不需要本补丁
+#     （默认用户根已覆盖），本文件可忽略。
+# ============================================================================
+
+- insert:
+    - id: ai-sq-root-inquiry-skills
+      name: "@deepseek-ai/dsh-skill-filesystem"
+      config:
+        providerName: aisq-root-inquiry
+        includeDefaultRoots: false
+        customSkillDirs:
+          - "__SKILL_ROOT__"
+        watch: true

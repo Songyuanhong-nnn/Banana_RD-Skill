@@ -1,0 +1,330 @@
+# ============================================================================
+# Domain Pack: science
+# AI-SQ Universal Root-Inquiry / 通用求根问底调研 Skill
+# ----------------------------------------------------------------------------
+# 领域包不是装饰，而是通用内核的适配接口。
+# 内核管：问题树 / 证据链 / 缺口递归 / 范围与反例 / 层级校验 / 停止控制 / 报告。
+# 领域包管：实体层级 / 关系类型 / 结构语义 / 权威源 / 证据分级 / 高风险边界。
+#
+# 领域包不得绕过通用规则：反例检查、层级校验、停止规则、质量门禁永远优先。
+# 领域包只能"细化"证据等级，不能把通用 A/B/C/D 地板整体降级。
+# ============================================================================
+
+domain: science
+display_name: 科学 / Science
+version: 1.0.0
+extends: null
+high_risk: false
+high_risk_note: >
+  通用科学问题默认低风险；但涉及医学诊断、治疗、用药剂量、生物安全、化学危险品、
+  辐射与实验操作时，升级为高风险：必须加免责声明、标注不确定性、建议人工/专家复核，
+  且不输出可用于实际危害操作的可执行细节。
+
+# ---------------------------------------------------------------------------
+# 1. 实体层级（粗 -> 细）。用于层级校验：防止把类别属性套到实例、把载体当要素。
+# ---------------------------------------------------------------------------
+entity_levels:
+  - field              # 学科/领域
+  - theory             # 理论/范式
+  - model              # 模型/框架
+  - species            # 物种/类群
+  - strain             # 菌株/品系/株系/样本
+  - gene               # 基因/操纵子/基因簇
+  - allele             # 等位基因/突变/变异
+  - transcript         # 转录本
+  - protein            # 蛋白/酶
+  - domain             # 结构域/基序
+  - complex            # 复合物/装配体
+  - pathway            # 通路/网络
+  - phenotype          # 表型/性状
+  - mechanism          # 机制/因果过程
+  - carrier            # 载体（质粒/噬菌体/载体病毒/数据库记录）
+  - intervention       # 干预/处理/暴露
+  - evidence           # 证据单元（研究/数据集/条目）
+
+# ---------------------------------------------------------------------------
+# 2. 允许的关系类型。问题节点 relation 字段应落在此清单内，避免自造关系。
+# ---------------------------------------------------------------------------
+relations:
+  - is_a
+  - part_of
+  - has_property
+  - causes
+  - contributes_to
+  - encoded_by
+  - located_in
+  - requires
+  - regulates
+  - precedes
+  - conflicts_with
+  - evidence_for
+  - counterexample_to
+  - correlates_with
+  - measured_by
+
+# ---------------------------------------------------------------------------
+# 3. 结构语义："几段/多少/几个" 在本领域指什么。回答前必须先消歧。
+# ---------------------------------------------------------------------------
+structure_semantics:
+  segment: 结构域 / 外显子 / 操纵子 / 基因簇 / 通路步骤 / 实验分组
+  copy: 基因组拷贝数 / 质粒拷贝数 / 基因重复数 / rRNA 操纵子拷贝数
+  variant: 等位基因 / 突变株 / 血清型 / 亚型 / 变体 / 版本（数据库注释版本）
+  unit: 碱基对（bp）/ 氨基酸（aa）/ 结构域 / 分子数 / 细胞数 / CFU
+  level: 分子 < 细胞 < 组织 < 个体 < 群体 < 生态系统
+  stage: 实验阶段 / 发育阶段 / 病程阶段 / 时间点
+
+# ---------------------------------------------------------------------------
+# 4. 权威来源优先级（1 最高）。检索应按序尝试，不要一上来就查百科。
+# ---------------------------------------------------------------------------
+authoritative_sources:
+  - name: NCBI GenBank / RefSeq
+    kind: sequence_database
+    id_pattern: "Accession（如 NC_000913.3 / GCF_000005845.2）"
+    url_hint: ncbi.nlm.nih.gov
+    priority: 1
+  - name: UniProt / PDB
+    kind: protein_database
+    id_pattern: "UniProt AC（如 P0A877）/ PDB ID（如 1ABC）"
+    url_hint: uniprot.org, rcsb.org
+    priority: 1
+  - name: PubMed / MEDLINE
+    kind: literature_database
+    id_pattern: "PMID"
+    url_hint: pubmed.ncbi.nlm.nih.gov
+    priority: 2
+  - name: 权威系统综述与元分析（Cochrane / Annual Reviews / Nature Reviews）
+    kind: systematic_review
+    id_pattern: "DOI"
+    priority: 2
+  - name: 专业本体与通路库（GO / KEGG / Reactome / InterPro / Pfam）
+    kind: ontology_database
+    id_pattern: "GO:0000000 / KEGG map id / IPR / PF 编号"
+    priority: 3
+  - name: 领域策展库（如 VFDB、BacDive、LPSN、Ensembl）
+    kind: curated_database
+    id_pattern: "库内 ID"
+    priority: 3
+  - name: 预印本（bioRxiv / medRxiv / arXiv）
+    kind: preprint
+    id_pattern: "DOI"
+    priority: 4
+  - name: 百科 / 新闻 / 科普网页
+    kind: encyclopedia
+    id_pattern: "URL"
+    priority: 5
+
+# ---------------------------------------------------------------------------
+# 5. 证据等级细化（只能加约束，不能整体降级）。
+# ---------------------------------------------------------------------------
+evidence_grades:
+  A: >
+    高质量系统综述/元分析 + 权威数据库条目相互印证；或教科书级共识机制且多源一致。
+    例：Cochrane 系统综述；UniProt/Swiss-Prot 人工审阅条目 + 原始文献支持。
+  B: >
+    同行评议原始研究，方法可靠（有对照、有重复、统计恰当）；权威机构技术报告/指南。
+  C: >
+    预印本、单一研究、数据库自动注释（如 UniProt TrEMBL、自动 GO 注释）、
+    单一表型关联、无独立重复的实验。
+  D: 百科、新闻稿、厂商材料、未署名网页、AI 生成摘要。
+  rules:
+    - 自动注释默认 C；经人工审阅（reviewed/Swiss-Prot）可升 B。
+    - 体外（in vitro）证据不得直接支撑体内（in vivo）结论；动物证据不得直接支撑人体结论。
+    - 相关性研究不得写成因果；因果需机制证据或干预证据。
+    - 单一研究即使发表在顶刊，若无独立重复，最高记 B。
+
+# ---------------------------------------------------------------------------
+# 6. 反例与边界检查（本领域必须执行的检查项）。
+# ---------------------------------------------------------------------------
+counterexample_rule: >
+  1) 类别 vs 实例：物种级结论不得直接套到菌株/个体；
+  2) 证据层级：体外 < 动物 < 人体 < 人群，不可跨级外推；
+  3) 相关 vs 因果：需机制或干预证据；
+  4) 条件性：剂量、时间、温度、pH、宿主免疫状态、遗传背景、培养基/模型差异；
+  5) 发表偏倚与可重复性危机：单研究结论标注"待重复"；
+  6) 命名与分类变更：旧分类名、异名、重新分类需标注当前有效名。
+
+# ---------------------------------------------------------------------------
+# 7. 必须消歧的术语（回答"几段/多少/是否都成立"前先定锚）。
+# ---------------------------------------------------------------------------
+disambiguation:
+  - term: 几段
+    candidates: [结构域数, 外显子数, 操纵子数, 基因簇数, 通路步骤数, 实验分组数]
+    resolve_by: 回到实体层级与 structure_semantics，先问清"段"的所属层级。
+  - term: 致病 / 有害
+    candidates: [物种致病性, 菌株致病性, 条件致病, 机会感染, 体外细胞毒性]
+    resolve_by: 明确 scope=类别级还是实例级，并给出限定条件。
+  - term: 最新研究
+    candidates: [最近 12 个月, 最近 3 年, 该问题最后一次范式更新]
+    resolve_by: 声明时间窗，且区分"新发表"与"已获共识"。
+
+# ---------------------------------------------------------------------------
+# 8. 好答案的形态（报告对应章节应长这样）。
+# ---------------------------------------------------------------------------
+answer_patterns:
+  - type: element_inventory
+    shape: "表格：要素 | ID/来源 | 类型 | 位置/归属 | 数量/版本 | 功能 | 证据等级"
+  - type: mechanism
+    shape: "因果链：触发 -> 中间步骤（含分子/细胞层级）-> 表型；标注必要/充分/促进"
+  - type: scope
+    shape: "适用范围矩阵：结论 × (类别/实例) × (条件) × (证据等级) × 反例"
+
+# ---------------------------------------------------------------------------
+# 9. 停止提示（本领域常见的"该停了"信号）。
+# ---------------------------------------------------------------------------
+stop_hints:
+  - 已找到权威数据库条目 + 至少一篇同行评议原始文献，且二者一致。
+  - 连续两轮检索只返回同一批文献的不同转述。
+  - 问题已下沉到实验参数细节，超出可检索范围 -> 标记"需实验验证"。
+  - 仅剩自动注释/预印本且无升级路径 -> 标记"线索级结论"。
+
+frontier_sources:
+  - PubMed "latest reviews" / Nature Reviews 系列
+  - bioRxiv / medRxiv（标注预印本）
+  - 领域旗舰期刊年度综述
+  - 专业会议摘要（标注未经同行评议）
+
+# ============================================================================
+# 子包：bacteriology（细菌致病性）
+# ----------------------------------------------------------------------------
+# 说明：细菌致病性不再是一个独立 Skill，而是 science 领域包下的一个子包。
+# 它只负责把本领域的术语映射到通用九层追问链，不改变内核逻辑。
+# 触发：target 涉及 细菌 / 病原 / 毒力 / 感染 / 菌株 / 致病机制 / 抗生素等。
+# ============================================================================
+sub_packs:
+  bacteriology:
+    domain: science.bacteriology
+    display_name: 细菌学 / 细菌致病性（Bacteriology & Pathogenicity）
+    version: 1.0.0
+    high_risk: true
+    high_risk_note: >
+      涉及病原体、生物安全与两用风险。输出不得包含增强病原性、逃逸检测、
+      提高传播力或规避生物安全措施的可操作细节；医学相关结论不构成诊疗建议。
+
+    entity_levels:
+      - bacterial_species        # 物种（如 Escherichia coli）
+      - subspecies_lineage       # 亚种/谱系/克隆群（ST 型）
+      - strain                   # 菌株（如 O157:H7 EDL933）
+      - serovar                  # 血清型
+      - virulence_gene           # 毒力基因
+      - pathogenicity_island     # 致病岛 / 基因组岛
+      - allele                   # 等位基因 / 突变
+      - protein_effector         # 效应蛋白 / 毒素 / 黏附素
+      - secretion_system         # 分泌系统（T3SS/T4SS 等）
+      - host_receptor            # 宿主受体 / 靶点
+      - host_cell                # 宿主细胞类型
+      - tissue                   # 组织 / 生态位
+      - disease_phenotype        # 疾病表型
+      - host_range               # 宿主范围
+
+    relations:
+      - is_a
+      - part_of
+      - encoded_by
+      - located_in
+      - causes
+      - contributes_to
+      - requires
+      - regulates
+      - counterexample_to
+      - correlates_with
+      - measured_by
+
+    structure_semantics:
+      segment: ORF / 基因 / 操纵子 / 致病岛 / 分泌系统组分
+      copy: 基因组拷贝数 / 质粒拷贝数 / rRNA 操纵子拷贝数 / 基因重复数
+      variant: 等位基因 / 血清型 / 序列型（ST）/ 突变株 / 噬菌体溶原状态
+      unit: bp / aa / CFU / 感染剂量（ID50）
+      level: 基因 < 操纵子 < 致病岛 < 菌株 < 物种 < 菌群
+      stage: 定植 -> 侵袭 -> 损伤 -> 全身扩散（各阶段机制不同，不可混答）
+
+    authoritative_sources:
+      - name: NCBI RefSeq / GenBank（基因组与注释）
+        kind: sequence_database
+        id_pattern: "GCF_/GCA_ 或 NC_ accession"
+        priority: 1
+      - name: LPSN（原核生物命名）
+        kind: nomenclature_database
+        id_pattern: 学名 + 命名人年份
+        priority: 1
+      - name: BacDive（菌株表型与培养）
+        kind: curated_database
+        id_pattern: BacDive ID
+        priority: 2
+      - name: VFDB / Victors（毒力因子策展库）
+        kind: curated_database
+        id_pattern: VFDB ID / 基因名
+        priority: 2
+      - name: UniProt / Swiss-Prot（蛋白功能与定位）
+        kind: protein_database
+        id_pattern: UniProt AC
+        priority: 2
+      - name: PubMed（原始研究与综述）
+        kind: literature_database
+        id_pattern: PMID
+        priority: 2
+      - name: WHO / CDC / 国家疾控技术文件
+        kind: official_guidance
+        id_pattern: 文件编号/URL
+        priority: 3
+      - name: 百科 / 新闻 / 科普
+        kind: encyclopedia
+        id_pattern: URL
+        priority: 5
+
+    evidence_grades:
+      A: >
+        多菌株/多研究的系统综述或元分析；遗传学证据完整（缺失突变 + 回补 + 表型恢复）；
+        权威策展库条目与原始文献一致。
+      B: >
+        单菌株遗传学实验（有对照、有重复）、动物模型、权威机构技术报告。
+      C: >
+        基因组注释推断、单一表型关联、单一细胞实验、自动注释。
+      D: 百科、新闻、厂商材料。
+      rules:
+        - 携带毒力基因 != 表达 != 具有致病表型，三者必须分开陈述。
+        - 体外细胞实验不得直接支撑体内致病结论。
+        - 菌株背景差异（同一物种不同菌株）必须显式说明，不得以物种名替代菌株。
+        - 感染剂量、宿主免疫状态、接种途径是必须标注的条件变量。
+
+    counterexample_rule: >
+      1) 物种级"致病"结论必须检查是否存在非致病菌株（如 E. coli 的共生株 vs EHEC）；
+      2) 毒力基因存在但沉默（假基因、调控关闭）即为反例；
+      3) 免疫缺陷宿主中的机会感染不等于健康宿主致病；
+      4) 动物模型表型不得直接推至人体；
+      5) 培养条件/温度/铁 availability 改变毒力表达，属条件性反例。
+
+    disambiguation:
+      - term: 细菌是否致病
+        candidates: [物种致病性, 菌株致病性, 条件致病, 机会感染, 仅体外细胞毒性]
+        resolve_by: 先确定 scope 与 qualifier（菌株、宿主、途径、剂量）。
+      - term: 几段 / 几个基因
+        candidates: [ORF 数, 操纵子数, 致病岛数, 分泌系统组分数]
+        resolve_by: 用 structure_semantics 定锚，并注明注释版本。
+      - term: 毒力
+        candidates: [定植能力, 侵袭能力, 毒素产生, 免疫逃逸, 传播能力]
+        resolve_by: 拆成具体表型再赋值，避免"毒力强/弱"这类空结论。
+
+    answer_patterns:
+      - type: element_inventory
+        shape: "毒力要素表：要素 | 基因/ID | 类型 | 位置（染色体/质粒/致病岛）| 功能 | 证据等级"
+      - type: mechanism
+        shape: "定植 -> 分泌效应蛋白 -> 宿主通路劫持 -> 病理表型；标注必要/充分/促进"
+      - type: scope
+        shape: "菌株矩阵：结论 | 适用菌株 | 宿主 | 途径 | 剂量 | 反例 | 证据等级"
+
+    stop_hints:
+      - 已确认物种、菌株、血清型，并找到该菌株的遗传学证据。
+      - 机制问题已到"未知/需实验"边界，继续检索只会重复综述。
+      - 涉及生物安全细节，主动截断并说明不提供。
+
+    failure_modes:
+      - 用物种名代替菌株名（最常见）。
+      - 把基因组中"存在毒力基因"直接写成"具有毒力"。
+      - 把体外细胞实验结论写成感染机制。
+      - 忽略感染剂量与宿主免疫状态。
+
+    frontier_sources:
+      - Nature Reviews Microbiology / Cell Host & Microbe / PLoS Pathogens
+      - mBio / Infection and Immunity
+      - bioRxiv 微生物学预印本（标注预印本）
+      - WHO 抗菌药物耐药报告
