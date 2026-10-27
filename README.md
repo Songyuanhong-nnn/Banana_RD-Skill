@@ -1,5 +1,15 @@
 # AI-SQ Universal Root-Inquiry / 通用求根问底调研 Skill
 
+<p align="center">
+  <b>简体中文</b> ·
+  <a href="README.en.md">English</a> ·
+  <a href="README.ja.md">日本語</a> ·
+  <a href="README.ko.md">한국어</a> ·
+  <a href="README.es.md">Español</a> ·
+  <a href="README.fr.md">Français</a> ·
+  <a href="README.de.md">Deutsch</a>
+</p>
+
 > **一句话内核**
 > **求根问底 = 问题树 × 证据链 × 缺口递归 × 因素空间 × 范围与反例 × 层级校验 × 覆盖饱和 × 停止控制 × 结构化报告。**
 
@@ -142,7 +152,8 @@ v2.0 只有九层追问链，它是**纵切**——把一个对象顺着一串�
 
 ```text
 AI-SQ-Universal-Root-Inquiry/
-├── README.md                  本文件
+├── README.md                  本文件（简体中文）
+├── README.{en,ja,ko,es,fr,de}.md  多语言版本
 ├── INSTALL.md                 安装 / 验证 / 排错 / 卸载
 ├── CHANGELOG.md    VERSION    LICENSE
 ├── ai-sq-universal/           ← Skill 本体（可直接放进 ~/.dsh/skills/）
