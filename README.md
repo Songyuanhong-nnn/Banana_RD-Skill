@@ -10,6 +10,14 @@
   <a href="README.de.md">Deutsch</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
+  <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
+  <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
+  <img src="https://img.shields.io/badge/languages-7-9A7B2E?style=flat-square" alt="languages">
+</p>
+
 > **一句话内核**
 > **求根问底 = 问题树 × 证据链 × 缺口递归 × 因素空间 × 范围与反例 × 层级校验 × 覆盖饱和 × 停止控制 × 结构化报告。**
 
@@ -17,7 +25,7 @@
 
 ---
 
-## 先说清楚：它不是什么
+## ⚖️ 先说清楚：它不是什么
 
 v2.0 曾写"适用于所有领域"。那句话违反了这个 Skill 自己的第 5 条原则——**出现"所有"就必须查反例**。反例是现成的，所以 v2.1 把它撤了，换成一张诚实的账：
 
@@ -32,7 +40,7 @@ v2.0 曾写"适用于所有领域"。那句话违反了这个 Skill 自己的第
 
 ---
 
-## 它保证什么、不保证什么
+## ✅ 它保证什么、不保证什么
 
 **保证**：结论可追溯（ID + 原文句 + 等级）；范围被检验（对谁成立、何时不成立）；**因素被枚举**（不是挖到一条链就交卷）；停止有理由（能区分"查完了"与"查不下去了"）。
 
@@ -40,7 +48,7 @@ v2.0 曾写"适用于所有领域"。那句话违反了这个 Skill 自己的第
 
 ---
 
-## 核心：为什么需要三套覆盖机制
+## 🧩 核心：为什么需要三套覆盖机制
 
 v2.0 只有九层追问链，它是**纵切**——把一个对象顺着一串问题挖到底。但真实问题通常是"很多因素共同作用"，纵切跑完可能只挖了三条链，另外六类因素根本没被想到过。
 
@@ -56,7 +64,7 @@ v2.0 只有九层追问链，它是**纵切**——把一个对象顺着一串�
 引用：引用到句（定位 + 原句）──→ 可查（每条结论能 30 秒复核）
 ```
 
-### 1. 复杂度分级 L1–L4：先定档，再决定展开多少
+### 1. 📐 复杂度分级 L1–L4：先定档，再决定展开多少
 
 | 档 | 结构判据 | 必做检查 |
 |---|---|---|
@@ -72,7 +80,18 @@ v2.0 只有九层追问链，它是**纵切**——把一个对象顺着一串�
 
 还有一条专治自欺：**"没查到反号"不等于"没有反号"**。未做分层/交互检验就没有资格定 L1/L2，按高一档处理并在 `gaps` 留痕。
 
-### 2. 因素空间：按轴枚举，不许凭记忆
+```mermaid
+flowchart TD
+    S([开始定档]) --> Q1{"≥3 个相对独立因素？"}
+    Q1 -->|否| L1["L1 单链<br/>九层链 + 反例"]
+    Q1 -->|是| Q2{"分层 / 交互检验<br/>发现反号？"}
+    Q2 -->|否| L2["L2 多因素<br/>因素空间 + 量级"]
+    Q2 -->|是| Q3{"双向因果 / 时滞<br/>/ regime shift？"}
+    Q3 -->|否| L3["L3 交互异质<br/>交互 + 分层矩阵"]
+    Q3 -->|是| L4["L4 动态系统<br/>因果图 + 情景 + 模型局限"]
+```
+
+### 2. 🧮 因素空间：按轴枚举，不许凭记忆
 
 九轴机械过一遍，每轴要么有因素，要么写"空，理由"。留白与"确认没有"是两件事。
 
@@ -92,13 +111,13 @@ v2.0 只有九层追问链，它是**纵切**——把一个对象顺着一串�
 
 **量级是硬要求**：`dominant` / `major` / `minor` / `unknown`（unknown 必须写原因）。禁止"上述因素都很重要，需综合考虑"——那句话的信息量为零。
 
-### 3. 交互与混杂：15 个必须主动比对的模式
+### 3. 🔗 交互与混杂：15 个必须主动比对的模式
 
 见 [`references/complexity_patterns.md`](ai-sq-universal/references/complexity_patterns.md)：混杂、中介、效应修饰、交互、对撞、Simpson、生态谬误、阈值、反馈、时滞、路径依赖、等效路径、代理误差、选择偏差、相变。每条含"如何识别 / 必须追问 / 检索线索 / 常见误判"。
 
 输出必须含 `checked-none`——**否则读者无法区分"查过没有"与"根本没查"**。
 
-### 4. 覆盖饱和：把"全面"变成可验收
+### 4. 🎯 覆盖饱和：把"全面"变成可验收
 
 报告 §14 六条判据，缺一条就不许说"已系统覆盖"：
 
@@ -109,7 +128,7 @@ v2.0 只有九层追问链，它是**纵切**——把一个对象顺着一串�
 5. **交互检查**：dominant/major 因素两两交互已查
 6. **分层检查**：≥2 个关键分层是否反向
 
-### 5. 维度总纲：14 个问题面（第三套覆盖）
+### 5. 🧭 维度总纲：14 个问题面（第三套覆盖）
 
 前两套管的是"单个问题有多深"和"单个结果的因素类型"，都管不了"**这份调研该回答哪些面**"。投资人问市场，工程师问性能余量，采购问 TCO，法务问合规边界——少一面，报告在某一类读者眼里就是残缺的。
 
@@ -129,7 +148,7 @@ v2.0 只有九层追问链，它是**纵切**——把一个对象顺着一串�
 
 详见 [`references/dimension_outline.md`](ai-sq-universal/references/dimension_outline.md)。
 
-### 6. 引用到句：证据的最小可核验单位
+### 6. 🔍 引用到句：证据的最小可核验单位
 
 "有来源"不够。报告里最像证据、最不可靠的就是引用列表——**一段编造的引文读起来和真的一模一样，唯一区别是它定位不到**。
 
@@ -148,7 +167,20 @@ v2.0 只有九层追问链，它是**纵切**——把一个对象顺着一串�
 
 ---
 
-## 目录结构
+```mermaid
+flowchart LR
+    A([调研对象]) --> B["纵切 · 九层追问链<br/>深：一条线挖到底"]
+    A --> C["面覆盖 · 14 维总纲<br/>全：决策者会问的问题面"]
+    A --> D["横切 · 因素空间<br/>细：9 轴 + 强制量级"]
+    B --> E{"覆盖饱和<br/>六条判据"}
+    C --> E
+    D --> E
+    E -->|通过| F([结构化报告])
+    E -->|未通过| G["补查缺口"]
+    G --> E
+```
+
+## 🗂️ 目录结构
 
 ```text
 AI-SQ-Universal-Root-Inquiry/
@@ -193,7 +225,7 @@ AI-SQ-Universal-Root-Inquiry/
 
 ---
 
-## 快速开始
+## 🚀 快速开始
 
 ```powershell
 cd plugin
@@ -222,7 +254,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## 运行流程（十三步）
+## ⚙️ 运行流程（十三步）
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -248,7 +280,30 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 证据等级（硬约束）
+```mermaid
+flowchart TD
+    subgraph S1["① 定目的与范围"]
+        A1[INIT] --> A2[BRIEF] --> A3[AMBIGUITY_CHECK] --> A4[SCOPE]
+    end
+    subgraph S2["② 定档与规划"]
+        B1[COMPLEXITY] --> B2[PLAN]
+    end
+    subgraph S3["③ 检索与抽取"]
+        C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
+    end
+    subgraph S4["④ 挖全与收敛"]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+    end
+    subgraph S5["⑤ 收口与交付"]
+        E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
+    end
+    A4 --> B1
+    B2 --> C1
+    C3 --> D1
+    D3 --> E1
+```
+
+## 📊 证据等级（硬约束）
 
 | 等级 | 含义 | 用途 |
 |---|---|---|
@@ -261,7 +316,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 停止规则
+## 🛑 停止规则
 
 节点级九条（证据闭合 / 两轮无新信息 / 边际增益低 / 预算 / 只剩 C-D / 冲突不可消解 / 高风险需复核 / 超出检索范围 / 歧义未消解）。
 全局：高优先级节点全关 **且** 六条覆盖判据满足，或预算耗尽并写明缺口。
@@ -270,14 +325,14 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 报告：§0 + 十四节（§1–§14），交付 Word
+## 📄 报告：§0 + 十四节（§1–§14），交付 Word
 
 写作在 Markdown（模型好改），**交付是 Word**（读者要打开）。`scripts/build_docx.py` 从同一份 md 生成 docx：封面、目录、页眉页脚、斑马纹表格、可点击引用；另出 JSON 供机检。**禁止手工另存 Word**——那是文档与结论漂移的根源。v2.4 起报告以 **§0 目的与受益方**开篇，新增 §14 覆盖度与饱和声明——没有它，"全面"只是个形容词。
 模板见 `templates/report.md`，填好的范例见 [`examples/01-bacteriology.md`](ai-sq-universal/examples/01-bacteriology.md)（含因素空间表与"覆盖不完整"的诚实声明）。
 
 ---
 
-## 质量门禁
+## 🚦 质量门禁
 
 ```bash
 python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --complexity 3 --risk high
@@ -287,13 +342,13 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 评测
+## 🧪 评测
 
 13 个案例，覆盖科学、法律、金融、历史、技术、政策、商业、歧义对象、无答案问题、高风险问题，**两个 L3 多因素难例**（同政策两地相反、同菌株不同结局），以及**引用到句难例**（核实公众号二手数字并回溯一手）。每案带 `probes` / `must_show` / `must_not` / `expected_stop` / `complexity`；`must_not` 命中即判 0。
 
 ---
 
-## 设计原则（十二条）
+## 🏛️ 设计原则（十二条）
 
 1. 领域无关内核 + 领域适配包——内核不写死任何领域术语
 2. **先定复杂度档位，再决定展开深度**——防止八股与草率
@@ -310,7 +365,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 失败模式与对策
+## ⚠️ 失败模式与对策
 
 | 失败模式 | 对策 |
 |---|---|
@@ -330,7 +385,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 边界
+## 🚧 边界
 
 - 不做实时行情/天气/比分。
 - 不替代专业判断：医学/法律/金融输出是**信息整理**，不是诊疗/法律/投资意见。
@@ -340,7 +395,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 文档
+## 📚 文档
 
 - [INSTALL.md](INSTALL.md) —— 安装 / 验证 / 排错 / 卸载
 - [ai-sq-universal/SKILL.md](ai-sq-universal/SKILL.md) —— 完整主规范

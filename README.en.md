@@ -10,6 +10,14 @@
   <a href="README.de.md">Deutsch</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
+  <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
+  <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
+  <img src="https://img.shields.io/badge/languages-7-9A7B2E?style=flat-square" alt="languages">
+</p>
+
 > **One-line core**
 > **Root inquiry = question tree × evidence chain × gap recursion × factor space × scope & counterexamples × level validation × coverage saturation × stopping control × structured report.**
 
@@ -17,7 +25,7 @@ Version **2.4.0** · English (en) · MIT · Plain text, no runtime dependencies
 
 ---
 
-## First: what it is not
+## ⚖️ First: what it is not
 
 v2.0 claimed it "applies to every domain." That sentence violated the Skill's own 5th principle — **whenever the word "all" appears, you are obliged to look for counterexamples**. Counterexamples were readily available, so v2.1 withdrew the claim and replaced it with an honest ledger:
 
@@ -32,7 +40,7 @@ Full criteria, the "most misleading point" for each domain, and degradation path
 
 ---
 
-## What it guarantees — and what it does not
+## ✅ What it guarantees — and what it does not
 
 **Guarantees**: conclusions are traceable (ID + verbatim sentence + grade); scope is tested (true for whom, false when); **factors are enumerated** (not "one chain found, hand it in"); stopping has a reason (it distinguishes "finished" from "cannot continue").
 
@@ -40,7 +48,7 @@ Full criteria, the "most misleading point" for each domain, and degradation path
 
 ---
 
-## Core: why three coverage mechanisms
+## 🧩 Core: why three coverage mechanisms
 
 v2.0 had only the nine-layer inquiry chain — a **vertical cut**, digging one object down a single string of questions. But real questions usually involve "many factors acting together." A vertical cut may finish having explored three chains while six other classes of factors were never even imagined.
 
@@ -56,7 +64,7 @@ Acceptance: coverage saturation (6 criteria) → verifiable ("comprehensive" sto
 Citation:  quote-level citation (locator + verbatim) → checkable (every conclusion re-checkable in 30 seconds)
 ```
 
-### 1. Complexity tiers L1–L4: set the tier first, then decide how much to expand
+### 1. 📐 Complexity tiers L1–L4: set the tier first, then decide how much to expand
 
 | Tier | Structural criterion | Mandatory checks |
 |---|---|---|
@@ -72,7 +80,18 @@ Of the five hard rules, two matter most:
 
 One more rule against self-deception: **"no sign reversal found" is not "no sign reversal exists."** Without stratification/interaction checks you have no right to assign L1/L2 — treat it as one tier higher and leave a trace in `gaps`.
 
-### 2. Factor space: enumerate by axis, never from memory
+```mermaid
+flowchart TD
+    S([Assign tier]) --> Q1{"3+ independent<br/>factors?"}
+    Q1 -->|no| L1["L1 single chain<br/>nine-layer chain + counterexamples"]
+    Q1 -->|yes| Q2{"Sign reversal after<br/>stratification?"}
+    Q2 -->|no| L2["L2 multi-factor<br/>factor space + magnitude"]
+    Q2 -->|yes| Q3{"Bidirectional causality<br/>/ lags / regime shift?"}
+    Q3 -->|no| L3["L3 interaction<br/>interaction + strata matrix"]
+    Q3 -->|yes| L4["L4 dynamic system<br/>causal graph + scenarios"]
+```
+
+### 2. 🧮 Factor space: enumerate by axis, never from memory
 
 Walk all nine axes mechanically. Each axis either has factors or says "empty, reason given." A blank and a confirmed absence are two different things.
 
@@ -92,13 +111,13 @@ Every factor must carry `role` (necessary/promoting/threshold/modifying/confound
 
 **Magnitude is mandatory**: `dominant` / `major` / `minor` / `unknown` (unknown must state why). "All the above factors are important and must be considered together" is banned — that sentence carries zero information.
 
-### 3. Interaction and confounding: 15 patterns you must actively compare
+### 3. 🔗 Interaction and confounding: 15 patterns you must actively compare
 
 See [`references/complexity_patterns.md`](ai-sq-universal/references/complexity_patterns.md): confounding, mediation, effect modification, interaction, collider, Simpson's paradox, ecological fallacy, threshold, feedback, lag, path dependence, equifinality, proxy error, selection bias, phase transition. Each entry covers "how to spot it / what to ask / search cues / common misjudgments."
 
 Output must contain `checked-none` — **otherwise readers cannot tell "checked and found none" from "never checked."**
 
-### 4. Coverage saturation: making "comprehensive" auditable
+### 4. 🎯 Coverage saturation: making "comprehensive" auditable
 
 Six criteria in report §14; missing one forfeits the phrase "systematically covered":
 
@@ -109,7 +128,7 @@ Six criteria in report §14; missing one forfeits the phrase "systematically cov
 5. **Interaction check**: pairwise interactions among dominant/major factors examined
 6. **Stratification check**: whether ≥2 key strata reverse
 
-### 5. Dimension outline: 14 question surfaces (the third coverage)
+### 5. 🧭 Dimension outline: 14 question surfaces (the third coverage)
 
 The first two mechanisms govern "how deep is a single question" and "what factor types does a single outcome have." Neither can govern "**which surfaces should this study answer**." An investor asks about market, an engineer about performance headroom, procurement about TCO, legal about compliance boundaries — miss one, and the report is incomplete in the eyes of one class of reader.
 
@@ -129,7 +148,7 @@ Each dimension supplies: must-answer questions / required material / **typical d
 
 See [`references/dimension_outline.md`](ai-sq-universal/references/dimension_outline.md).
 
-### 6. Quote-level citation: the smallest verifiable unit of evidence
+### 6. 🔍 Quote-level citation: the smallest verifiable unit of evidence
 
 "Has a source" is not enough. The most evidence-like and least reliable part of any report is the reference list — **a fabricated quotation reads exactly like a real one; the only difference is that it cannot be located**.
 
@@ -148,7 +167,20 @@ See [`schemas/citation.json`](ai-sq-universal/schemas/citation.json) and [`promp
 
 ---
 
-## Repository layout
+```mermaid
+flowchart LR
+    A([Research object]) --> B["Vertical<br/>nine-layer chain"]
+    A --> C["Facets<br/>14 dimensions"]
+    A --> D["Cross-cut<br/>factor space, 9 axes"]
+    B --> E{"Coverage<br/>saturation"}
+    C --> E
+    D --> E
+    E -->|pass| F([Structured report])
+    E -->|fail| G["Fill the gap"]
+    G --> E
+```
+
+## 🗂️ Repository layout
 
 ```text
 AI-SQ-Universal-Root-Inquiry/
@@ -193,7 +225,7 @@ AI-SQ-Universal-Root-Inquiry/
 
 ---
 
-## Quick start
+## 🚀 Quick start
 
 ```powershell
 cd plugin
@@ -222,7 +254,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## Pipeline (thirteen steps)
+## ⚙️ Pipeline (thirteen steps)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -248,7 +280,30 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## Evidence grades (hard constraint)
+```mermaid
+flowchart TD
+    subgraph S1["1. Purpose and scope"]
+        A1[INIT] --> A2[BRIEF] --> A3[AMBIGUITY_CHECK] --> A4[SCOPE]
+    end
+    subgraph S2["2. Tier and plan"]
+        B1[COMPLEXITY] --> B2[PLAN]
+    end
+    subgraph S3["3. Retrieve and extract"]
+        C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
+    end
+    subgraph S4["4. Expand and converge"]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+    end
+    subgraph S5["5. Close and deliver"]
+        E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
+    end
+    A4 --> B1
+    B2 --> C1
+    C3 --> D1
+    D3 --> E1
+```
+
+## 📊 Evidence grades (hard constraint)
 
 | Grade | Meaning | Use |
 |---|---|---|
@@ -261,7 +316,7 @@ Domain packs may **refine** these grades but may not downgrade them wholesale. N
 
 ---
 
-## Stopping rules
+## 🛑 Stopping rules
 
 Node level, nine conditions (evidence closure / two rounds with no new information / low marginal gain / budget / only C–D left / irreconcilable conflict / high risk requiring review / beyond retrieval scope / ambiguity unresolved).
 Global: all high-priority nodes closed **and** the six coverage criteria met, or budget exhausted with gaps documented.
@@ -270,7 +325,7 @@ Global: all high-priority nodes closed **and** the six coverage criteria met, or
 
 ---
 
-## Report: §0 + fourteen sections (§1–§14), delivered as Word
+## 📄 Report: §0 + fourteen sections (§1–§14), delivered as Word
 
 Authoring happens in Markdown (models edit it easily); **delivery is Word** (readers need to open it). `scripts/build_docx.py` renders the same markdown into a docx: cover, TOC, header/footer, zebra-striped tables, clickable citations; plus JSON for machine checks. **Never hand-save as Word** — that is the root cause of documents drifting away from their conclusions. Since v2.4 the report opens with **§0 Purpose and Stakeholders**, and adds §14 Coverage and Saturation Statement — without it, "comprehensive" is just an adjective.
 
@@ -278,7 +333,7 @@ Template at `templates/report.md`; a filled example at [`examples/01-bacteriolog
 
 ---
 
-## Quality gate
+## 🚦 Quality gate
 
 ```bash
 python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --complexity 3 --risk high
@@ -288,13 +343,13 @@ Checks scale with complexity: L2 checks factors and magnitudes; L3 checks intera
 
 ---
 
-## Evaluation
+## 🧪 Evaluation
 
 13 cases spanning science, law, finance, history, technology, policy, business, ambiguous objects, unanswerable questions, and high-risk questions — including **two hard L3 multi-factor cases** (same policy, opposite outcomes in two regions; same strain, different outcomes) and a **quote-level citation case** (verifying a second-hand number from a WeChat account and tracing it back to the primary source). Each case carries `probes` / `must_show` / `must_not` / `expected_stop` / `complexity`; any `must_not` hit scores zero.
 
 ---
 
-## Design principles (twelve)
+## 🏛️ Design principles (twelve)
 
 1. Domain-agnostic kernel + domain adapter packs — the kernel hard-codes no domain terminology
 2. **Set the complexity tier before deciding depth** — prevents boilerplate and carelessness
@@ -311,7 +366,7 @@ Checks scale with complexity: L2 checks factors and magnitudes; L3 checks intera
 
 ---
 
-## Failure modes and countermeasures
+## ⚠️ Failure modes and countermeasures
 
 | Failure mode | Countermeasure |
 |---|---|
@@ -331,7 +386,7 @@ Checks scale with complexity: L2 checks factors and magnitudes; L3 checks intera
 
 ---
 
-## Boundaries
+## 🚧 Boundaries
 
 - No real-time quotes/weather/scores.
 - Does not replace professional judgment: medicine/law/finance outputs are **information organization**, not diagnosis, legal, or investment advice.
@@ -341,7 +396,7 @@ Checks scale with complexity: L2 checks factors and magnitudes; L3 checks intera
 
 ---
 
-## Documentation
+## 📚 Documentation
 
 - [INSTALL.md](INSTALL.md) — install / verify / troubleshoot / uninstall
 - [ai-sq-universal/SKILL.md](ai-sq-universal/SKILL.md) — full main specification

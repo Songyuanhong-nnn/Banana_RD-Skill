@@ -10,6 +10,14 @@
   <a href="README.de.md">Deutsch</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
+  <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
+  <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
+  <img src="https://img.shields.io/badge/languages-7-9A7B2E?style=flat-square" alt="languages">
+</p>
+
 > **一行の核心**
 > **根本追及 = 問題木 × 証拠連鎖 × ギャップ再帰 × 要因空間 × 範囲と反例 × 階層検証 × カバレッジ飽和 × 停止制御 × 構造化レポート。**
 
@@ -17,7 +25,7 @@
 
 ---
 
-## まず明確に：これは何ではないか
+## ⚖️ まず明確に：これは何ではないか
 
 v2.0 は「あらゆる領域に適用できる」と書いていた。その一文は、この Skill 自身の第 5 原則に違反していた——**「すべて」と書いたら反例を探さなければならない**。反例はすぐ見つかったので、v2.1 はその主張を撤回し、正直な一覧表に置き換えた：
 
@@ -32,7 +40,7 @@ v2.0 は「あらゆる領域に適用できる」と書いていた。その一
 
 ---
 
-## 何を保証し、何を保証しないか
+## ✅ 何を保証し、何を保証しないか
 
 **保証する**：結論は追跡可能（ID ＋ 原文文 ＋ 等級）。範囲は検証される（誰に成立し、いつ成立しないか）。**要因は列挙される**（一本の鎖を掘って提出、ではない）。停止には理由がある（「調べ終えた」と「これ以上調べられない」を区別する）。
 
@@ -40,7 +48,7 @@ v2.0 は「あらゆる領域に適用できる」と書いていた。その一
 
 ---
 
-## 核心：なぜ三つのカバレッジ機構が必要か
+## 🧩 核心：なぜ三つのカバレッジ機構が必要か
 
 v2.0 には九層の追及鎖しかなく、それは**縦切り**——一つの対象を一連の問いに沿って底まで掘るものだった。しかし現実の問いはたいてい「多くの要因が同時に作用する」ものだ。縦切りを走り終えても三本の鎖しか掘れておらず、残り六種類の要因はそもそも思いつかれていない、ということが起きる。
 
@@ -56,7 +64,7 @@ v2.0 には九層の追及鎖しかなく、それは**縦切り**——一つ�
 引用：文単位引用（位置＋原文）──→ 照合可能（各結論を 30 秒で再確認）
 ```
 
-### 1. 複雑度ティア L1–L4：まず段階を決め、それから展開量を決める
+### 1. 📐 複雑度ティア L1–L4：まず段階を決め、それから展開量を決める
 
 | ティア | 構造的基準 | 必須チェック |
 |---|---|---|
@@ -72,7 +80,18 @@ v2.0 には九層の追及鎖しかなく、それは**縦切り**——一つ�
 
 もう一つ、自己欺瞞への特効薬：**「符号反転が見つからなかった」は「符号反転がない」ではない**。層別・交互作用チェックをしていないなら L1/L2 と判定する資格はない。一段上のティアとして扱い、`gaps` に痕跡を残す。
 
-### 2. 要因空間：軸ごとに列挙し、記憶に頼らない
+```mermaid
+flowchart TD
+    S([Assign tier]) --> Q1{"3+ independent<br/>factors?"}
+    Q1 -->|no| L1["L1 single chain<br/>nine-layer chain + counterexamples"]
+    Q1 -->|yes| Q2{"Sign reversal after<br/>stratification?"}
+    Q2 -->|no| L2["L2 multi-factor<br/>factor space + magnitude"]
+    Q2 -->|yes| Q3{"Bidirectional causality<br/>/ lags / regime shift?"}
+    Q3 -->|no| L3["L3 interaction<br/>interaction + strata matrix"]
+    Q3 -->|yes| L4["L4 dynamic system<br/>causal graph + scenarios"]
+```
+
+### 2. 🧮 要因空間：軸ごとに列挙し、記憶に頼らない
 
 九軸を機械的に一度通す。各軸は要因を持つか、「空、理由」を書くかのどちらか。空白と「確認した上での不在」は別物だ。
 
@@ -92,13 +111,13 @@ v2.0 には九層の追及鎖しかなく、それは**縦切り**——一つ�
 
 **量級は必須**：`dominant` / `major` / `minor` / `unknown`（unknown は理由必須）。「以上の要因はすべて重要であり、総合的に考慮する必要がある」は禁止——その文の情報量はゼロだ。
 
-### 3. 交互作用と交絡：能動的に比較すべき 15 パターン
+### 3. 🔗 交互作用と交絡：能動的に比較すべき 15 パターン
 
 [`references/complexity_patterns.md`](ai-sq-universal/references/complexity_patterns.md) を参照：交絡、媒介、効果修飾、交互作用、コライダー、Simpson、生態学的誤謬、閾値、フィードバック、遅延、経路依存、等価経路、代理誤差、選択バイアス、相転移。各項目に「見分け方／必ず問うこと／検索の手がかり／よくある誤判定」を含む。
 
 出力には `checked-none` を必ず含める——**そうでなければ読者は「調べて無かった」と「そもそも調べていない」を区別できない**。
 
-### 4. カバレッジ飽和：「全面」を検証可能にする
+### 4. 🎯 カバレッジ飽和：「全面」を検証可能にする
 
 レポート §14 の六基準。一つでも欠ければ「体系的にカバーした」と言ってはならない：
 
@@ -109,7 +128,7 @@ v2.0 には九層の追及鎖しかなく、それは**縦切り**——一つ�
 5. **交互作用チェック**：dominant/major 要因の全ペアを確認済み
 6. **層別チェック**：重要な層別 ≥2 が逆転するか
 
-### 5. 次元総綱：14 の問いの面（第三のカバレッジ）
+### 5. 🧭 次元総綱：14 の問いの面（第三のカバレッジ）
 
 最初の二つは「単一の問いがどれだけ深いか」と「単一の結果がどんな要因類型を持つか」を扱う。どちらも「**この調査はどの面に答えるべきか**」は扱えない。投資家は市場を、技術者は性能余裕を、購買は TCO を、法務はコンプライアンス境界を問う——一面欠ければ、その種の読者にとってレポートは不完全になる。
 
@@ -129,7 +148,7 @@ v2.0 には九層の追及鎖しかなく、それは**縦切り**——一つ�
 
 詳細は [`references/dimension_outline.md`](ai-sq-universal/references/dimension_outline.md)。
 
-### 6. 文単位引用：証拠の最小検証単位
+### 6. 🔍 文単位引用：証拠の最小検証単位
 
 「出典がある」では足りない。レポートの中で最も証拠らしく、最も信頼できないのが参考文献一覧だ——**捏造された引用文は本物とまったく同じように読める。唯一の違いは位置を特定できないことだけ**。
 
@@ -148,7 +167,20 @@ v2.0 には九層の追及鎖しかなく、それは**縦切り**——一つ�
 
 ---
 
-## リポジトリ構成
+```mermaid
+flowchart LR
+    A([Research object]) --> B["Vertical<br/>nine-layer chain"]
+    A --> C["Facets<br/>14 dimensions"]
+    A --> D["Cross-cut<br/>factor space, 9 axes"]
+    B --> E{"Coverage<br/>saturation"}
+    C --> E
+    D --> E
+    E -->|pass| F([Structured report])
+    E -->|fail| G["Fill the gap"]
+    G --> E
+```
+
+## 🗂️ リポジトリ構成
 
 ```text
 AI-SQ-Universal-Root-Inquiry/
@@ -173,7 +205,7 @@ AI-SQ-Universal-Root-Inquiry/
 
 ---
 
-## クイックスタート
+## 🚀 クイックスタート
 
 ```powershell
 cd plugin
@@ -202,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## 実行フロー（十三ステップ）
+## ⚙️ 実行フロー（十三ステップ）
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -228,7 +260,30 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 証拠等級（ハード制約）
+```mermaid
+flowchart TD
+    subgraph S1["1. Purpose and scope"]
+        A1[INIT] --> A2[BRIEF] --> A3[AMBIGUITY_CHECK] --> A4[SCOPE]
+    end
+    subgraph S2["2. Tier and plan"]
+        B1[COMPLEXITY] --> B2[PLAN]
+    end
+    subgraph S3["3. Retrieve and extract"]
+        C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
+    end
+    subgraph S4["4. Expand and converge"]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+    end
+    subgraph S5["5. Close and deliver"]
+        E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
+    end
+    A4 --> B1
+    B2 --> C1
+    C3 --> D1
+    D3 --> E1
+```
+
+## 📊 証拠等級（ハード制約）
 
 | 等級 | 意味 | 用途 |
 |---|---|---|
@@ -241,7 +296,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 停止規則
+## 🛑 停止規則
 
 ノードレベル九条件（証拠閉合／二ラウンド新情報なし／限界利得が低い／予算／C–D のみ／衝突が解消不能／高リスクで要再確認／検索範囲外／曖昧性未解消）。
 全体：高優先ノードがすべて閉じ、**かつ**六つのカバレッジ基準を満たす。または予算枯渇でギャップを明記。
@@ -250,7 +305,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## レポート：§0 ＋十四節（§1–§14）、Word で納品
+## 📄 レポート：§0 ＋十四節（§1–§14）、Word で納品
 
 執筆は Markdown（モデルが直しやすい）、**納品は Word**（読者が開く）。`scripts/build_docx.py` が同じ md から docx を生成：表紙、目次、ヘッダ・フッタ、縞模様の表、クリック可能な引用。機械検査用の JSON も出力。**手作業で Word に名前を付けて保存することは禁止**——それが文書と結論の乖離の根源だ。v2.4 からレポートは **§0 目的と受益者**で始まり、§14 カバレッジと飽和の宣言を追加——これがないと「全面」はただの形容詞になる。
 
@@ -258,7 +313,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 品質ゲート
+## 🚦 品質ゲート
 
 ```bash
 python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --complexity 3 --risk high
@@ -268,13 +323,13 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 評価
+## 🧪 評価
 
 13 ケース。科学、法律、金融、歴史、技術、政策、ビジネス、曖昧な対象、答えのない問い、高リスクの問いをカバーし、**二つの難しい L3 多要因ケース**（同一政策で二地域が逆、同一菌株で転帰が異なる）と**文単位引用の難ケース**（WeChat の二次数字を検証し一次へ遡る）を含む。各ケースに `probes` / `must_show` / `must_not` / `expected_stop` / `complexity` を付し、`must_not` に該当すれば 0 点。
 
 ---
 
-## 設計原則（十二）
+## 🏛️ 設計原則（十二）
 
 1. 領域非依存の核＋領域アダプタパック——核に領域用語を書き込まない
 2. **先に複雑度ティアを決め、それから深さを決める**——八股と粗雑の防止
@@ -291,7 +346,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 失敗モードと対策
+## ⚠️ 失敗モードと対策
 
 | 失敗モード | 対策 |
 |---|---|
@@ -311,7 +366,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 境界
+## 🚧 境界
 
 - リアルタイムの相場／天気／スコアは扱わない。
 - 専門的判断を代替しない：医学／法律／金融の出力は**情報整理**であり、診療・法律・投資の意見ではない。
@@ -321,7 +376,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## ドキュメント
+## 📚 ドキュメント
 
 - [INSTALL.md](INSTALL.md) — インストール／検証／トラブルシュート／アンインストール
 - [ai-sq-universal/SKILL.md](ai-sq-universal/SKILL.md) — 完全な主仕様

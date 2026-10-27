@@ -10,6 +10,14 @@
   <a href="README.de.md">Deutsch</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
+  <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
+  <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
+  <img src="https://img.shields.io/badge/languages-7-9A7B2E?style=flat-square" alt="languages">
+</p>
+
 > **Núcleo en una línea**
 > **Indagación radical = árbol de preguntas × cadena de evidencia × recursión de vacíos × espacio de factores × alcance y contraejemplos × validación de niveles × saturación de cobertura × control de parada × informe estructurado.**
 
@@ -17,7 +25,7 @@ Versión **2.4.0** · Español (es) · MIT · Texto plano, sin dependencias de e
 
 ---
 
-## Primero, lo que no es
+## ⚖️ Primero, lo que no es
 
 La v2.0 afirmaba que «se aplica a todos los dominios». Esa frase violaba el quinto principio del propio Skill — **cuando aparece la palabra «todos», estás obligado a buscar contraejemplos**. Los contraejemplos aparecieron de inmediato, así que la v2.1 retiró la afirmación y la sustituyó por un balance honesto:
 
@@ -32,7 +40,7 @@ Criterios completos, el «punto más engañoso» de cada dominio y las rutas de 
 
 ---
 
-## Qué garantiza y qué no
+## ✅ Qué garantiza y qué no
 
 **Garantiza**: conclusiones rastreables (ID + frase textual + grado); alcance comprobado (para quién es válido, cuándo no lo es); **factores enumerados** (no «encontré una cadena y entrego»); la parada tiene motivo (distingue «terminé» de «no puedo seguir»).
 
@@ -40,7 +48,7 @@ Criterios completos, el «punto más engañoso» de cada dominio y las rutas de 
 
 ---
 
-## Núcleo: por qué hacen falta tres mecanismos de cobertura
+## 🧩 Núcleo: por qué hacen falta tres mecanismos de cobertura
 
 La v2.0 solo tenía la cadena de nueve capas, que es un **corte vertical**: excavar un objeto hacia abajo siguiendo una sola hebra de preguntas. Pero los problemas reales suelen implicar «muchos factores actuando a la vez». Un corte vertical puede terminar habiendo explorado tres cadenas mientras otras seis clases de factores nunca fueron siquiera imaginadas.
 
@@ -56,7 +64,7 @@ Aceptación: saturación de cobertura (6 criterios) → verificable («exhaustiv
 Citación:   cita a nivel de frase (ubicación + textual) → comprobable (cada conclusión revisable en 30 segundos)
 ```
 
-### 1. Niveles de complejidad L1–L4: fijar el nivel antes de decidir cuánto expandir
+### 1. 📐 Niveles de complejidad L1–L4: fijar el nivel antes de decidir cuánto expandir
 
 | Nivel | Criterio estructural | Comprobaciones obligatorias |
 |---|---|---|
@@ -72,7 +80,18 @@ De las cinco reglas duras, dos son las clave:
 
 Otra regla contra el autoengaño: **«no encontré inversión de signo» no es «no hay inversión de signo»**. Sin comprobaciones de estratificación/interacción no tienes derecho a asignar L1/L2: trátalo como un nivel superior y deja constancia en `gaps`.
 
-### 2. Espacio de factores: enumerar por eje, nunca de memoria
+```mermaid
+flowchart TD
+    S([Assign tier]) --> Q1{"3+ independent<br/>factors?"}
+    Q1 -->|no| L1["L1 single chain<br/>nine-layer chain + counterexamples"]
+    Q1 -->|yes| Q2{"Sign reversal after<br/>stratification?"}
+    Q2 -->|no| L2["L2 multi-factor<br/>factor space + magnitude"]
+    Q2 -->|yes| Q3{"Bidirectional causality<br/>/ lags / regime shift?"}
+    Q3 -->|no| L3["L3 interaction<br/>interaction + strata matrix"]
+    Q3 -->|yes| L4["L4 dynamic system<br/>causal graph + scenarios"]
+```
+
+### 2. 🧮 Espacio de factores: enumerar por eje, nunca de memoria
 
 Recorre los nueve ejes mecánicamente. Cada eje o tiene factores, o dice «vacío, con motivo». Un hueco en blanco y una ausencia confirmada son cosas distintas.
 
@@ -92,13 +111,13 @@ Cada factor debe llevar `role` (necesario/promotor/umbral/modificador/confusor),
 
 **La magnitud es obligatoria**: `dominant` / `major` / `minor` / `unknown` (unknown debe explicar por qué). Está prohibido «todos los factores anteriores son importantes y deben considerarse en conjunto»: esa frase tiene cero información.
 
-### 3. Interacción y confusión: 15 patrones que debes comparar activamente
+### 3. 🔗 Interacción y confusión: 15 patrones que debes comparar activamente
 
 Ver [`references/complexity_patterns.md`](ai-sq-universal/references/complexity_patterns.md): confusión, mediación, modificación del efecto, interacción, colisionador, paradoja de Simpson, falacia ecológica, umbral, retroalimentación, retardo, dependencia de la trayectoria, equifinalidad, error de proxy, sesgo de selección, transición de fase. Cada entrada incluye «cómo detectarlo / qué preguntar / pistas de búsqueda / errores frecuentes».
 
 La salida debe contener `checked-none` — **de lo contrario el lector no puede distinguir «lo comprobé y no había» de «nunca lo comprobé»**.
 
-### 4. Saturación de cobertura: hacer «exhaustivo» auditable
+### 4. 🎯 Saturación de cobertura: hacer «exhaustivo» auditable
 
 Seis criterios en el §14 del informe; si falta uno, no puedes decir «cobertura sistemática»:
 
@@ -109,7 +128,7 @@ Seis criterios en el §14 del informe; si falta uno, no puedes decir «cobertura
 5. **Comprobación de interacción**: pares de factores dominant/major revisados
 6. **Comprobación de estratificación**: si ≥2 estratos clave se invierten
 
-### 5. Esquema de dimensiones: 14 superficies de pregunta (la tercera cobertura)
+### 5. 🧭 Esquema de dimensiones: 14 superficies de pregunta (la tercera cobertura)
 
 Los dos primeros mecanismos gobiernan «cuán profunda es una pregunta» y «qué tipos de factores tiene un resultado». Ninguno gobierna «**qué superficies debe responder este estudio**». El inversor pregunta por el mercado, el ingeniero por el margen de rendimiento, compras por el TCO, legal por los límites de cumplimiento: si falta una, el informe queda incompleto ante una clase de lector.
 
@@ -129,7 +148,7 @@ Cada dimensión aporta: preguntas obligatorias / material necesario / **dificult
 
 Ver [`references/dimension_outline.md`](ai-sq-universal/references/dimension_outline.md).
 
-### 6. Cita a nivel de frase: la unidad mínima verificable de evidencia
+### 6. 🔍 Cita a nivel de frase: la unidad mínima verificable de evidencia
 
 «Tiene fuente» no basta. La parte más parecida a evidencia y menos fiable de un informe es la lista de referencias: **una cita fabricada se lee exactamente igual que una real; la única diferencia es que no se puede localizar**.
 
@@ -148,7 +167,20 @@ Ver [`schemas/citation.json`](ai-sq-universal/schemas/citation.json) y [`prompts
 
 ---
 
-## Estructura del repositorio
+```mermaid
+flowchart LR
+    A([Research object]) --> B["Vertical<br/>nine-layer chain"]
+    A --> C["Facets<br/>14 dimensions"]
+    A --> D["Cross-cut<br/>factor space, 9 axes"]
+    B --> E{"Coverage<br/>saturation"}
+    C --> E
+    D --> E
+    E -->|pass| F([Structured report])
+    E -->|fail| G["Fill the gap"]
+    G --> E
+```
+
+## 🗂️ Estructura del repositorio
 
 ```text
 AI-SQ-Universal-Root-Inquiry/
@@ -173,7 +205,7 @@ AI-SQ-Universal-Root-Inquiry/
 
 ---
 
-## Inicio rápido
+## 🚀 Inicio rápido
 
 ```powershell
 cd plugin
@@ -202,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## Flujo de ejecución (trece pasos)
+## ⚙️ Flujo de ejecución (trece pasos)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -228,7 +260,30 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## Grados de evidencia (restricción dura)
+```mermaid
+flowchart TD
+    subgraph S1["1. Purpose and scope"]
+        A1[INIT] --> A2[BRIEF] --> A3[AMBIGUITY_CHECK] --> A4[SCOPE]
+    end
+    subgraph S2["2. Tier and plan"]
+        B1[COMPLEXITY] --> B2[PLAN]
+    end
+    subgraph S3["3. Retrieve and extract"]
+        C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
+    end
+    subgraph S4["4. Expand and converge"]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+    end
+    subgraph S5["5. Close and deliver"]
+        E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
+    end
+    A4 --> B1
+    B2 --> C1
+    C3 --> D1
+    D3 --> E1
+```
+
+## 📊 Grados de evidencia (restricción dura)
 
 | Grado | Significado | Uso |
 |---|---|---|
@@ -241,7 +296,7 @@ Los paquetes de dominio pueden **refinar** los grados, pero no degradarlos en bl
 
 ---
 
-## Reglas de parada
+## 🛑 Reglas de parada
 
 A nivel de nodo, nueve condiciones (cierre de evidencia / dos rondas sin información nueva / ganancia marginal baja / presupuesto / solo quedan C–D / conflicto irreconciliable / alto riesgo que exige revisión / fuera del alcance de búsqueda / ambigüedad no resuelta).
 Global: todos los nodos de alta prioridad cerrados **y** los seis criterios de cobertura cumplidos, o presupuesto agotado con los vacíos documentados.
@@ -250,7 +305,7 @@ Global: todos los nodos de alta prioridad cerrados **y** los seis criterios de c
 
 ---
 
-## Informe: §0 + catorce secciones (§1–§14), entregado en Word
+## 📄 Informe: §0 + catorce secciones (§1–§14), entregado en Word
 
 La escritura ocurre en Markdown (los modelos lo editan fácil); **la entrega es Word** (el lector necesita abrirlo). `scripts/build_docx.py` convierte el mismo markdown en docx: portada, índice, encabezado/pie, tablas con franjas, citas clicables; además genera JSON para comprobaciones automáticas. **Nunca guardes a mano como Word**: esa es la raíz de que el documento se separe de sus conclusiones. Desde la v2.4 el informe abre con **§0 Propósito e interesados** y añade el §14 Declaración de cobertura y saturación: sin él, «exhaustivo» es solo un adjetivo.
 
@@ -258,7 +313,7 @@ Plantilla en `templates/report.md`; ejemplo completo en [`examples/01-bacteriolo
 
 ---
 
-## Control de calidad
+## 🚦 Control de calidad
 
 ```bash
 python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --complexity 3 --risk high
@@ -268,13 +323,13 @@ Las comprobaciones escalan con la complejidad: L2 revisa factores y magnitudes; 
 
 ---
 
-## Evaluación
+## 🧪 Evaluación
 
 13 casos que cubren ciencia, derecho, finanzas, historia, tecnología, política, negocio, objetos ambiguos, preguntas sin respuesta y preguntas de alto riesgo, incluidos **dos casos L3 multifactor difíciles** (misma política con resultados opuestos en dos regiones; misma cepa con desenlaces distintos) y un **caso difícil de cita a nivel de frase** (verificar un dato secundario de una cuenta de WeChat y remontarlo a la fuente primaria). Cada caso lleva `probes` / `must_show` / `must_not` / `expected_stop` / `complexity`; cualquier acierto en `must_not` puntúa cero.
 
 ---
 
-## Principios de diseño (doce)
+## 🏛️ Principios de diseño (doce)
 
 1. Núcleo agnóstico al dominio + paquetes adaptadores: el núcleo no codifica terminología de ningún dominio
 2. **Fijar el nivel de complejidad antes de decidir la profundidad**: evita el formulismo y la superficialidad
@@ -291,7 +346,7 @@ Las comprobaciones escalan con la complejidad: L2 revisa factores y magnitudes; 
 
 ---
 
-## Modos de fallo y contramedidas
+## ⚠️ Modos de fallo y contramedidas
 
 | Modo de fallo | Contramedida |
 |---|---|
@@ -311,7 +366,7 @@ Las comprobaciones escalan con la complejidad: L2 revisa factores y magnitudes; 
 
 ---
 
-## Límites
+## 🚧 Límites
 
 - No cubre cotizaciones, clima ni resultados en tiempo real.
 - No sustituye el juicio profesional: las salidas de medicina/derecho/finanzas son **organización de información**, no diagnóstico, asesoría legal ni recomendación de inversión.
@@ -321,7 +376,7 @@ Las comprobaciones escalan con la complejidad: L2 revisa factores y magnitudes; 
 
 ---
 
-## Documentación
+## 📚 Documentación
 
 - [INSTALL.md](INSTALL.md) — instalación / verificación / diagnóstico / desinstalación
 - [ai-sq-universal/SKILL.md](ai-sq-universal/SKILL.md) — especificación principal completa

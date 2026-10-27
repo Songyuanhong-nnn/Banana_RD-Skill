@@ -10,6 +10,14 @@
   <a href="README.de.md">Deutsch</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
+  <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
+  <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
+  <img src="https://img.shields.io/badge/languages-7-9A7B2E?style=flat-square" alt="languages">
+</p>
+
 > **한 줄 핵심**
 > **근본 추적 = 질문 트리 × 증거 사슬 × 갭 재귀 × 요인 공간 × 범위와 반례 × 계층 검증 × 커버리지 포화 × 정지 제어 × 구조화 보고서.**
 
@@ -17,7 +25,7 @@
 
 ---
 
-## 먼저 분명히: 이것이 아닌 것
+## ⚖️ 먼저 분명히: 이것이 아닌 것
 
 v2.0은 "모든 영역에 적용된다"고 썼다. 그 문장은 이 Skill 자신의 5번째 원칙을 위반했다——**"모든"이라고 쓰면 반례를 찾아야 한다**. 반례는 바로 나왔고, 그래서 v2.1은 그 주장을 철회하고 정직한 목록으로 바꿨다:
 
@@ -32,7 +40,7 @@ v2.0은 "모든 영역에 적용된다"고 썼다. 그 문장은 이 Skill 자�
 
 ---
 
-## 무엇을 보장하고, 무엇을 보장하지 않는가
+## ✅ 무엇을 보장하고, 무엇을 보장하지 않는가
 
 **보장**: 결론은 추적 가능(ID ＋ 원문 문장 ＋ 등급). 범위는 검증된다(누구에게 성립하고 언제 성립하지 않는가). **요인은 열거된다**(사슬 하나 파고 제출하는 것이 아니다). 정지에는 이유가 있다("다 조사했다"와 "더는 못 한다"를 구분한다).
 
@@ -40,7 +48,7 @@ v2.0은 "모든 영역에 적용된다"고 썼다. 그 문장은 이 Skill 자�
 
 ---
 
-## 핵심: 왜 세 가지 커버리지 기제가 필요한가
+## 🧩 핵심: 왜 세 가지 커버리지 기제가 필요한가
 
 v2.0에는 9층 추적 사슬만 있었고, 그것은 **세로 절단**——하나의 대상을 질문 한 줄로 끝까지 파는 것이다. 그러나 실제 문제는 대개 "여러 요인이 함께 작용"한다. 세로 절단을 끝내도 사슬 세 개만 팠고 나머지 여섯 종류의 요인은 아예 떠올리지 못한 경우가 생긴다.
 
@@ -56,7 +64,7 @@ v2.0에는 9층 추적 사슬만 있었고, 그것은 **세로 절단**——하
 인용: 문장 단위 인용(위치＋원문)──→ 확인 가능 (모든 결론을 30초에 재확인)
 ```
 
-### 1. 복잡도 티어 L1–L4: 먼저 등급을 정하고, 그다음 전개량을 정한다
+### 1. 📐 복잡도 티어 L1–L4: 먼저 등급을 정하고, 그다음 전개량을 정한다
 
 | 티어 | 구조적 기준 | 필수 점검 |
 |---|---|---|
@@ -72,7 +80,18 @@ v2.0에는 9층 추적 사슬만 있었고, 그것은 **세로 절단**——하
 
 자기기만에 대한 특효약 하나 더: **"부호 반전을 찾지 못했다"는 "부호 반전이 없다"가 아니다**. 층화·상호작용 점검을 하지 않았다면 L1/L2로 판정할 자격이 없다. 한 단계 높은 티어로 다루고 `gaps`에 흔적을 남긴다.
 
-### 2. 요인 공간: 축별로 열거하고, 기억에 의존하지 않는다
+```mermaid
+flowchart TD
+    S([Assign tier]) --> Q1{"3+ independent<br/>factors?"}
+    Q1 -->|no| L1["L1 single chain<br/>nine-layer chain + counterexamples"]
+    Q1 -->|yes| Q2{"Sign reversal after<br/>stratification?"}
+    Q2 -->|no| L2["L2 multi-factor<br/>factor space + magnitude"]
+    Q2 -->|yes| Q3{"Bidirectional causality<br/>/ lags / regime shift?"}
+    Q3 -->|no| L3["L3 interaction<br/>interaction + strata matrix"]
+    Q3 -->|yes| L4["L4 dynamic system<br/>causal graph + scenarios"]
+```
+
+### 2. 🧮 요인 공간: 축별로 열거하고, 기억에 의존하지 않는다
 
 9개 축을 기계적으로 한 번 훑는다. 각 축은 요인을 가지거나 "비어 있음, 이유"를 쓴다. 공백과 "확인 후 없음"은 다른 것이다.
 
@@ -92,13 +111,13 @@ v2.0에는 9층 추적 사슬만 있었고, 그것은 **세로 절단**——하
 
 **크기는 하드 요건**: `dominant` / `major` / `minor` / `unknown`(unknown은 이유 필수). "위 요인은 모두 중요하므로 종합적으로 고려해야 한다"는 금지——그 문장의 정보량은 0이다.
 
-### 3. 상호작용과 교란: 능동적으로 비교해야 할 15개 패턴
+### 3. 🔗 상호작용과 교란: 능동적으로 비교해야 할 15개 패턴
 
 [`references/complexity_patterns.md`](ai-sq-universal/references/complexity_patterns.md) 참조: 교란, 매개, 효과 수정, 상호작용, 콜라이더, Simpson, 생태학적 오류, 임계값, 피드백, 지연, 경로 의존, 등가 경로, 대리 오차, 선택 편향, 상전이. 각 항목에 "식별 방법 / 반드시 물을 것 / 검색 단서 / 흔한 오판" 포함.
 
 출력에는 반드시 `checked-none`이 포함되어야 한다——**그렇지 않으면 독자는 "조사했으나 없음"과 "아예 조사하지 않음"을 구분할 수 없다**.
 
-### 4. 커버리지 포화: "전면"을 검증 가능하게 만들기
+### 4. 🎯 커버리지 포화: "전면"을 검증 가능하게 만들기
 
 보고서 §14의 6가지 기준. 하나라도 빠지면 "체계적으로 커버했다"고 말할 수 없다:
 
@@ -109,7 +128,7 @@ v2.0에는 9층 추적 사슬만 있었고, 그것은 **세로 절단**——하
 5. **상호작용 점검**: dominant/major 요인의 모든 쌍 확인 완료
 6. **층화 점검**: 핵심 층화 ≥2가 역전하는지
 
-### 5. 차원 총강: 14개 질문 면(세 번째 커버리지)
+### 5. 🧭 차원 총강: 14개 질문 면(세 번째 커버리지)
 
 앞의 둘은 "단일 질문이 얼마나 깊은가"와 "단일 결과가 어떤 요인 유형을 갖는가"를 다룬다. 둘 다 "**이 조사가 어떤 면에 답해야 하는가**"는 다루지 못한다. 투자자는 시장을, 엔지니어는 성능 여유를, 구매는 TCO를, 법무는 컴플라이언스 경계를 묻는다——한 면이 빠지면 그 부류의 독자에게 보고서는 불완전하다.
 
@@ -129,7 +148,7 @@ v2.0에는 9층 추적 사슬만 있었고, 그것은 **세로 절단**——하
 
 자세한 내용은 [`references/dimension_outline.md`](ai-sq-universal/references/dimension_outline.md).
 
-### 6. 문장 단위 인용: 증거의 최소 검증 단위
+### 6. 🔍 문장 단위 인용: 증거의 최소 검증 단위
 
 "출처가 있다"로는 부족하다. 보고서에서 가장 증거 같으면서 가장 신뢰할 수 없는 것이 인용 목록이다——**조작된 인용문은 진짜와 똑같이 읽힌다. 유일한 차이는 위치를 특정할 수 없다는 것뿐**이다.
 
@@ -148,7 +167,20 @@ v2.0에는 9층 추적 사슬만 있었고, 그것은 **세로 절단**——하
 
 ---
 
-## 저장소 구조
+```mermaid
+flowchart LR
+    A([Research object]) --> B["Vertical<br/>nine-layer chain"]
+    A --> C["Facets<br/>14 dimensions"]
+    A --> D["Cross-cut<br/>factor space, 9 axes"]
+    B --> E{"Coverage<br/>saturation"}
+    C --> E
+    D --> E
+    E -->|pass| F([Structured report])
+    E -->|fail| G["Fill the gap"]
+    G --> E
+```
+
+## 🗂️ 저장소 구조
 
 ```text
 AI-SQ-Universal-Root-Inquiry/
@@ -173,7 +205,7 @@ AI-SQ-Universal-Root-Inquiry/
 
 ---
 
-## 빠른 시작
+## 🚀 빠른 시작
 
 ```powershell
 cd plugin
@@ -202,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## 실행 흐름(13단계)
+## ⚙️ 실행 흐름(13단계)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -228,7 +260,30 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 증거 등급(하드 제약)
+```mermaid
+flowchart TD
+    subgraph S1["1. Purpose and scope"]
+        A1[INIT] --> A2[BRIEF] --> A3[AMBIGUITY_CHECK] --> A4[SCOPE]
+    end
+    subgraph S2["2. Tier and plan"]
+        B1[COMPLEXITY] --> B2[PLAN]
+    end
+    subgraph S3["3. Retrieve and extract"]
+        C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
+    end
+    subgraph S4["4. Expand and converge"]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+    end
+    subgraph S5["5. Close and deliver"]
+        E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
+    end
+    A4 --> B1
+    B2 --> C1
+    C3 --> D1
+    D3 --> E1
+```
+
+## 📊 증거 등급(하드 제약)
 
 | 등급 | 의미 | 용도 |
 |---|---|---|
@@ -241,7 +296,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 정지 규칙
+## 🛑 정지 규칙
 
 노드 수준 9조건(증거 폐합 / 두 라운드 새 정보 없음 / 한계 이득 낮음 / 예산 / C–D만 남음 / 충돌 해소 불가 / 고위험 재확인 필요 / 검색 범위 초과 / 모호성 미해소).
 전체: 고우선 노드가 모두 닫히고 **그리고** 6개 커버리지 기준을 충족, 또는 예산 소진과 갭 명시.
@@ -250,7 +305,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 보고서: §0 ＋14절(§1–§14), Word로 납품
+## 📄 보고서: §0 ＋14절(§1–§14), Word로 납품
 
 집필은 Markdown(모델이 고치기 쉬움), **납품은 Word**(독자가 열어야 함). `scripts/build_docx.py`가 같은 md에서 docx를 생성: 표지, 목차, 머리말·꼬리말, 얼룩무늬 표, 클릭 가능한 인용. 기계 검사용 JSON도 출력. **수작업으로 Word에 다른 이름 저장 금지**——그것이 문서와 결론이 어긋나는 근원이다. v2.4부터 보고서는 **§0 목적과 수혜자**로 시작하고 §14 커버리지·포화 선언을 추가——이것이 없으면 "전면"은 그저 형용사다.
 
@@ -258,7 +313,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## 품질 게이트
+## 🚦 품질 게이트
 
 ```bash
 python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --complexity 3 --risk high
@@ -268,13 +323,13 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 평가
+## 🧪 평가
 
 13개 사례. 과학, 법률, 금융, 역사, 기술, 정책, 비즈니스, 모호한 대상, 답 없는 질문, 고위험 질문을 포괄하며, **두 개의 어려운 L3 다요인 사례**(같은 정책에 두 지역이 반대, 같은 균주에 결과가 다름)와 **문장 단위 인용 난제**(위챗 2차 숫자를 검증하고 1차로 소급)를 포함. 각 사례에 `probes` / `must_show` / `must_not` / `expected_stop` / `complexity`를 붙이고, `must_not` 적중 시 0점.
 
 ---
 
-## 설계 원칙(12)
+## 🏛️ 설계 원칙(12)
 
 1. 영역 무관 커널 ＋ 영역 어댑터 팩——커널에 어떤 영역 용어도 하드코딩하지 않음
 2. **먼저 복잡도 티어를 정하고, 그다음 깊이를 정한다**——상투성과 조잡함 방지
@@ -291,7 +346,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 실패 모드와 대책
+## ⚠️ 실패 모드와 대책
 
 | 실패 모드 | 대책 |
 |---|---|
@@ -311,7 +366,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 경계
+## 🚧 경계
 
 - 실시간 시세/날씨/점수는 다루지 않는다.
 - 전문적 판단을 대체하지 않는다: 의학/법률/금융 출력은 **정보 정리**이며 진료·법률·투자 의견이 아니다.
@@ -321,7 +376,7 @@ python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --co
 
 ---
 
-## 문서
+## 📚 문서
 
 - [INSTALL.md](INSTALL.md) — 설치/검증/문제 해결/제거
 - [ai-sq-universal/SKILL.md](ai-sq-universal/SKILL.md) — 전체 주 규범

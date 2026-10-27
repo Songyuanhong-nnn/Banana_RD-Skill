@@ -10,6 +10,14 @@
   <a href="README.de.md">Deutsch</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
+  <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
+  <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
+  <img src="https://img.shields.io/badge/languages-7-9A7B2E?style=flat-square" alt="languages">
+</p>
+
 > **Noyau en une phrase**
 > **Enquête radicale = arbre de questions × chaîne de preuves × récursion des lacunes × espace des facteurs × portée et contre-exemples × validation des niveaux × saturation de couverture × contrôle d'arrêt × rapport structuré.**
 
@@ -17,7 +25,7 @@ Version **2.4.0** · Français (fr) · MIT · Texte brut, aucune dépendance d'e
 
 ---
 
-## D'abord, ce que ce n'est pas
+## ⚖️ D'abord, ce que ce n'est pas
 
 La v2.0 affirmait qu'il « s'applique à tous les domaines ». Cette phrase violait le 5ᵉ principe du Skill lui-même — **dès que le mot « tous » apparaît, vous êtes tenu de chercher des contre-exemples**. Les contre-exemples étaient disponibles immédiatement ; la v2.1 a donc retiré l'affirmation et l'a remplacée par un bilan honnête :
 
@@ -32,7 +40,7 @@ Critères complets, « point le plus trompeur » de chaque domaine et voies de d
 
 ---
 
-## Ce qu'il garantit — et ce qu'il ne garantit pas
+## ✅ Ce qu'il garantit — et ce qu'il ne garantit pas
 
 **Garantit** : des conclusions traçables (ID + phrase verbatim + grade) ; une portée testée (vrai pour qui, faux quand) ; des **facteurs énumérés** (pas « j'ai creusé une chaîne, je rends ma copie ») ; un arrêt motivé (il distingue « j'ai fini » de « je ne peux pas continuer »).
 
@@ -40,7 +48,7 @@ Critères complets, « point le plus trompeur » de chaque domaine et voies de d
 
 ---
 
-## Cœur : pourquoi trois mécanismes de couverture
+## 🧩 Cœur : pourquoi trois mécanismes de couverture
 
 La v2.0 ne disposait que de la chaîne de neuf niveaux, une **coupe verticale** : creuser un objet vers le bas en suivant un seul fil de questions. Or les problèmes réels impliquent le plus souvent « de nombreux facteurs agissant ensemble ». Une coupe verticale peut s'achever après avoir exploré trois chaînes alors que six autres classes de facteurs n'ont jamais été envisagées.
 
@@ -56,7 +64,7 @@ Acceptation : saturation de couverture (6 critères) → vérifiable (« exhaust
 Citation :  citation au niveau de la phrase (localisation + verbatim) → contrôlable (chaque conclusion revérifiable en 30 secondes)
 ```
 
-### 1. Paliers de complexité L1–L4 : fixer le palier avant de décider de l'ampleur
+### 1. 📐 Paliers de complexité L1–L4 : fixer le palier avant de décider de l'ampleur
 
 | Palier | Critère structurel | Contrôles obligatoires |
 |---|---|---|
@@ -72,7 +80,18 @@ Parmi les cinq règles dures, deux comptent le plus :
 
 Une règle de plus contre l'auto-illusion : **« aucune inversion de signe trouvée » n'est pas « aucune inversion de signe n'existe »**. Sans contrôles de stratification/interaction, vous n'avez pas le droit d'attribuer L1/L2 : traitez-le comme un palier supérieur et laissez une trace dans `gaps`.
 
-### 2. Espace des facteurs : énumérer par axe, jamais de mémoire
+```mermaid
+flowchart TD
+    S([Assign tier]) --> Q1{"3+ independent<br/>factors?"}
+    Q1 -->|no| L1["L1 single chain<br/>nine-layer chain + counterexamples"]
+    Q1 -->|yes| Q2{"Sign reversal after<br/>stratification?"}
+    Q2 -->|no| L2["L2 multi-factor<br/>factor space + magnitude"]
+    Q2 -->|yes| Q3{"Bidirectional causality<br/>/ lags / regime shift?"}
+    Q3 -->|no| L3["L3 interaction<br/>interaction + strata matrix"]
+    Q3 -->|yes| L4["L4 dynamic system<br/>causal graph + scenarios"]
+```
+
+### 2. 🧮 Espace des facteurs : énumérer par axe, jamais de mémoire
 
 Parcourez les neuf axes mécaniquement. Chaque axe a soit des facteurs, soit la mention « vide, motif ». Un blanc et une absence confirmée sont deux choses différentes.
 
@@ -92,13 +111,13 @@ Chaque facteur doit porter `role` (nécessaire/favorisant/seuil/modificateur/con
 
 **La magnitude est obligatoire** : `dominant` / `major` / `minor` / `unknown` (unknown doit justifier). « Tous les facteurs ci-dessus sont importants et doivent être considérés ensemble » est interdit : cette phrase n'apporte aucune information.
 
-### 3. Interaction et confusion : 15 motifs à comparer activement
+### 3. 🔗 Interaction et confusion : 15 motifs à comparer activement
 
 Voir [`references/complexity_patterns.md`](ai-sq-universal/references/complexity_patterns.md) : confusion, médiation, modification d'effet, interaction, collisionneur, paradoxe de Simpson, erreur écologique, seuil, rétroaction, décalage, dépendance au sentier, équifinalité, erreur de proxy, biais de sélection, transition de phase. Chaque entrée contient « comment le repérer / ce qu'il faut demander / indices de recherche / erreurs fréquentes ».
 
 La sortie doit contenir `checked-none` — **sinon le lecteur ne peut distinguer « vérifié, rien trouvé » de « jamais vérifié »**.
 
-### 4. Saturation de couverture : rendre « exhaustif » auditable
+### 4. 🎯 Saturation de couverture : rendre « exhaustif » auditable
 
 Six critères au §14 du rapport ; s'il en manque un, vous ne pouvez pas dire « couverture systématique » :
 
@@ -109,7 +128,7 @@ Six critères au §14 du rapport ; s'il en manque un, vous ne pouvez pas dire «
 5. **Contrôle des interactions** : les paires de facteurs dominant/major examinées
 6. **Contrôle de stratification** : si ≥2 strates clés s'inversent
 
-### 5. Schéma des dimensions : 14 surfaces de question (la troisième couverture)
+### 5. 🧭 Schéma des dimensions : 14 surfaces de question (la troisième couverture)
 
 Les deux premiers mécanismes régissent « quelle profondeur atteint une question » et « quels types de facteurs produit un résultat ». Aucun ne régit « **quelles surfaces cette étude doit traiter** ». L'investisseur interroge le marché, l'ingénieur la marge de performance, les achats le TCO, le juridique les limites de conformité : s'il en manque une, le rapport est incomplet aux yeux d'une catégorie de lecteurs.
 
@@ -129,7 +148,7 @@ Chaque dimension fournit : questions obligatoires / matériel nécessaire / **di
 
 Voir [`references/dimension_outline.md`](ai-sq-universal/references/dimension_outline.md).
 
-### 6. Citation au niveau de la phrase : la plus petite unité vérifiable de preuve
+### 6. 🔍 Citation au niveau de la phrase : la plus petite unité vérifiable de preuve
 
 « A une source » ne suffit pas. La partie la plus ressemblante à une preuve et la moins fiable d'un rapport est la liste des références — **une citation fabriquée se lit exactement comme une vraie ; la seule différence est qu'on ne peut pas la localiser**.
 
@@ -148,7 +167,20 @@ Voir [`schemas/citation.json`](ai-sq-universal/schemas/citation.json) et [`promp
 
 ---
 
-## Structure du dépôt
+```mermaid
+flowchart LR
+    A([Research object]) --> B["Vertical<br/>nine-layer chain"]
+    A --> C["Facets<br/>14 dimensions"]
+    A --> D["Cross-cut<br/>factor space, 9 axes"]
+    B --> E{"Coverage<br/>saturation"}
+    C --> E
+    D --> E
+    E -->|pass| F([Structured report])
+    E -->|fail| G["Fill the gap"]
+    G --> E
+```
+
+## 🗂️ Structure du dépôt
 
 ```text
 AI-SQ-Universal-Root-Inquiry/
@@ -173,7 +205,7 @@ AI-SQ-Universal-Root-Inquiry/
 
 ---
 
-## Démarrage rapide
+## 🚀 Démarrage rapide
 
 ```powershell
 cd plugin
@@ -202,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## Déroulé (treize étapes)
+## ⚙️ Déroulé (treize étapes)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -228,7 +260,30 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 
 ---
 
-## Grades de preuve (contrainte dure)
+```mermaid
+flowchart TD
+    subgraph S1["1. Purpose and scope"]
+        A1[INIT] --> A2[BRIEF] --> A3[AMBIGUITY_CHECK] --> A4[SCOPE]
+    end
+    subgraph S2["2. Tier and plan"]
+        B1[COMPLEXITY] --> B2[PLAN]
+    end
+    subgraph S3["3. Retrieve and extract"]
+        C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
+    end
+    subgraph S4["4. Expand and converge"]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+    end
+    subgraph S5["5. Close and deliver"]
+        E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
+    end
+    A4 --> B1
+    B2 --> C1
+    C3 --> D1
+    D3 --> E1
+```
+
+## 📊 Grades de preuve (contrainte dure)
 
 | Grade | Signification | Usage |
 |---|---|---|
@@ -241,7 +296,7 @@ Les paquets de domaine peuvent **affiner** les grades, jamais les dégrader en b
 
 ---
 
-## Règles d'arrêt
+## 🛑 Règles d'arrêt
 
 Au niveau du nœud, neuf conditions (clôture des preuves / deux tours sans information nouvelle / gain marginal faible / budget / il ne reste que C–D / conflit irréconciliable / risque élevé exigeant une revue / hors du périmètre de recherche / ambiguïté non résolue).
 Global : tous les nœuds prioritaires clos **et** les six critères de couverture satisfaits, ou budget épuisé avec lacunes documentées.
@@ -250,7 +305,7 @@ Global : tous les nœuds prioritaires clos **et** les six critères de couvertur
 
 ---
 
-## Rapport : §0 + quatorze sections (§1–§14), livré en Word
+## 📄 Rapport : §0 + quatorze sections (§1–§14), livré en Word
 
 La rédaction se fait en Markdown (les modèles le modifient facilement) ; **la livraison est en Word** (le lecteur doit l'ouvrir). `scripts/build_docx.py` convertit le même markdown en docx : couverture, sommaire, en-tête/pied, tableaux à bandes alternées, citations cliquables ; plus un JSON pour les contrôles automatiques. **Ne jamais enregistrer à la main en Word** — c'est la racine de la dérive entre le document et ses conclusions. Depuis la v2.4, le rapport s'ouvre sur **§0 Finalité et parties prenantes** et ajoute le §14 Déclaration de couverture et de saturation : sans lui, « exhaustif » n'est qu'un adjectif.
 
@@ -258,7 +313,7 @@ Modèle dans `templates/report.md` ; exemple rempli dans [`examples/01-bacteriol
 
 ---
 
-## Contrôle qualité
+## 🚦 Contrôle qualité
 
 ```bash
 python ai-sq-universal/scripts/quality_gate.py report.md --json report.json --complexity 3 --risk high
@@ -268,13 +323,13 @@ Les contrôles s'intensifient avec la complexité : L2 vérifie facteurs et magn
 
 ---
 
-## Évaluation
+## 🧪 Évaluation
 
 13 cas couvrant science, droit, finance, histoire, technologie, politique, affaires, objets ambigus, questions sans réponse et questions à haut risque, dont **deux cas L3 multifactoriels difficiles** (même politique, résultats opposés dans deux régions ; même souche, issues différentes) et un **cas difficile de citation au niveau de la phrase** (vérifier un chiffre secondaire d'une page WeChat et remonter à la source primaire). Chaque cas porte `probes` / `must_show` / `must_not` / `expected_stop` / `complexity` ; toute correspondance `must_not` vaut zéro.
 
 ---
 
-## Principes de conception (douze)
+## 🏛️ Principes de conception (douze)
 
 1. Noyau agnostique au domaine + paquets adaptateurs : le noyau ne code en dur aucun terme de domaine
 2. **Fixer le palier de complexité avant la profondeur** : évite le formalisme et la négligence
@@ -291,7 +346,7 @@ Les contrôles s'intensifient avec la complexité : L2 vérifie facteurs et magn
 
 ---
 
-## Modes d'échec et contre-mesures
+## ⚠️ Modes d'échec et contre-mesures
 
 | Mode d'échec | Contre-mesure |
 |---|---|
@@ -311,7 +366,7 @@ Les contrôles s'intensifient avec la complexité : L2 vérifie facteurs et magn
 
 ---
 
-## Limites
+## 🚧 Limites
 
 - Ne traite pas les cours, la météo ni les scores en temps réel.
 - Ne remplace pas le jugement professionnel : les sorties en médecine/droit/finance sont une **organisation de l'information**, pas un diagnostic, un conseil juridique ou une recommandation d'investissement.
@@ -321,7 +376,7 @@ Les contrôles s'intensifient avec la complexité : L2 vérifie facteurs et magn
 
 ---
 
-## Documentation
+## 📚 Documentation
 
 - [INSTALL.md](INSTALL.md) — installation / vérification / dépannage / désinstallation
 - [ai-sq-universal/SKILL.md](ai-sq-universal/SKILL.md) — spécification principale complète
