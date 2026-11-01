@@ -424,6 +424,52 @@ def check_narrative(text: str, gate: Gate) -> None:
              "tagged" if ("serves" in text or "对谁" in text or "谁据此" in text) else "no stakeholder tagging")
 
 
+CITE_RE = re.compile(r"[〔\[（(]\s*[CE]\d{1,3}\s*[〕\]）)]")
+NUM_RE = re.compile(r"\d+(?:\.\d+)?\s*(?:%|倍|万元|亿元|美元|元)")
+BANNED_STYLE = ("明天该问", "该问对方", "修正一", "修正二", "避免过度承诺",
+                "让我们", "接下来我们", "✅", "⚠️", "❌", "🚀")
+
+
+def check_evidence_per_claim(text: str, gate: Gate) -> None:
+    """No number without a citation; that is where reports fabricate precision."""
+    offenders = []
+    for line in text.splitlines():
+        s = line.strip()
+        if not s or s.startswith("|") or s.startswith("#") or s.startswith(">"):
+            continue
+        if NUM_RE.search(s) and not CITE_RE.search(s):
+            offenders.append(s[:60])
+    gate.add(not offenders, "every number carries a citation",
+             "ok" if not offenders else "%d numbers without citation, e.g. %s"
+             % (len(offenders), offenders[:2]))
+
+
+def check_banned_style(text: str, gate: Gate) -> None:
+    hits = [b for b in BANNED_STYLE if b in text]
+    gate.add(not hits, "no AI-report boilerplate",
+             "clean" if not hits else "found: %s" % hits)
+
+
+def check_reference_links(text: str, gate: Gate) -> None:
+    head = text.split("### 12.1", 1)[0]
+    rows = [l for l in head.splitlines() if re.match(r"^\|\s*\**[CE]\d+", l.strip())]
+    if not rows:
+        gate.add(False, "reference rows exist", "none found")
+        return
+    linked = [r for r in rows if "http" in r or "查询" in r or "provenance" in r.lower()]
+    gate.add(len(linked) >= len(rows) * 0.9, "references are clickable/derivable",
+             "%d/%d rows carry a URL or query spec" % (len(linked), len(rows)))
+
+
+def check_decision_path(text: str, gate: Gate) -> None:
+    gate.add("判定路径" in text, "decision path section present",
+             "present" if "判定路径" in text else "missing - report is a pile, not a route")
+    rows = [l for l in text.splitlines()
+            if l.strip().startswith("|") and "→" in l and re.search(r"N\d", l)]
+    gate.add(len(rows) >= 2, "decision path has >=2 nodes with branches",
+             "%d node rows" % len(rows))
+
+
 def check_json(path: str, gate: Gate) -> None:
     try:
         with io.open(path, "r", encoding="utf-8") as fh:
@@ -489,6 +535,10 @@ def main(argv: list[str]) -> int:
     check_citation(text, gate, args.complexity)
     check_brief(text, gate)
     check_narrative(text, gate)
+    check_evidence_per_claim(text, gate)
+    check_banned_style(text, gate)
+    check_reference_links(text, gate)
+    check_decision_path(text, gate)
     if args.json_path:
         check_json(args.json_path, gate)
 

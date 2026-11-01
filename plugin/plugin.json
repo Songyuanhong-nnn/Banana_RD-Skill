@@ -2,7 +2,7 @@
   "$schema": "https://ai-sq.local/schemas/plugin.json",
   "name": "ai-sq-universal-root-inquiry",
   "displayName": "AI-SQ Universal Root-Inquiry / 通用求根问底调研",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "kind": "skill-bundle",
   "description": "通用求根问底调研内核：14 维问题面总纲 × 九层追问链 × 因素空间（9 轴/量级/交互/分层）× 覆盖饱和 × 引用到句 × 结构化报告；7 个领域包，细菌致病性为 science 子包；含诚实的领域适配度矩阵与两轮遗漏审计。",
   "author": "AI-SQ",
@@ -40,7 +40,7 @@
   "surface": {
     "prompts": 9,
     "schemas": 6,
-    "references": 5,
+    "references": 6,
     "domainPacks": 7,
     "subPacks": ["science.bacteriology"],
     "templates": 1,

@@ -20,7 +20,7 @@ step() { printf '\033[36m==> %s\033[0m\n' "$1"; }
 ok()   { printf '\033[32m    %s\033[0m\n' "$1"; }
 warn() { printf '\033[33m    %s\033[0m\n' "$1"; }
 
-printf '\nAI-SQ Universal Root-Inquiry / 通用求根问底调研  v2.4.0\n'
+printf '\nAI-SQ Universal Root-Inquiry / 通用求根问底调研  v2.5.0\n'
 printf 'bundle root : %s\nskill source: %s\nmode        : %s\n\n' "$BUNDLE_ROOT" "$SKILL_SRC" "$MODE"
 
 [ -f "$SKILL_SRC/SKILL.md" ] || { echo "SKILL.md not found under $SKILL_SRC" >&2; exit 1; }

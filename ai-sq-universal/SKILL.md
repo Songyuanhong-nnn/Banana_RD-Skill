@@ -9,7 +9,7 @@ description: >-
   needs traceable, quote-level citations plus multi-factor coverage rather than a quick guess. 适用于以公开可检索
   证据为基础的调研（科学、技术、历史、法律、金融、政策、商业）；不适用于纯演绎问题、主观审美判断、实时决策、
   需一手实验或内部数据的任务 —— 判据见 references/domain_fit.md。交付为 Word 文档（Markdown 仅作中间稿）。开工前先定目的与受益方并贯穿每一节，用户列举视为下限而非上限，输出须有叙事逻辑且结论可回溯到句。
-version: 2.4.0
+version: 2.5.0
 language: zh-CN
 license: MIT
 allowed-tools:
@@ -62,6 +62,7 @@ metadata:
   schemas: schemas/
   domain_packs: domain_packs/
   references:
+    - references/writing_standard.md
     - references/brief_and_stakeholders.md
     - references/dimension_outline.md
     - references/complexity_patterns.md
@@ -174,6 +175,14 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 | **成败变量** | 用户没提，但决定能否落地（预算/人员/合规/场地/时间） | 至少列出并标注影响 |
 
 **外扩不等于无限扩**：每条外扩都要写"为什么必须补"，写不出来的就是加戏，删掉。
+
+**意图优先（v2.5 硬规则）**：用户给一段话时，先复述"他要拿结果去干什么"，**不得把用户的话翻译成"某公司应决定…"这类模板场景**。意图不明就写「意图假设」并给两条可能路径，不许编场景。
+
+**写作与呈现（v2.5 硬规则，见 `references/writing_standard.md`）**：
+1. **每条结论必须带引用编号**，且该编号可点开原始链接；没有引用的只能是「推断」。
+2. **任何百分数/金额/倍数必须来自引用**；禁止「约 80%」「多数」这类无源量词。
+3. **排版按文献**：章节编号、表题在上来源在下、术语中英对照；禁止 emoji、「明天该问对方的 N 个问题」、「修正」段、免责套话。
+4. **报告必须有一条判定路径**（节点 + 判定条件 + 分支 + 终局），章节顺序 = 判断顺序，不许按维度罗列。
 
 ---
 
@@ -590,7 +599,8 @@ JSON 不是附属品——它让每条结论、每个因素、每条证据、每
 |---|---|
 | `prompts/briefer.md` | **开工第一步：目的五问 + 相关方 + 外扩审计** |
 | `prompts/narrator.md` | **装配时：SCQA + 每节首句判断 + 承接** |
-| `references/brief_and_stakeholders.md` | **为谁而答、外扩规则、叙事规则、回溯三段验证** |
+| `references/brief_and_stakeholders.md` | **为谁而答、外扩规则、回溯三段验证** |
+| `references/writing_standard.md` | **写作与呈现标准：每条结论带引用、无源数字禁止、非 AI 腔排版、判定路径** |
 | `prompts/planner.md` | 建问题树 |
 | `prompts/question_generator.md` | 从缺口生成下一层问题 |
 | `prompts/factor_mapper.md` | **L2+：铺因素空间（轴枚举 + 量级）** |

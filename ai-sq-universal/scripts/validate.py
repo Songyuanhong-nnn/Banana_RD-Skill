@@ -46,6 +46,7 @@ REQUIRED_FILES = [
     "schemas/report.json",
     "schemas/domain_pack.json",
     "references/brief_and_stakeholders.md",
+    "references/writing_standard.md",
     "references/dimension_outline.md",
     "references/complexity_patterns.md",
     "references/domain_fit.md",

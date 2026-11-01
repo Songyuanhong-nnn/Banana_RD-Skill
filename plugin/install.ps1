@@ -43,7 +43,7 @@ function Write-Ok([string]$Text) { Write-Host "    $Text" -ForegroundColor Green
 function Write-Warn([string]$Text) { Write-Host "    $Text" -ForegroundColor Yellow }
 
 Write-Host ''
-Write-Host 'AI-SQ Universal Root-Inquiry / 通用求根问底调研  v2.4.0' -ForegroundColor White
+Write-Host 'AI-SQ Universal Root-Inquiry / 通用求根问底调研  v2.5.0' -ForegroundColor White
 Write-Host "bundle root : $BundleRoot"
 Write-Host "skill source: $SkillSrc"
 Write-Host "mode        : $Mode"
