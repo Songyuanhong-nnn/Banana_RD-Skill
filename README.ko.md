@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **한 줄 핵심**
 > **근본 추적 = 질문 트리 × 증거 사슬 × 갭 재귀 × 요인 공간 × 범위와 반례 × 계층 검증 × 커버리지 포화 × 정지 제어 × 구조화 보고서.**
 
-버전 **2.4.0** · 한국어(ko) · MIT · 순수 텍스트, 런타임 의존성 없음
+버전 **2.5.0** · 한국어(ko) · MIT · 순수 텍스트, 런타임 의존성 없음
 
 ---
 
@@ -194,7 +194,7 @@ AI-SQ-Universal-Root-Inquiry/
 │   ├── schemas/               6개 계약
 │   ├── references/            5개 참조 규범
 │   ├── domain_packs/          7개 영역 팩＋어댑터 설명
-│   ├── templates/report.md    §0 ＋14절(§1–§14) 보고서 템플릿
+│   ├── templates/report.md    §0 ＋15절(§1–§15) 보고서 템플릿
 │   ├── evals/cases.yaml       13개 영역 횡단 사례
 │   ├── examples/              5개 예시
 │   └── scripts/               validate.py  quality_gate.py  build_docx.py
@@ -234,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ 실행 흐름(13단계)
+## ⚙️ 실행 흐름(15단계)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -305,7 +305,7 @@ flowchart TD
 
 ---
 
-## 📄 보고서: §0 ＋14절(§1–§14), Word로 납품
+## 📄 보고서: §0 ＋15절(§1–§15), Word로 납품
 
 집필은 Markdown(모델이 고치기 쉬움), **납품은 Word**(독자가 열어야 함). `scripts/build_docx.py`가 같은 md에서 docx를 생성: 표지, 목차, 머리말·꼬리말, 얼룩무늬 표, 클릭 가능한 인용. 기계 검사용 JSON도 출력. **수작업으로 Word에 다른 이름 저장 금지**——그것이 문서와 결론이 어긋나는 근원이다. v2.4부터 보고서는 **§0 목적과 수혜자**로 시작하고 §14 커버리지·포화 선언을 추가——이것이 없으면 "전면"은 그저 형용사다.
 

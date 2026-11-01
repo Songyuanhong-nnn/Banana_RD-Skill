@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **One-line core**
 > **Root inquiry = question tree × evidence chain × gap recursion × factor space × scope & counterexamples × level validation × coverage saturation × stopping control × structured report.**
 
-Version **2.4.0** · English (en) · MIT · Plain text, no runtime dependencies
+Version **2.5.0** · English (en) · MIT · Plain text, no runtime dependencies
 
 ---
 
@@ -214,7 +214,7 @@ AI-SQ-Universal-Root-Inquiry/
 │   │   └── brief_and_stakeholders.md Purpose/stakeholders/scope/narrative/traceability ★ v2.4
 │   ├── domain_packs/          7 domain packs + adapter notes
 │   │   └── science.yaml       Includes sub_packs.bacteriology
-│   ├── templates/report.md    §0 + fourteen sections (§1–§14) report template
+│   ├── templates/report.md    §0 + fifteen sections (§1–§15) report template
 │   ├── evals/cases.yaml       13 cross-domain cases (2 hard L3 + 1 citation case)
 │   ├── examples/              5 examples: full report / ambiguity / no-answer / industry path / equipment path
 │   └── scripts/               validate.py  quality_gate.py  build_docx.py
@@ -254,7 +254,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ Pipeline (thirteen steps)
+## ⚙️ Pipeline (fifteen steps)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -325,7 +325,7 @@ Global: all high-priority nodes closed **and** the six coverage criteria met, or
 
 ---
 
-## 📄 Report: §0 + fourteen sections (§1–§14), delivered as Word
+## 📄 Report: §0 + fifteen sections (§1–§15), delivered as Word
 
 Authoring happens in Markdown (models edit it easily); **delivery is Word** (readers need to open it). `scripts/build_docx.py` renders the same markdown into a docx: cover, TOC, header/footer, zebra-striped tables, clickable citations; plus JSON for machine checks. **Never hand-save as Word** — that is the root cause of documents drifting away from their conclusions. Since v2.4 the report opens with **§0 Purpose and Stakeholders**, and adds §14 Coverage and Saturation Statement — without it, "comprehensive" is just an adjective.
 

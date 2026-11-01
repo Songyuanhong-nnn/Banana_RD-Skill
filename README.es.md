@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **Núcleo en una línea**
 > **Indagación radical = árbol de preguntas × cadena de evidencia × recursión de vacíos × espacio de factores × alcance y contraejemplos × validación de niveles × saturación de cobertura × control de parada × informe estructurado.**
 
-Versión **2.4.0** · Español (es) · MIT · Texto plano, sin dependencias de ejecución
+Versión **2.5.0** · Español (es) · MIT · Texto plano, sin dependencias de ejecución
 
 ---
 
@@ -194,7 +194,7 @@ AI-SQ-Universal-Root-Inquiry/
 │   ├── schemas/               6 contratos
 │   ├── references/            5 especificaciones de referencia
 │   ├── domain_packs/          7 paquetes de dominio + notas de adaptador
-│   ├── templates/report.md    Plantilla §0 + catorce secciones (§1–§14)
+│   ├── templates/report.md    Plantilla §0 + quince secciones (§1–§15)
 │   ├── evals/cases.yaml       13 casos transversales de dominio
 │   ├── examples/              5 ejemplos
 │   └── scripts/               validate.py  quality_gate.py  build_docx.py
@@ -234,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ Flujo de ejecución (trece pasos)
+## ⚙️ Flujo de ejecución (quince pasos)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -305,7 +305,7 @@ Global: todos los nodos de alta prioridad cerrados **y** los seis criterios de c
 
 ---
 
-## 📄 Informe: §0 + catorce secciones (§1–§14), entregado en Word
+## 📄 Informe: §0 + quince secciones (§1–§15), entregado en Word
 
 La escritura ocurre en Markdown (los modelos lo editan fácil); **la entrega es Word** (el lector necesita abrirlo). `scripts/build_docx.py` convierte el mismo markdown en docx: portada, índice, encabezado/pie, tablas con franjas, citas clicables; además genera JSON para comprobaciones automáticas. **Nunca guardes a mano como Word**: esa es la raíz de que el documento se separe de sus conclusiones. Desde la v2.4 el informe abre con **§0 Propósito e interesados** y añade el §14 Declaración de cobertura y saturación: sin él, «exhaustivo» es solo un adjetivo.
 

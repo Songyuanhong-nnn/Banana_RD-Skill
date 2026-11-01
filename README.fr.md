@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **Noyau en une phrase**
 > **Enquête radicale = arbre de questions × chaîne de preuves × récursion des lacunes × espace des facteurs × portée et contre-exemples × validation des niveaux × saturation de couverture × contrôle d'arrêt × rapport structuré.**
 
-Version **2.4.0** · Français (fr) · MIT · Texte brut, aucune dépendance d'exécution
+Version **2.5.0** · Français (fr) · MIT · Texte brut, aucune dépendance d'exécution
 
 ---
 
@@ -194,7 +194,7 @@ AI-SQ-Universal-Root-Inquiry/
 │   ├── schemas/               6 contrats
 │   ├── references/            5 spécifications de référence
 │   ├── domain_packs/          7 paquets de domaine + notes d'adaptateur
-│   ├── templates/report.md    Modèle §0 + quatorze sections (§1–§14)
+│   ├── templates/report.md    Modèle §0 + quinze sections (§1–§15)
 │   ├── evals/cases.yaml       13 cas transversaux
 │   ├── examples/              5 exemples
 │   └── scripts/               validate.py  quality_gate.py  build_docx.py
@@ -234,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ Déroulé (treize étapes)
+## ⚙️ Déroulé (quinze étapes)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -305,7 +305,7 @@ Global : tous les nœuds prioritaires clos **et** les six critères de couvertur
 
 ---
 
-## 📄 Rapport : §0 + quatorze sections (§1–§14), livré en Word
+## 📄 Rapport : §0 + quinze sections (§1–§15), livré en Word
 
 La rédaction se fait en Markdown (les modèles le modifient facilement) ; **la livraison est en Word** (le lecteur doit l'ouvrir). `scripts/build_docx.py` convertit le même markdown en docx : couverture, sommaire, en-tête/pied, tableaux à bandes alternées, citations cliquables ; plus un JSON pour les contrôles automatiques. **Ne jamais enregistrer à la main en Word** — c'est la racine de la dérive entre le document et ses conclusions. Depuis la v2.4, le rapport s'ouvre sur **§0 Finalité et parties prenantes** et ajoute le §14 Déclaration de couverture et de saturation : sans lui, « exhaustif » n'est qu'un adjectif.
 

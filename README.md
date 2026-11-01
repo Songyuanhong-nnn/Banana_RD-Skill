@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **一句话内核**
 > **求根问底 = 问题树 × 证据链 × 缺口递归 × 因素空间 × 范围与反例 × 层级校验 × 覆盖饱和 × 停止控制 × 结构化报告。**
 
-版本 **2.4.0** · 中文（zh-CN） · MIT · 纯文本，无运行时依赖
+版本 **2.5.0** · 中文（zh-CN） · MIT · 纯文本，无运行时依赖
 
 ---
 
@@ -214,7 +214,7 @@ AI-SQ-Universal-Root-Inquiry/
 │   │   └── brief_and_stakeholders.md 目的/相关方/外扩/叙事/回溯三段验证 ★ v2.4
 │   ├── domain_packs/          7 个领域包 + 适配器说明
 │   │   └── science.yaml       含 sub_packs.bacteriology
-│   ├── templates/report.md    §0 + 十四节（§1–§14）报告模板
+│   ├── templates/report.md    §0 + 十五节（§1–§15）报告模板
 │   ├── evals/cases.yaml       13 个跨领域案例（2 个 L3 难例 + 1 个引用难例）
 │   ├── examples/              5 个示例：完整报告 / 歧义 / 无答案 / 产业路径 / 设备路径
 │   └── scripts/               validate.py  quality_gate.py  build_docx.py
@@ -254,7 +254,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ 运行流程（十三步）
+## ⚙️ 运行流程（十五步）
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -325,7 +325,7 @@ flowchart TD
 
 ---
 
-## 📄 报告：§0 + 十四节（§1–§14），交付 Word
+## 📄 报告：§0 + 十五节（§1–§15），交付 Word
 
 写作在 Markdown（模型好改），**交付是 Word**（读者要打开）。`scripts/build_docx.py` 从同一份 md 生成 docx：封面、目录、页眉页脚、斑马纹表格、可点击引用；另出 JSON 供机检。**禁止手工另存 Word**——那是文档与结论漂移的根源。v2.4 起报告以 **§0 目的与受益方**开篇，新增 §14 覆盖度与饱和声明——没有它，"全面"只是个形容词。
 模板见 `templates/report.md`，填好的范例见 [`examples/01-bacteriology.md`](ai-sq-universal/examples/01-bacteriology.md)（含因素空间表与"覆盖不完整"的诚实声明）。

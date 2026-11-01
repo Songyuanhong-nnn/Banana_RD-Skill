@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **一行の核心**
 > **根本追及 = 問題木 × 証拠連鎖 × ギャップ再帰 × 要因空間 × 範囲と反例 × 階層検証 × カバレッジ飽和 × 停止制御 × 構造化レポート。**
 
-バージョン **2.4.0** · 日本語（ja） · MIT · プレーンテキスト、実行時依存なし
+バージョン **2.5.0** · 日本語（ja） · MIT · プレーンテキスト、実行時依存なし
 
 ---
 
@@ -194,7 +194,7 @@ AI-SQ-Universal-Root-Inquiry/
 │   ├── schemas/               6 個の契約
 │   ├── references/            5 個の参照仕様
 │   ├── domain_packs/          7 個の領域パック＋アダプタ説明
-│   ├── templates/report.md    §0 ＋十四節（§1–§14）レポートテンプレート
+│   ├── templates/report.md    §0 ＋十五節（§1–§15）レポートテンプレート
 │   ├── evals/cases.yaml       13 個の領域横断ケース
 │   ├── examples/              5 個の例
 │   └── scripts/               validate.py  quality_gate.py  build_docx.py
@@ -234,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ 実行フロー（十三ステップ）
+## ⚙️ 実行フロー（十五ステップ）
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -305,7 +305,7 @@ flowchart TD
 
 ---
 
-## 📄 レポート：§0 ＋十四節（§1–§14）、Word で納品
+## 📄 レポート：§0 ＋十五節（§1–§15）、Word で納品
 
 執筆は Markdown（モデルが直しやすい）、**納品は Word**（読者が開く）。`scripts/build_docx.py` が同じ md から docx を生成：表紙、目次、ヘッダ・フッタ、縞模様の表、クリック可能な引用。機械検査用の JSON も出力。**手作業で Word に名前を付けて保存することは禁止**——それが文書と結論の乖離の根源だ。v2.4 からレポートは **§0 目的と受益者**で始まり、§14 カバレッジと飽和の宣言を追加——これがないと「全面」はただの形容詞になる。
 

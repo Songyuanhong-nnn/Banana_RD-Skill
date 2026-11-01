@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_RD-Skill/releases"><img src="https://img.shields.io/badge/version-2.4.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **Kern in einem Satz**
 > **Radikalnachforschung = Fragenbaum × Evidenzkette × Lückenrekursion × Faktorenraum × Geltungsbereich und Gegenbeispiele × Ebenenprüfung × Abdeckungssättigung × Abbruchkontrolle × strukturierter Bericht.**
 
-Version **2.4.0** · Deutsch (de) · MIT · Reiner Text, keine Laufzeitabhängigkeiten
+Version **2.5.0** · Deutsch (de) · MIT · Reiner Text, keine Laufzeitabhängigkeiten
 
 ---
 
@@ -194,7 +194,7 @@ AI-SQ-Universal-Root-Inquiry/
 │   ├── schemas/               6 Verträge
 │   ├── references/            5 Referenzspezifikationen
 │   ├── domain_packs/          7 Domänenpakete + Adapterhinweise
-│   ├── templates/report.md    §0 + vierzehn Abschnitte (§1–§14) Berichtsvorlage
+│   ├── templates/report.md    §0 + fünfzehn Abschnitte (§1–§15) Berichtsvorlage
 │   ├── evals/cases.yaml       13 domänenübergreifende Fälle
 │   ├── examples/              5 Beispiele
 │   └── scripts/               validate.py  quality_gate.py  build_docx.py
@@ -234,7 +234,7 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ Ablauf (dreizehn Schritte)
+## ⚙️ Ablauf (fünfzehn Schritte)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
@@ -305,7 +305,7 @@ Global: alle hochpriorisierten Knoten geschlossen **und** die sechs Abdeckungskr
 
 ---
 
-## 📄 Bericht: §0 + vierzehn Abschnitte (§1–§14), Lieferung als Word
+## 📄 Bericht: §0 + fünfzehn Abschnitte (§1–§15), Lieferung als Word
 
 Geschrieben wird in Markdown (Modelle ändern es leicht); **geliefert wird Word** (Leser müssen es öffnen). `scripts/build_docx.py` erzeugt aus demselben Markdown ein docx: Deckblatt, Inhaltsverzeichnis, Kopf-/Fußzeile, gestreifte Tabellen, klickbare Zitate; dazu JSON für maschinelle Prüfungen. **Nie manuell als Word speichern** — das ist die Wurzel der Entfremdung zwischen Dokument und Aussagen. Seit v2.4 beginnt der Bericht mit **§0 Zweck und Anspruchsgruppen** und ergänzt §14 Abdeckungs- und Sättigungserklärung — ohne sie ist „umfassend“ nur ein Adjektiv.
 
