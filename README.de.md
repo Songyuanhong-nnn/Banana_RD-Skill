@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.6.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **Kern in einem Satz**
 > **Radikalnachforschung = Fragenbaum × Evidenzkette × Lückenrekursion × Faktorenraum × Geltungsbereich und Gegenbeispiele × Ebenenprüfung × Abdeckungssättigung × Abbruchkontrolle × strukturierter Bericht.**
 
-Version **2.5.0** · Deutsch (de) · MIT · Reiner Text, keine Laufzeitabhängigkeiten
+Version **2.6.0** · Deutsch (de) · MIT · Reiner Text, keine Laufzeitabhängigkeiten
 
 ---
 
@@ -190,9 +190,9 @@ AI-SQ-Universal-Root-Inquiry/
 ├── CHANGELOG.md    VERSION    LICENSE
 ├── ai-sq-universal/           ← Der Skill selbst (kann direkt nach ~/.dsh/skills/)
 │   ├── SKILL.md               Hauptspezifikation: vertikal+horizontal, Stufen, Sättigung, Qualitätsgate
-│   ├── prompts/               9 Ausführungs-Prompts
+│   ├── prompts/               10 Ausführungs-Prompts
 │   ├── schemas/               6 Verträge
-│   ├── references/            5 Referenzspezifikationen
+│   ├── references/            7 Referenzspezifikationen
 │   ├── domain_packs/          7 Domänenpakete + Adapterhinweise
 │   ├── templates/report.md    §0 + fünfzehn Abschnitte (§1–§15) Berichtsvorlage
 │   ├── evals/cases.yaml       13 domänenübergreifende Fälle
@@ -234,11 +234,11 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ Ablauf (fünfzehn Schritte)
+## ⚙️ Ablauf (vierzehn Schritte)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
-     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → STOP_CHECK → NARRATE → REPORT
+     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → QAPREP → STOP_CHECK → NARRATE → REPORT
 ```
 
 | Schritt | Was er verhindert |
@@ -254,6 +254,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 | VERIFY | Kategorien auf Einzelfälle anwenden; Korrelation als Kausalität |
 | EXPAND_GAPS | Endloses Nachfragen (eine Frage pro Lücke, ≤5, dedupliziert) |
 | **FACTOR_SPACE** | **Nach einer einzigen Kette abgeben** |
+| **QAPREP** | **Geschrieben, aber nach drei Fragen leer** (5 Rollen × 6 Fragetypen + 12 harte Nachfragen, alle beantwortet) |
 | **STOP_CHECK** | „Nicht fertig“ als „fertig“ tarnen |
 | **NARRATE** | Abschnitte, die mit „die folgende Tabelle zeigt …“ beginnen, sodass niemand die Aussage kennt |
 | REPORT | Nicht nachprüfbar |
@@ -272,7 +273,7 @@ flowchart TD
         C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
     end
     subgraph S4["4. Expand and converge"]
-        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE] --> D4[QAPREP]
     end
     subgraph S5["5. Close and deliver"]
         E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
@@ -280,7 +281,7 @@ flowchart TD
     A4 --> B1
     B2 --> C1
     C3 --> D1
-    D3 --> E1
+    D4 --> E1
 ```
 
 ## 📊 Evidenzgrade (harte Vorgabe)

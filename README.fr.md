@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.6.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **Noyau en une phrase**
 > **Enquête radicale = arbre de questions × chaîne de preuves × récursion des lacunes × espace des facteurs × portée et contre-exemples × validation des niveaux × saturation de couverture × contrôle d'arrêt × rapport structuré.**
 
-Version **2.5.0** · Français (fr) · MIT · Texte brut, aucune dépendance d'exécution
+Version **2.6.0** · Français (fr) · MIT · Texte brut, aucune dépendance d'exécution
 
 ---
 
@@ -190,9 +190,9 @@ AI-SQ-Universal-Root-Inquiry/
 ├── CHANGELOG.md    VERSION    LICENSE
 ├── ai-sq-universal/           ← Le Skill lui-même (peut aller directement dans ~/.dsh/skills/)
 │   ├── SKILL.md               Spécification principale : vertical+horizontal, paliers, saturation, contrôle qualité
-│   ├── prompts/               9 prompts d'exécution
+│   ├── prompts/               10 prompts d'exécution
 │   ├── schemas/               6 contrats
-│   ├── references/            5 spécifications de référence
+│   ├── references/            7 spécifications de référence
 │   ├── domain_packs/          7 paquets de domaine + notes d'adaptateur
 │   ├── templates/report.md    Modèle §0 + quinze sections (§1–§15)
 │   ├── evals/cases.yaml       13 cas transversaux
@@ -234,11 +234,11 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ Déroulé (quinze étapes)
+## ⚙️ Déroulé (quatorze étapes)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
-     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → STOP_CHECK → NARRATE → REPORT
+     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → QAPREP → STOP_CHECK → NARRATE → REPORT
 ```
 
 | Étape | Ce qu'elle évite |
@@ -254,6 +254,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 | VERIFY | Appliquer des catégories à des cas ; corrélation prise pour causalité |
 | EXPAND_GAPS | Relance infinie (une question par lacune, ≤5, dédupliquée) |
 | **FACTOR_SPACE** | **Rendre sa copie après avoir creusé une seule chaîne** |
+| **QAPREP** | **Rédigé mais vide après trois questions** (5 rôles × 6 types + 12 questions dures, toutes traitées) |
 | **STOP_CHECK** | Déguiser « pas terminé » en « terminé » |
 | **NARRATE** | Des sections qui commencent par « le tableau ci-dessous montre… » sans que l'on sache la conclusion |
 | REPORT | Non revérifiable |
@@ -272,7 +273,7 @@ flowchart TD
         C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
     end
     subgraph S4["4. Expand and converge"]
-        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE] --> D4[QAPREP]
     end
     subgraph S5["5. Close and deliver"]
         E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
@@ -280,7 +281,7 @@ flowchart TD
     A4 --> B1
     B2 --> C1
     C3 --> D1
-    D3 --> E1
+    D4 --> E1
 ```
 
 ## 📊 Grades de preuve (contrainte dure)

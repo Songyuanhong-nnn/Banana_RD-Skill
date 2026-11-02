@@ -23,3 +23,7 @@ desktop.ini
 *.tmp
 *.log
 ~$*
+_patch_*.py
+_patch_*.sh
+docs/_*.html
+docs/_shot_*.png

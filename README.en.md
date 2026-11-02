@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.6.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **One-line core**
 > **Root inquiry = question tree × evidence chain × gap recursion × factor space × scope & counterexamples × level validation × coverage saturation × stopping control × structured report.**
 
-Version **2.5.0** · English (en) · MIT · Plain text, no runtime dependencies
+Version **2.6.0** · English (en) · MIT · Plain text, no runtime dependencies
 
 ---
 
@@ -190,7 +190,7 @@ AI-SQ-Universal-Root-Inquiry/
 ├── CHANGELOG.md    VERSION    LICENSE
 ├── ai-sq-universal/           ← The Skill itself (can go straight into ~/.dsh/skills/)
 │   ├── SKILL.md               Main spec: vertical+horizontal, tiers, saturation, quality gate
-│   ├── prompts/               9 execution prompts
+│   ├── prompts/               10 execution prompts
 │   │   ├── briefer.md         Five purpose questions + five stakeholder classes (BRIEF) ★ v2.4
 │   │   ├── planner.md         Question-tree planning
 │   │   ├── factor_mapper.md   Factor space (axis enumeration + magnitude) ★ v2.1
@@ -199,19 +199,22 @@ AI-SQ-Universal-Root-Inquiry/
 │   │   ├── extractor.md       Evidence extraction
 │   │   ├── verifier.md        Verification + interaction/confounding/strata
 │   │   ├── narrator.md        Narrative assembly (SCQA, first sentence of each section is a judgment) ★ v2.4
-│   │   └── reporter.md        Report generation
+│   │   ├── reporter.md        Report generation
+│   │   └── question_anticipator.md Reader question anticipation (5 roles × 6 types + 12 hard follow-ups) ★ v2.6
 │   ├── schemas/               6 contracts
 │   │   ├── question_node.json  evidence.json
 │   │   ├── factor.json        Factor object ★ v2.1
 │   │   ├── citation.json      Quote-level citation ★ v2.2
 │   │   ├── report.json        Includes brief / scope_expansion / factor_space / interactions / strata / coverage
 │   │   └── domain_pack.json   Domain-pack interface
-│   ├── references/            5 reference specs
+│   ├── references/            7 reference specs
 │   │   ├── dimension_outline.md    14 dimensions + four rounds of gap hunting ★ v2.2
 │   │   ├── complexity_patterns.md  15 multi-factor patterns + L1–L4 criteria + 9-axis self-check
 │   │   ├── domain_fit.md           Domain fit matrix (strong/medium/weak/not applicable)
 │   │   ├── omissions_audit.md      Two adversarial omission audits ★ v2.2
-│   │   └── brief_and_stakeholders.md Purpose/stakeholders/scope/narrative/traceability ★ v2.4
+│   │   ├── brief_and_stakeholders.md Purpose/stakeholders/scope/narrative/traceability ★ v2.4
+│   │   ├── writing_standard.md     Writing standard: claim = conclusion / number rules / literature layout ★ v2.5
+│   │   └── anticipated_questions.md QA matrix: 5 roles × 6 question types ★ v2.6
 │   ├── domain_packs/          7 domain packs + adapter notes
 │   │   └── science.yaml       Includes sub_packs.bacteriology
 │   ├── templates/report.md    §0 + fifteen sections (§1–§15) report template
@@ -254,11 +257,11 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ Pipeline (fifteen steps)
+## ⚙️ Pipeline (fourteen steps)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
-     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → STOP_CHECK → NARRATE → REPORT
+     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → QAPREP → STOP_CHECK → NARRATE → REPORT
 ```
 
 | Step | What it prevents |
@@ -274,6 +277,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 | VERIFY | Applying category claims to instances; correlation as causation |
 | EXPAND_GAPS | Endless follow-up (one question per gap, ≤5, deduplicated) |
 | **FACTOR_SPACE** | **Handing in after digging a single chain** |
+| **QAPREP** | **Written but empty after three questions** (5 roles × 6 question types + 12 hard follow-ups, each answered) |
 | **STOP_CHECK** | Disguising "not finished" as "finished" |
 | **NARRATE** | Sections opening with "the table below shows…" so nobody knows the conclusion |
 | REPORT | Not re-checkable |
@@ -292,7 +296,7 @@ flowchart TD
         C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
     end
     subgraph S4["4. Expand and converge"]
-        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE] --> D4[QAPREP]
     end
     subgraph S5["5. Close and deliver"]
         E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
@@ -300,7 +304,7 @@ flowchart TD
     A4 --> B1
     B2 --> C1
     C3 --> D1
-    D3 --> E1
+    D4 --> E1
 ```
 
 ## 📊 Evidence grades (hard constraint)

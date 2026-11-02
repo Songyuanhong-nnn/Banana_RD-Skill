@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.6.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **一句话内核**
 > **求根问底 = 问题树 × 证据链 × 缺口递归 × 因素空间 × 范围与反例 × 层级校验 × 覆盖饱和 × 停止控制 × 结构化报告。**
 
-版本 **2.5.0** · 中文（zh-CN） · MIT · 纯文本，无运行时依赖
+版本 **2.6.0** · 中文（zh-CN） · MIT · 纯文本，无运行时依赖
 
 ---
 
@@ -190,7 +190,7 @@ AI-SQ-Universal-Root-Inquiry/
 ├── CHANGELOG.md    VERSION    LICENSE
 ├── ai-sq-universal/           ← Skill 本体（可直接放进 ~/.dsh/skills/）
 │   ├── SKILL.md               主规范：纵切+横切、复杂度分级、覆盖饱和、质量门禁
-│   ├── prompts/               9 个执行提示词
+│   ├── prompts/               10 个执行提示词
 │   │   ├── briefer.md         目的五问 + 五类相关方（BRIEF）★ v2.4
 │   │   ├── planner.md         问题树规划
 │   │   ├── factor_mapper.md   因素空间（轴枚举 + 量级）★ v2.1
@@ -199,19 +199,22 @@ AI-SQ-Universal-Root-Inquiry/
 │   │   ├── extractor.md       证据抽取
 │   │   ├── verifier.md        验证 + 交互/混杂/分层
 │   │   ├── narrator.md        叙事装配（SCQA，每节首句即判断）★ v2.4
-│   │   └── reporter.md        报告生成
+│   │   ├── reporter.md        报告生成
+│   │   └── question_anticipator.md 读者提问预判（5 角色 × 6 问型 + 12 条追问）★ v2.6
 │   ├── schemas/               6 个契约
 │   │   ├── question_node.json  evidence.json
 │   │   ├── factor.json        因素对象 ★ v2.1
 │   │   ├── citation.json      引用到句 ★ v2.2
 │   │   ├── report.json        含 brief / scope_expansion / factor_space / interactions / strata / coverage
 │   │   └── domain_pack.json   领域包接口
-│   ├── references/            5 个参考规范
+│   ├── references/            7 个参考规范
 │   │   ├── dimension_outline.md    14 维问题面 + 四轮查漏 ★ v2.2
 │   │   ├── complexity_patterns.md  15 个多因素模式 + L1–L4 判据 + 9 轴自检
 │   │   ├── domain_fit.md           领域适配度矩阵（强/中/弱/不适用）
 │   │   ├── omissions_audit.md      两轮对抗式遗漏审计 ★ v2.2
-│   │   └── brief_and_stakeholders.md 目的/相关方/外扩/叙事/回溯三段验证 ★ v2.4
+│   │   ├── brief_and_stakeholders.md 目的/相关方/外扩/叙事/回溯三段验证 ★ v2.4
+│   │   ├── writing_standard.md     写作标准：结论即主张 / 数字规则 / 文献式排版 ★ v2.5
+│   │   └── anticipated_questions.md 问答预案矩阵：5 类角色 × 6 种问型 ★ v2.6
 │   ├── domain_packs/          7 个领域包 + 适配器说明
 │   │   └── science.yaml       含 sub_packs.bacteriology
 │   ├── templates/report.md    §0 + 十五节（§1–§15）报告模板
@@ -254,11 +257,11 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ 运行流程（十五步）
+## ⚙️ 运行流程（十四步）
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
-     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → STOP_CHECK → NARRATE → REPORT
+     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → QAPREP → STOP_CHECK → NARRATE → REPORT
 ```
 
 | 步 | 防的是什么 |
@@ -274,6 +277,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 | VERIFY | 类别套实例、相关当因果 |
 | EXPAND_GAPS | 无限追问（一条缺口一条问题，≤5 条，去重） |
 | **FACTOR_SPACE** | **只挖一条链就交卷** |
+| **QAPREP** | **写了但被问三句就空**（5 角色 × 6 问型 + 12 条追问逐条作答） |
 | **STOP_CHECK** | 把"没查完"伪装成"查清了" |
 | **NARRATE** | 每节以"下表展示了…"开头，读完不知道结论是什么 |
 | REPORT | 不可复核 |
@@ -292,7 +296,7 @@ flowchart TD
         C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
     end
     subgraph S4["④ 挖全与收敛"]
-        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE] --> D4[QAPREP]
     end
     subgraph S5["⑤ 收口与交付"]
         E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
@@ -300,7 +304,7 @@ flowchart TD
     A4 --> B1
     B2 --> C1
     C3 --> D1
-    D3 --> E1
+    D4 --> E1
 ```
 
 ## 📊 证据等级（硬约束）

@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.6.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **一行の核心**
 > **根本追及 = 問題木 × 証拠連鎖 × ギャップ再帰 × 要因空間 × 範囲と反例 × 階層検証 × カバレッジ飽和 × 停止制御 × 構造化レポート。**
 
-バージョン **2.5.0** · 日本語（ja） · MIT · プレーンテキスト、実行時依存なし
+バージョン **2.6.0** · 日本語（ja） · MIT · プレーンテキスト、実行時依存なし
 
 ---
 
@@ -190,9 +190,9 @@ AI-SQ-Universal-Root-Inquiry/
 ├── CHANGELOG.md    VERSION    LICENSE
 ├── ai-sq-universal/           ← Skill 本体（~/.dsh/skills/ にそのまま置ける）
 │   ├── SKILL.md               主仕様：縦＋横、複雑度ティア、飽和、品質ゲート
-│   ├── prompts/               9 個の実行プロンプト
+│   ├── prompts/               10 個の実行プロンプト
 │   ├── schemas/               6 個の契約
-│   ├── references/            5 個の参照仕様
+│   ├── references/            7 個の参照仕様
 │   ├── domain_packs/          7 個の領域パック＋アダプタ説明
 │   ├── templates/report.md    §0 ＋十五節（§1–§15）レポートテンプレート
 │   ├── evals/cases.yaml       13 個の領域横断ケース
@@ -234,11 +234,11 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ 実行フロー（十五ステップ）
+## ⚙️ 実行フロー（十四ステップ）
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
-     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → STOP_CHECK → NARRATE → REPORT
+     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → QAPREP → STOP_CHECK → NARRATE → REPORT
 ```
 
 | ステップ | 何を防ぐか |
@@ -254,6 +254,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 | VERIFY | カテゴリを個別事例に当てる、相関を因果とみなす |
 | EXPAND_GAPS | 無限の追及（ギャップ一つに問い一つ、≤5、重複排除） |
 | **FACTOR_SPACE** | **一本の鎖を掘っただけで提出** |
+| **QAPREP** | **書いたが三問で詰まる**（5 役割 × 6 問型 + 12 の追撃質問に逐一回答） |
 | **STOP_CHECK** | 「調べ終えていない」を「調べ終えた」に偽装 |
 | **NARRATE** | 各節が「以下の表は…」で始まり、結論が分からない |
 | REPORT | 再確認できない |
@@ -272,7 +273,7 @@ flowchart TD
         C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
     end
     subgraph S4["4. Expand and converge"]
-        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE] --> D4[QAPREP]
     end
     subgraph S5["5. Close and deliver"]
         E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
@@ -280,7 +281,7 @@ flowchart TD
     A4 --> B1
     B2 --> C1
     C3 --> D1
-    D3 --> E1
+    D4 --> E1
 ```
 
 ## 📊 証拠等級（ハード制約）

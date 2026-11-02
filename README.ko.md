@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.5.0-1F5E4E?style=flat-square" alt="version"></a>
+  <a href="https://github.com/Songyuanhong-nnn/Banana_Research-Skill/releases"><img src="https://img.shields.io/badge/version-2.6.0-1F5E4E?style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/license-MIT-B4541F?style=flat-square" alt="license">
   <img src="https://img.shields.io/badge/runtime-none-6B7385?style=flat-square" alt="runtime">
   <img src="https://img.shields.io/badge/domain%20packs-7-39414F?style=flat-square" alt="domain packs">
@@ -21,7 +21,7 @@
 > **한 줄 핵심**
 > **근본 추적 = 질문 트리 × 증거 사슬 × 갭 재귀 × 요인 공간 × 범위와 반례 × 계층 검증 × 커버리지 포화 × 정지 제어 × 구조화 보고서.**
 
-버전 **2.5.0** · 한국어(ko) · MIT · 순수 텍스트, 런타임 의존성 없음
+버전 **2.6.0** · 한국어(ko) · MIT · 순수 텍스트, 런타임 의존성 없음
 
 ---
 
@@ -190,9 +190,9 @@ AI-SQ-Universal-Root-Inquiry/
 ├── CHANGELOG.md    VERSION    LICENSE
 ├── ai-sq-universal/           ← Skill 본체(~/.dsh/skills/에 그대로 넣을 수 있음)
 │   ├── SKILL.md               주 규범: 세로+가로, 복잡도 티어, 포화, 품질 게이트
-│   ├── prompts/               9개 실행 프롬프트
+│   ├── prompts/               10개 실행 프롬프트
 │   ├── schemas/               6개 계약
-│   ├── references/            5개 참조 규범
+│   ├── references/            7개 참조 규범
 │   ├── domain_packs/          7개 영역 팩＋어댑터 설명
 │   ├── templates/report.md    §0 ＋15절(§1–§15) 보고서 템플릿
 │   ├── evals/cases.yaml       13개 영역 횡단 사례
@@ -234,11 +234,11 @@ python ai-sq-universal/scripts/validate.py
 
 ---
 
-## ⚙️ 실행 흐름(15단계)
+## ⚙️ 실행 흐름(14단계)
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
-     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → STOP_CHECK → NARRATE → REPORT
+     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → QAPREP → STOP_CHECK → NARRATE → REPORT
 ```
 
 | 단계 | 무엇을 막는가 |
@@ -254,6 +254,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 | VERIFY | 범주를 개별 사례에 적용, 상관을 인과로 |
 | EXPAND_GAPS | 무한 추적(갭 하나에 질문 하나, ≤5, 중복 제거) |
 | **FACTOR_SPACE** | **사슬 하나 파고 제출** |
+| **QAPREP** | **썼지만 세 마디 질문에 막힘**（5개 역할 × 6가지 질문 유형 + 12개 추궁 질문에 답변） |
 | **STOP_CHECK** | "다 못 봄"을 "다 봄"으로 위장 |
 | **NARRATE** | 각 절이 "아래 표는…"으로 시작해 결론을 알 수 없음 |
 | REPORT | 재확인 불가 |
@@ -272,7 +273,7 @@ flowchart TD
         C1[RETRIEVE] --> C2[EXTRACT] --> C3[VERIFY]
     end
     subgraph S4["4. Expand and converge"]
-        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE]
+        D1[ANSWER_NODE] --> D2[EXPAND_GAPS] --> D3[FACTOR_SPACE] --> D4[QAPREP]
     end
     subgraph S5["5. Close and deliver"]
         E1[STOP_CHECK] --> E2[NARRATE] --> E3[REPORT]
@@ -280,7 +281,7 @@ flowchart TD
     A4 --> B1
     B2 --> C1
     C3 --> D1
-    D3 --> E1
+    D4 --> E1
 ```
 
 ## 📊 증거 등급(하드 제약)
