@@ -77,6 +77,26 @@
         }
       }
     },
+    "qa_prep": {
+      "type": "array",
+      "description": "问答预案（第八套覆盖）：谁会问什么、能否答上",
+      "items": {
+        "type": "object",
+        "required": ["q_id", "question", "asked_by", "status"],
+        "properties": {
+          "q_id": { "type": "string" },
+          "question": { "type": "string" },
+          "asked_by": { "type": "string", "enum": ["decision_maker", "payer", "user", "affected", "gatekeeper"] },
+          "why_ask": { "type": "string" },
+          "answer": { "type": "string" },
+          "evidence_ids": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["ANSWERED", "PARTIAL", "UNANSWERED"] },
+          "gap": { "type": "string" },
+          "fix": { "type": "string" },
+          "fallback_line": { "type": "string", "description": "现场补不到时的应对话术" }
+        }
+      }
+    },
     "params": {
       "type": "object",
       "required": ["depth_budget", "node_budget", "time_budget_sec"],

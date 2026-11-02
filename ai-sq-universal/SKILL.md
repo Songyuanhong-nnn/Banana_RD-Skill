@@ -8,8 +8,8 @@ description: >-
   搞清楚方方面面 / 找证据与原始出处 / 判断"是否都成立、对谁成立、有没有反例", or when a research question
   needs traceable, quote-level citations plus multi-factor coverage rather than a quick guess. 适用于以公开可检索
   证据为基础的调研（科学、技术、历史、法律、金融、政策、商业）；不适用于纯演绎问题、主观审美判断、实时决策、
-  需一手实验或内部数据的任务 —— 判据见 references/domain_fit.md。交付为 Word 文档（Markdown 仅作中间稿）。开工前先定目的与受益方并贯穿每一节，用户列举视为下限而非上限，输出须有叙事逻辑且结论可回溯到句。
-version: 2.5.0
+  需一手实验或内部数据的任务 —— 判据见 references/domain_fit.md。交付为 Word 文档（Markdown 仅作中间稿）。开工前先定目的与受益方并贯穿每一节，用户列举视为下限而非上限，输出须有叙事逻辑且结论可回溯到句；定稿前必须生成「读者提问预判」问答预案，确保被追问时答得上。
+version: 2.6.0
 language: zh-CN
 license: MIT
 allowed-tools:
@@ -63,6 +63,7 @@ metadata:
   domain_packs: domain_packs/
   references:
     - references/writing_standard.md
+    - references/anticipated_questions.md
     - references/brief_and_stakeholders.md
     - references/dimension_outline.md
     - references/complexity_patterns.md
@@ -113,11 +114,11 @@ metadata:
 
 ---
 
-## 2. 一次运行的十三步
+## 2. 一次运行的十四步
 
 ```
 INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEVE → EXTRACT
-     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → STOP_CHECK → NARRATE → REPORT
+     → VERIFY → ANSWER_NODE → EXPAND_GAPS → FACTOR_SPACE → QAPREP → STOP_CHECK → NARRATE → REPORT
 ```
 
 | 步 | 动作 | 防止 |
@@ -134,6 +135,7 @@ INIT → BRIEF → AMBIGUITY_CHECK → SCOPE → COMPLEXITY → PLAN → RETRIEV
 | ANSWER_NODE | 答案 + 置信度 + 证据 ID + 缺口 | 无据断言 |
 | EXPAND_GAPS | 一条缺口一条问题，≤5 条，去重 | 无限追问 |
 | **FACTOR_SPACE** | 横切铺开因素：轴枚举 → 量级 → 交互 → 分层（§5–§7） | **只挖一条链就交卷** |
+| **QAPREP** | **读者提问预判**（§8.6）：5 角色 × 6 问型 + 12 条残酷追问逐条作答 | **写了但被问三句就空** |
 | STOP_CHECK | 停止规则 + 覆盖饱和（§8、§13） | 把"没查完"伪装成"查清了" |
 | REPORT | Markdown 十四节 + JSON | 不可复核 |
 
@@ -322,7 +324,7 @@ L3 起必须做，L4 还要加时间与反馈。逐项检查（识别方法见 `
 
 ## 8. 覆盖饱和：怎么知道"方方面面"够了
 
-这是"全面"的验收标准。**没有验收标准的"全面"只是自我感觉。** 七条全部满足才可声称覆盖：
+这是"全面"的验收标准。**没有验收标准的"全面"只是自我感觉。** 八条全部满足才可声称覆盖：
 
 1. **轴覆盖**：9 轴逐一走过，每轴有因素或写明"空，理由"。
 2. **量级覆盖**：每个因素有 `magnitude`，`unknown` 必须带原因。
@@ -331,6 +333,7 @@ L3 起必须做，L4 还要加时间与反馈。逐项检查（识别方法见 `
 5. **交互检查**：量级为 `dominant`/`major` 的因素，两两交互已检查。
 6. **分层检查**：量级为 `dominant`/`major` 的因素，两两交互已检查；至少 2 个关键分层上是否反向已查。
 7. **维度覆盖**：14 维按对象类型激活，逐维标注 已答 / 不适用（理由）/ 未查；未查项进负空间。
+8. **提问覆盖**：按 5 类角色 × 6 种问型生成问答预案（附录 A），逐题给状态；**关键决策类问题必须已答**，答不上的写清补法。没有它，报告只是「写完了」，不是「答得上」。
 
 任何一条不满足，报告必须写"覆盖不完整 + 缺哪条"，而不是含糊地说"已全面分析"。
 
@@ -355,6 +358,30 @@ L3 起必须做，L4 还要加时间与反馈。逐项检查（识别方法见 `
 **用法**：先按对象类型激活必选维度（选择器见该文件 §4），逐维回答，**未激活的维度必须写"为何不选"**——写不出理由，通常只是没想到。
 
 **四轮遗漏自检**（"重复去查"的机制）：R1 维度级（14 维逐一勾选）→ R2 因素级（九轴）→ R3 反例级（15 模式 + 退出者/失败案例专项）→ R4 负空间级（该有但没有的）。连续两轮零新增才可声明饱和；一轮零新增只是"这轮没找到"。
+
+---
+
+## 8.6 第八套覆盖：读者提问预判（问答预案）
+
+前七套覆盖"内容全、深、路径通、证据硬"，**都不管客户当场会怎么问、你答不答得上**。评审现场最尴尬的不是"某项没查到"，而是"这一段被追问三句就空了"。
+
+**生成方法（机械，不靠灵感）**：5 类角色 × 6 种问型矩阵，逐格至少一条具体问题——
+角色：决策者 / 付费者 / 使用者 / 被影响者 / 守门人；
+问型：是什么 / 为什么 / 凭什么信 / 什么影响 / 多少钱多久 / 不行怎么办。
+再加 12 条残酷追问：反例、谁失败过、成本超支、人手、时限、被替代、责任归属、最坏情况、判断错了、为什么不选另一条、可复现吗、结论变了谁负责。
+
+**每题必须有状态，不许留白**：
+
+| 状态 | 要求 |
+|---|---|
+| `ANSWERED` | 一句话答死 + 引用编号 |
+| `PARTIAL` | 答已知 + 明写缺什么、影响哪个判断 |
+| `UNANSWERED` | 缺口 + 补法 + **补不到时的现场应对话术** |
+
+**规则**：不允许空题；关键决策类问题必须 `ANSWERED`；`ANSWERED` 比例 ≥70%；
+**预案是自答，不是把问题推回给客户**——报告里不出现"待与客户确认的问题清单"。
+
+详见 `references/anticipated_questions.md` 与 `prompts/question_anticipator.md`；输出为**附录 A**。
 
 ---
 
@@ -528,6 +555,8 @@ python scripts/build_docx.py report.md -o report.docx --title "报告标题"
 python scripts/build_docx.py --config docx_config.json
 ```
 
+**报告必须含附录 A 问答预案**（第八套覆盖），否则视同未完成。
+
 `build_docx.py` 支持：封面页、自动目录域、页眉页脚与页码、标题层级配色、斑马纹表格与重复表头、引用框（blockquote）、代码块、**裸 URL 自动转为可点击超链接**。生成后会重开校验一次，包损坏会报错而不是静默产出坏文件。
 
 **为什么交付 Word 而不是 Markdown：** 读者打开的是 Word；而模型改 Markdown 最可靠。让两者来自同一份源文件（转换，而不是重打一遍），是避免"文档与结论漂移"的唯一办法。交付前必须跑一次 `build_docx.py`，不要手工另存。
@@ -568,6 +597,7 @@ JSON 不是附属品——它让每条结论、每个因素、每条证据、每
 - [ ] **五类相关方齐备**（缺的写了"为何不适用"），且每个结论标了 `serves` / `action` / `if_wrong`
 - [ ] **需求外扩审计有表**（用户提到的 vs 实际还需要的 vs 为什么必须补）
 - [ ] **叙事检查**：每节第一句是判断，不是"下表展示了…"；判断后紧跟证据标记
+- [ ] **附录 A 问答预案存在**：≥8 题、每题有状态、关键决策类已答、未答有补法
 - [ ] 报告含下一步追问与停止原因
 - [ ] **Word 版已用 `scripts/build_docx.py` 生成，且重开校验通过**（不要手工另存）
 
@@ -599,6 +629,8 @@ JSON 不是附属品——它让每条结论、每个因素、每条证据、每
 |---|---|
 | `prompts/briefer.md` | **开工第一步：目的五问 + 相关方 + 外扩审计** |
 | `prompts/narrator.md` | **装配时：SCQA + 每节首句判断 + 承接** |
+| `prompts/question_anticipator.md` | **定稿前：生成并回答「读者会问什么」** |
+| `references/anticipated_questions.md` | **第八套覆盖：角色×问型矩阵 + 残酷追问 + 三种状态** |
 | `references/brief_and_stakeholders.md` | **为谁而答、外扩规则、回溯三段验证** |
 | `references/writing_standard.md` | **写作与呈现标准：每条结论带引用、无源数字禁止、非 AI 腔排版、判定路径** |
 | `prompts/planner.md` | 建问题树 |

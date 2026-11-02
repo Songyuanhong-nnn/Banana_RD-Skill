@@ -470,6 +470,33 @@ def check_decision_path(text: str, gate: Gate) -> None:
              "%d node rows" % len(rows))
 
 
+def check_qa_prep(text: str, gate: Gate) -> None:
+    """Eighth coverage: did anyone rehearse what the reader will ask?"""
+    if "问答预案" not in text:
+        gate.add(False, "Q&A preparation (appendix A)",
+                 "missing - the report was written, but nobody rehearsed the questions")
+        return
+    tail = text.split("问答预案", 1)[1]
+    rows = [l for l in tail.splitlines() if re.match(r"^\|\s*Q\d+", l.strip())]
+    gate.add(len(rows) >= 8, "Q&A has >=8 questions", "%d rows" % len(rows))
+    gate.add("谁问" in tail, "each question names who asks",
+             "ok" if "谁问" in tail else "missing 谁问 column")
+
+    counts = {k: 0 for k in ("ANSWERED", "PARTIAL", "UNANSWERED")}
+    for r in rows:
+        for k in counts:
+            if k in r:
+                counts[k] += 1
+    with_status = sum(counts.values())
+    gate.add(with_status >= max(1, int(len(rows) * 0.9)), "every question has a status",
+             "%d/%d statuses" % (with_status, len(rows)))
+    gate.add(counts["ANSWERED"] >= max(1, int(len(rows) * 0.5)), "at least half are ANSWERED",
+             "ANSWERED=%d of %d" % (counts["ANSWERED"], len(rows)))
+    if counts["UNANSWERED"]:
+        gate.add("补" in tail, "unanswered questions have a fix plan",
+                 "has fix" if "补" in tail else "UNANSWERED without 补法")
+
+
 def check_json(path: str, gate: Gate) -> None:
     try:
         with io.open(path, "r", encoding="utf-8") as fh:
@@ -539,6 +566,7 @@ def main(argv: list[str]) -> int:
     check_banned_style(text, gate)
     check_reference_links(text, gate)
     check_decision_path(text, gate)
+    check_qa_prep(text, gate)
     if args.json_path:
         check_json(args.json_path, gate)
 
